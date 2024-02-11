@@ -63,37 +63,37 @@ const AssignMentees = ({selectedSemester, setSelectedSemester, selectedMentor, s
             id: generateRandomId(),
             sapid: generateRandomId(),
             Name: "Student 1",
-            Department: "xyz"
+            Department: "FC"
         },
         {
             id: generateRandomId(),
             sapid: generateRandomId(),
             Name: "Student 2",
-            Department: "xyz"
+            Department: "SE"
         },
         {
             id: generateRandomId(),
             sapid: generateRandomId(),
             Name: "Student 3",
-            Department: "xyz"
+            Department: "CA"
         },
         {
             id: generateRandomId(),
             sapid: generateRandomId(),
             Name: "Student 4",
-            Department: "xyz"
+            Department: "CS"
         },
         {
             id: generateRandomId(),
             sapid: generateRandomId(),
             Name: "Student 5",
-            Department: "xyz"
+            Department: "MLT"
         },
         {
             id: generateRandomId(),
             sapid: generateRandomId(),
             Name: "Student 6",
-            Department: "xyz"
+            Department: "DPT"
         },
         {
             id: generateRandomId(),
