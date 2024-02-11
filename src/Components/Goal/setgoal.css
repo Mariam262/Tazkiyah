@@ -1,0 +1,332 @@
+.self-development,
+.container-main {
+    display: flex !important;
+    align-items: center !important;
+    padding-top: 40px !important;
+    width: 90% !important;
+    margin: auto !important;
+}
+
+.delfdev {
+    max-width: 470px !important;
+    min-width: 200px !important;
+    height: auto !important;
+    width: 100% !important;
+    border-radius: 10px !important;
+}
+
+.goaldev {
+    width: auto !important;
+    padding: 14px 23px !important;
+    box-shadow: 1px 2px 3px #2b629c, -1px -2px 1px #1f4e81 !important;
+    border-top-right-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+    justify-self: center !important;
+    background-color: #15375c !important;
+    border: 1px solid #15375c !important;
+}
+
+.text1,
+.text2 {
+    width: 80% !important;
+    margin: auto !important;
+    font-size: 20px !important;
+    line-height: 4.3rem !important;
+    text-align: justify !important;
+}
+
+.text2 {
+    margin-top: 30px !important;
+    margin-bottom: 40px;
+}
+
+@media only screen and (max-width: 960px) {
+    .self-development {
+        flex-direction: column !important;
+    }
+
+    .text1 {
+        margin-top: 40px !important;
+    }
+}
+
+.goalsetting {
+    width: 100% !important;
+}
+
+.btns-list {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+}
+
+.btns-list>button {
+    margin: 20px 10px !important;
+}
+
+.goalstask {
+    /* min-width: 300px;
+    max-width: 400px; */
+    width: 100% !important;
+    height: auto !important;
+    padding-bottom: 40px !important;
+    box-shadow: 1px 2px 3px 3px #ccc, -1px -2px 3px #ccc !important;
+    border-radius: 8px !important;
+}
+
+.main-heading {
+    margin-top: 0 !important;
+    text-decoration: underline !important;
+    text-underline-position: under !important;
+}
+
+.lower-bound input,
+.main-data input,
+.alpha {
+    margin-top: 6px !important;
+    width: 100% !important;
+    height: 24px !important;
+    border-radius: 5px !important;
+    box-shadow: 1px 1px 10px #ccc;
+    padding: 20px 4px !important;
+}
+
+.lower-bound input:focus {
+    outline: none !important;
+}
+
+.lower-bound button {
+    margin: auto !important;
+    padding: 10px 20px !important;
+    border-radius: 12px !important;
+    /* background-color: #6bd2e7 !important; */
+}
+
+.input-text {
+    margin-top: 10px !important;
+}
+
+.inp,
+.m1,
+.heading {
+    position: relative !important;
+}
+
+.inp i,
+.m1 i,
+.heading i {
+    position: absolute !important;
+    top: 60% !important;
+    right: 10px !important;
+    transform: translateY(-60%) !important;
+    color: rgb(243, 80, 80) !important;
+    cursor: pointer !important;
+}
+
+.heading i:nth-child(2) {
+    right: 40px !important;
+    color: green !important;
+}
+
+.inp input {
+    padding-right: 40px !important;
+    padding-left: 4px !important;
+}
+
+.heading h1 {
+    padding-right: 62px !important;
+    padding-left: 0 !important;
+}
+
+.viewgoalcontainer {
+    max-width: 470px !important;
+    min-width: 200px !important;
+    height: auto !important;
+    width: 100% !important;
+    border-radius: 10px !important;
+    box-shadow: 2px 3px 4px 2px #ccc, -2px -3px 2px 1px #ccc !important;
+    margin: 10px 20px !important;
+}
+
+.viewgoal {
+    align-items: center !important;
+}
+
+.responsibilities {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.responsibilities span,
+.viewgoal span {
+    font-size: 17px !important;
+}
+
+.ull {
+    line-height: 1.9rem !important;
+}
+
+.container-main {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+}
+
+.goal-heading {
+    padding: 0 30px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.heading i {
+    top: 30% !important;
+    transform: translateY(-30%) !important;
+}
+
+.headingi {
+    color: blue !important;
+    right: 35px !important;
+}
+
+@media only screen and (max-width:544px) {
+
+    .viewgoal,
+    .responsibilities {
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: start !important;
+    }
+}
+
+.fllf {
+    display: flex !important;
+    align-items: center !important;
+    margin: 4px;
+}
+
+.fllf p {
+    margin: 0 10px 0 0 !important;
+
+}
+
+.main-data {
+    /* max-width: 500px;
+    min-width: 300px !important; */
+    margin: 20px !important;
+    padding: 20px 30px 50px 30px !important;
+    border: 2px solid #ccc !important;
+    border-radius: 12px !important;
+}
+
+.milestones-goals {
+    position: relative !important;
+}
+
+.milestones-goals i {
+    color: red !important;
+    position: absolute !important;
+    top: 70% !important;
+    right: 10px !important;
+    transform: translateY(-70%) !important;
+    cursor: pointer !important;
+}
+
+.btns-lists {
+    background-color: #15375c !important;
+    box-shadow: 1px 1px 1px 1px #ccc, -1px -1px 1px 1px #ccc !important;
+    padding: 10px 20px !important;
+    height: 50px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    border-radius: 7px !important;
+}
+
+.newro {
+    align-items: center !important;
+}
+
+.privates {
+    font-size: 17px;
+    margin-top: 30px !important;
+}
+
+.lb {
+    font-size: 17px;
+    justify-content: center;
+    align-items: center;
+}
+
+.lb l1 {
+    align-items: center;
+}
+
+.lb input {
+    box-shadow: none !important;
+}
+
+.btns-color,
+.btns-list,
+.goaldev {
+    color: #fff;
+}
+
+.btns-color {
+    background-color: #15375c !important;
+}
+
+.text-base {
+    font-size: 15px !important;
+    margin-top: 10px;
+}
+
+.inp {
+    margin-top: 10px;
+}
+
+.inp i {
+    top: 55% !important;
+}
+
+.mainlmn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: 'wrap';
+}
+
+.arrow {
+    display: none;
+}
+
+@media only screen and (max-width: 650px) {
+    .empty {
+        display: none;
+    }
+
+    .arrow {
+        display: block;
+    }
+}
+
+.popo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-data,
+.flpp,
+.container-main {
+    max-width: 500px !important;
+    min-width: 300px !important;
+    width: 100% !important;
+}
+
+.custom-column-header {
+    font-size: 13px;
+    /* Adjust the font size as needed */
+}

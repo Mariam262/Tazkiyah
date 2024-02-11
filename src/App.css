@@ -1,0 +1,50 @@
+.App {
+    position: relative;
+    font-size: 15px !important;
+}
+
+.contact-ss {
+    position: fixed;
+    bottom: 0;
+    right: 40px;
+    background-color: #15375c !important;
+    color: #fff;
+    z-index: 100;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 10px 20px;
+}
+
+.contact-ss .btns-pr,
+.contact-ss i {
+    font-size: 20px;
+    border: none;
+}
+
+.contact-ss {
+    border: 1px solid #ccc;
+    background-color: #002751;
+}
+
+.contact-ss .btns-pr {
+    padding-left: 10px;
+}
+
+.contact-ss button:focus {
+    outline: none;
+    border: none;
+}
+
+.contact-ss button:focus {
+    border: none;
+}
+
+.icon-app {
+    position: fixed;
+    top: 10px;
+    font-size: 30px !important;
+    width: 100px;
+    cursor: pointer;
+    z-index: 1000000;
+    font-weight: bold;
+}
