@@ -16,7 +16,7 @@ export const TimeLine = () => {
     let [show, setShow] = useState(false)
     let [data, setData] = useState([
         {
-            name: "MLSA Github Event",
+            name: "Github Event",
             data: "2023-10-13",
             time: '23:10'
         },
