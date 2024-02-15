@@ -5,6 +5,7 @@ const AssignMentees = ({selectedSemester, setSelectedSemester, selectedMentor, s
     function generateRandomId() {
         return Math.floor(1000 + Math.random() * 9000);
     }
+    
     const mentorList = [
         {
             id: 1,
