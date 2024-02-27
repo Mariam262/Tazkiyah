@@ -8,6 +8,7 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import { EventCalender } from './CalenderComp';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import axios from "axios"
 
 function fakeFetch(date, { signal }, selectedFinalDates) {
     return new Promise((resolve, reject) => {
@@ -76,6 +77,15 @@ export default function Calendar() {
     const [selectedFinalDates, setSelectedFinalDates] = React.useState(Array.from({ length: 12 }, () => []))
     React.useEffect(() => {
         const dates = selectedFinalDates;
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/events`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json"
+            }
+        }).then((res) => {
+            console.log(res)
+        }).catch((err) => {
+        })
         dates[11].push(2, 16, 25)
         dates[10].push(1, 2, 4);
         dates[0].push(1);
@@ -87,6 +97,7 @@ export default function Calendar() {
 
     const handleDateClick = (clickedDate) => {
         setSelectedDate(clickedDate);
+        alert(clickedDate);
     };
 
     const fetchHighlightedDays = (date) => {

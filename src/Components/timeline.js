@@ -6,6 +6,9 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useSelector } from "react-redux"
+import axios from "axios"
+import ToastContainer, { FailedToast } from './toast';
+
 
 export const TimeLine = () => {
     const [open, setOpen] = useState(false);
@@ -14,22 +17,56 @@ export const TimeLine = () => {
     const [email, setemail] = useState(useSelector(state => state)?.email);
     const handleClose = () => { setOpen(false); };
     let [show, setShow] = useState(false)
+    const handleSubmit = () => {
+        const data = {
+            eventName: name.current.value,
+            eventDate: date.current.value,
+            eventTime: time.current.value
+        }
+        axios.post(`${process.env.REACT_APP_BACKEND_PORT}/events`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json"
+            }
+        }).then((res) => {
+             ToastContainer("Event Added Successfully")
+             fetchData();
+            }).catch(err => {
+            FailedToast(err.response.data.message || "Failed to Add Event")
+        })
+        handleClose();
+    }
+    const fetchData = () => {
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/events`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json"
+            }
+        }).then((res) => {
+            setData(res.data.data)
+        }).catch((err) => {
+            FailedToast(err.response.data.message || "Failed to Fetch Data")
+        })
+    }
+    useEffect(()=>{
+        fetchData()
+    }, [])
     let [data, setData] = useState([
-        {
-            name: "Github Event",
-            data: "2023-10-13",
-            time: '23:10'
-        },
-        {
-            name: "Google Cloud",
-            data: "2023-11-19",
-            time: '12:00'
-        },
-        {
-            name: "Web Development",
-            data: "2023-12-13",
-            time: '01:00'
-        },
+        // {
+        //     name: "Github Event",
+        //     data: "2023-10-13",
+        //     time: '23:10'
+        // },
+        // {
+        //     name: "Google Cloud",
+        //     data: "2023-11-19",
+        //     time: '12:00'
+        // },
+        // {
+        //     name: "Web Development",
+        //     data: "2023-12-13",
+        //     time: '01:00'
+        // },
     ])
     let name = useRef();
     let date = useRef();
@@ -57,9 +94,9 @@ export const TimeLine = () => {
                             {
                                 data.map((arr, index) => (
                                     <li alt={arr.name} key={Math.floor(Math.random() * 100000 + index)} className='dark:bg-slate-500' >
-                                        <h3 className={`${style.heading} font-bold mb-4  dark:text-cyan-900`}>{arr.name}</h3>
-                                        <h3 className={`${style.heading1} mb-2 font-semibold`}>Time: {arr.time}</h3>
-                                        <span className={`${style.date}`}>{arr.data}</span>
+                                        <h3 className={`${style.heading} font-bold mb-4  dark:text-cyan-900`}>{arr.eventName}</h3>
+                                        <h3 className={`${style.heading1} mb-2 font-semibold`}>Time: {arr.eventTime}</h3>
+                                        <span className={`${style.date}`}>{arr.eventDate.slice(0, 10)}</span>
                                         <span className={`${style.circle}`}></span>
                                     </li>
                                 ))
@@ -96,7 +133,7 @@ export const TimeLine = () => {
                             </div>
                             <DialogActions>
                                 <Button style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={handleClose}>Close</Button>
-                                <Button type='submit' style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={handleClose} autoFocus>
+                                <Button type='submit' style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={handleSubmit} autoFocus>
                                     Add Event
                                 </Button>
                             </DialogActions>

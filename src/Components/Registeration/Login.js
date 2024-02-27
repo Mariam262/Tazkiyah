@@ -34,8 +34,7 @@ export const LoginUser = ({ isLogin, setIsLogin, forgetPasswordPopup, setForgetP
   }
   return (
     <>
-      <div data-aos="fade-down"
-        data-aos-duration="1000" className='main-login flex'>
+      <div className='main-login flex'>
         <div className="left-login">
           <div className="sign-in mt-10 px-10 ">
             <p className='signin dark:text-white text-center font-normal'>Sign In</p>
