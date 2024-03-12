@@ -96,7 +96,7 @@ export const TimeLine = () => {
                                     <li alt={arr.name} key={Math.floor(Math.random() * 100000 + index)} className='dark:bg-slate-500' >
                                         <h3 className={`${style.heading} font-bold mb-4  dark:text-cyan-900`}>{arr.eventName}</h3>
                                         <h3 className={`${style.heading1} mb-2 font-semibold`}>Time: {arr.eventTime}</h3>
-                                        <span className={`${style.date}`}>{arr.eventDate.slice(0, 10)}</span>
+                                        <span className={`${style.date}`}>{arr?.eventDate?.slice(0, 10)}</span>
                                         <span className={`${style.circle}`}></span>
                                     </li>
                                 ))

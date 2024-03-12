@@ -5,7 +5,7 @@ const loadAuthDataFromLocalStorage = () => {
     return storedAuthData ? JSON.parse(storedAuthData) : {
         sapId: "",
         userId: "",
-        email: "user@eoxample.cm",
+        email: "user@example.com",
         isStudent: false,
         isManager: false,
         isMentor: false,
