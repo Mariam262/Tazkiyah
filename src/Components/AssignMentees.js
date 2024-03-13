@@ -1,185 +1,155 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import MenteesDataGrid from './MenteesDataGrid';
-const AssignMentees = ({selectedSemester, setSelectedSemester, selectedMentor, setSelectedMentor}) => {
+import axios from "axios"
+import { FailedToast } from './toast';
+const AssignMentees = ({ selectedSemester, setSelectedSemester, selectedMentor, setSelectedMentor, selectedSemesterTemp }) => {
     function generateRandomId() {
         return Math.floor(1000 + Math.random() * 9000);
     }
-    
-    const mentorList = [
-        {
-            id: 1,
-            name: "Mentor 1",
-            studentsAssigned: 20
-        },
-        {
-            id: 2,
-            name: "Mentor 2",
-            studentsAssigned: 20
-        },
-        {
-            id: 3,
-            name: "Mentor 3",
-            studentsAssigned: 20
-        },
-        {
-            id: 4,
-            name: "Mentor 4",
-            studentsAssigned: 20
-        },
-        {
-            id: 5,
-            name: "Mentor 5",
-            studentsAssigned: 20
-        },
-        {
-            id: 6,
-            name: "Mentor 6",
-            studentsAssigned: 20
-        },
-        {
-            id: 7,
-            name: "Mentor 7",
-            studentsAssigned: 20
-        },
-        {
-            id: 8,
-            name: "Mentor 8",
-            studentsAssigned: 20
-        },
-        {
-            id: 9,
-            name: "Mentor 9",
-            studentsAssigned: 20
-        },
-        {
-            id: 10,
-            name: "Mentor 10",
-            studentsAssigned: 20
+
+    useEffect(() => {
+        if (selectedSemester && !selectedMentor) {
+            axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': "application/json"
+                }
+            }).then((res) => {
+                setMentorList(res.data.data);
+            }).catch(err => {
+                FailedToast(err.response.data.message)
+            })
+        } else if (selectedSemester && selectedMentor) {
+            const data = selectedMentor.assignedStudents?.map((Item) => {
+                return { sapID: Item.sapID, Department: Item.department, id: Item.sapID };
+            });
+            setStudentList(data);
         }
-    ];
+    }, [selectedSemester, selectedMentor])
+
+    const [mentorList, setMentorList] = useState([]);
 
     const [studentList, setStudentList] = useState([
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 1",
-            Department: "FC"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 2",
-            Department: "SE"
-        },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 1",
+        //     Department: "FC"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 2",
+        //     Department: "SE"
+        // },
         {
             id: generateRandomId(),
             sapid: generateRandomId(),
             Name: "Student 3",
             Department: "CA"
         },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 4",
-            Department: "CS"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 5",
-            Department: "MLT"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 6",
-            Department: "DPT"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 7",
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 8",
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 9",
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 10",
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 11",
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 12",
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 13",
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 14",
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 15",
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 16",
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 17",
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 18",
-            Department: "xyz"
-        },
-        {
-            Name: "Student 19",
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Department: "xyz"
-        },
-        {
-            id: generateRandomId(),
-            sapid: generateRandomId(),
-            Name: "Student 20",
-            Department: "xyz"
-        }
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 4",
+        //     Department: "CS"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 5",
+        //     Department: "MLT"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 6",
+        //     Department: "DPT"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 7",
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 8",
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 9",
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 10",
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 11",
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 12",
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapID: generateRandomId(),
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 14",
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 15",
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 16",
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 17",
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 18",
+        //     Department: "xyz"
+        // },
+        // {
+        //     Name: "Student 19",
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Department: "xyz"
+        // },
+        // {
+        //     id: generateRandomId(),
+        //     sapid: generateRandomId(),
+        //     Name: "Student 20",
+        //     Department: "xyz"
+        // }
     ]);
 
     return (
@@ -192,13 +162,13 @@ const AssignMentees = ({selectedSemester, setSelectedSemester, selectedMentor, s
                             <h1 style={{ textAlign: "center", fontSize: "22px" }}>Mentor's List</h1>
                             <hr style={{ width: "100px", margin: "4px auto 30px auto", padding: "1px" }} />
                             <div>
-                                <h1 style={{ textAlign: "center", fontSize: "18px", marginBottom: "10px" }}>Semester: {selectedSemester}</h1>
+                                <h1 style={{ textAlign: "center", fontSize: "18px", marginBottom: "10px" }}>Semester: {selectedSemesterTemp}</h1>
                             </div>
                             <div className="mentor-list">
-                                {mentorList.map((mentor, index) => (
-                                    <div onClick={() => { setSelectedMentor(mentor) }} style={{ cursor: "pointer",border: "2px solid #15375c", transition: "transform 300ms ease-in-out 0s" }} key={index} className="mentor-card hover:scale-110">
-                                        <h2>Name: {mentor.name}</h2>
-                                        <p>Students Assigned: {mentor.studentsAssigned}</p>
+                                {mentorList?.map((mentor, index) => (
+                                    <div onClick={() => { setSelectedMentor(mentor) }} style={{ cursor: "pointer", border: "2px solid #15375c", transition: "transform 300ms ease-in-out 0s" }} key={index} className="mentor-card hover:scale-110">
+                                        <h2>SAP ID: {mentor.sapID}</h2>
+                                        <p>Students Assigned: {mentor.assignedStudents.length}</p>
                                     </div>
                                 ))}
                             </div>

@@ -17,10 +17,9 @@ import MentorTraining from "../Components/MentorTraining/MentorTraining";
 import GoalAcheivement from "../Components/Goal/GoalAcheivement";
 import ViewGoalDataGrid from "../Components/Goal/ViewGoalGrid";
 
-export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proceed, setProceed, corner, setcorner, currentDept, setCurrentDept, selectedSemester, setSelectedSemester, forgetPasswordPopup, setForgetPasswordPopup }) => {
+export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proceed, setProceed, corner, setcorner, currentDept, setCurrentDept, selectedSemester, setSelectedSemester, forgetPasswordPopup, setForgetPasswordPopup, selectedSemesterTemp, selectedMentor, setSelectedMentor }) => {
     //eslint-disable-next-line
     const [email, setemail] = useState(useSelector(state => state.email));
-    const [selectedMentor, setSelectedMentor] = useState(null);
 
     return (
         <>
@@ -33,7 +32,7 @@ export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proc
                 <Route path='/' element={<MainPage />} />
                 <Route path='/performance' element={<Performancepage2 selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor}/>} />
                 <Route path='/ebook' element={<Ebook />} />
-                <Route path='/assign-mentees' element={<AssignMentees selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor}/>} />
+                <Route path='/assign-mentees' element={<AssignMentees selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} selectedSemesterTemp={selectedSemesterTemp}/>} />
                 <Route path='/timeline' element={<TimeLine />} />
                 <Route path='/calendar' element={<Calendar />} />
                 <Route path="/attendence" element={<AttendenceTable currentDept={currentDept} setCurrentDept={setCurrentDept} />} />

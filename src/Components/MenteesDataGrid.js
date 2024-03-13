@@ -5,25 +5,115 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import ToastContainer from './toast';
+import ToastContainer, { FailedToast } from './toast';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import axios from 'axios';
 
 
-const MenteesDataGrid = ({ data, setStudentList, selectedMentor , setSelectedMentor}) => {
+const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMentor }) => {
     const [gridWidth, setGridWidth] = useState(0);
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => { setOpen(true); };
+    const [inputValue, setInputValue] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [selectedOption, setSelectedOption] = useState();
+    const [suggestionArray, setSuggestionArray] = useState([]);
+    const [fetchAgain, setFetchAgain] = useState(false)
+
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign/students/unassigned`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json"
+            }
+        }).then((res) => {
+            setSuggestionArray(res.data.data);
+            setSuggestions(res.data.data.slice(0, 5))
+        }).catch(err => {
+            FailedToast(err.response.data.message)
+        })
+    }, [fetchAgain])
+    const updateData = () => {
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json"
+            }
+        }).then((res) => {
+            const data = res.data.data[0].assignedStudents?.map((Item) => {
+                return { sapID: Item.sapID, Department: Item.department, id: Item.sapID };
+            });
+            setStudentList(data);
+        }).catch(err => {
+            FailedToast(err.response.data.message)
+        })
+    }
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setInputValue(value);
+        // Show suggestions based on input
+        const filteredSuggestions = suggestionArray.filter(suggestion =>
+            suggestion.sapid.toLowerCase().startsWith(value.toLowerCase())
+        );
+        setSuggestions(filteredSuggestions.slice(0, 5)); // Limit to 5 suggestions
+    };
+
+    const AssignStudent = () => {
+        axios.post(`${process.env.REACT_APP_BACKEND_PORT}/assign`, {
+            mentorID: selectedMentor.mentorID,
+            studentID: selectedOption._id,
+            sapid: selectedOption.sapid,
+            dept: selectedOption.dept
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json"
+            }
+        }).then((res) => {
+            setFetchAgain(!fetchAgain)
+            setInputValue("");
+            updateData();
+            ToastContainer("Student Assigned")
+        }).catch(err => {
+            FailedToast(err.response.data.message)
+        })
+    }
+
+
+    const DeleteStudent = (sapId) => {
+        axios.delete(`${process.env.REACT_APP_BACKEND_PORT}/assign?mentorID=${selectedMentor.mentorID}&sapId=${sapId}`, {
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json"
+            }
+        }).then((res) => {
+            setFetchAgain(!fetchAgain)
+            updateData();
+            ToastContainer("Deleted Successfully")
+        }).catch(err => {
+            FailedToast(err.response.data.message)
+        })
+    }
+
+
+    const handleSuggestionClick = (suggestion) => {
+        setInputValue(suggestion.sapid);
+        setSelectedOption(suggestion)
+        setSuggestions([]); // Clear suggestions when a suggestion is clicked
+    };
+
+
     const handleClose = () => {
         setOpen(false);
         setStudentData(Defaultterms)
     };
 
     const Defaultterms = {
-        id: Math.floor(1000 + Math.random() * 9000),
-        Name: "",
-        sapid: "",
+        sapID: "",
         Department: ""
     }
+
     let [studentData, setStudentData] = useState(Defaultterms)
 
     useEffect(() => {
@@ -38,15 +128,15 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor , setSelectedMen
         // eslint-disable-next-line
     }, [window.innerWidth]);
     const handleDelete = (id) => {
-        const updatedData = data.filter(arr => arr.sapid !== id);
+        const updatedData = data.filter(arr => arr.sapID !== id);
         setStudentList(updatedData)
         ToastContainer("Student Removed from the mentor!")
     }
     const columns = [
         {
-            field: 'sapid',
+            field: 'sapID',
             headerName: 'SAP ID',
-            width: gridWidth > 800 ? 200 : gridWidth > 500 ? 110 : 65,
+            width: gridWidth > 800 ? 200 : gridWidth > 500 ? 150 : 75,
             renderCell: (params) => (
                 <div style={{ fontSize: `${gridWidth > 500 ? '20px' : '13px'}` }}>
                     {params.value}
@@ -54,19 +144,9 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor , setSelectedMen
             ),
         },
         {
-            field: 'Name',
-            headerName: 'Name',
-            width: gridWidth > 800 ? 200 : gridWidth > 550 ? 120 : 100,
-            renderCell: (params) => (
-                <div style={{ fontSize: `${gridWidth > 500 ? '17px' : '13px'}` }}>
-                    {params.value}
-                </div>
-            ),
-        },
-        {
             field: 'Department',
             headerName: 'Department',
-            width: gridWidth > 800 ? 180 : gridWidth > 550 ? 110 : 100,
+            width: gridWidth > 800 ? 330 : gridWidth > 550 ? 210 : 130,
             renderCell: (params) => (
                 <div style={{ fontSize: `${gridWidth > 500 ? '17px' : '13px'}` }}>
                     {
@@ -80,12 +160,14 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor , setSelectedMen
             headerName: 'Actions',
             width: 150,
             renderCell: (params) => (
-                <button style={{ padding: "5px 10px", backgroundColor: "rgb(0, 122, 255)", color: "#fff", borderRadius: "5px" }} onClick={() => handleDelete(params.row.sapid)}>Delete</button>
+                <button style={{ padding: "5px 10px", backgroundColor: "rgb(0, 122, 255)", color: "#fff", borderRadius: "5px" }} onClick={() => DeleteStudent(params.id)}>Delete</button>
             ),
         },
 
     ];
-    const rows = data;
+
+    const rows = data || [];
+
     return (
         <div style={{ height: '100%', width: "100%", margin: "10px 20px", position: "relative" }}>
             <div onClick={() => { setSelectedMentor(null) }} style={{ position: 'absolute', top: -20, left: '4%', color: '#000', display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: '10px' }}>
@@ -93,8 +175,8 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor , setSelectedMen
                 <p>Go Back</p>
             </div>
             <div className='flex flex-column pt-10'>
-                <h1 style={{ fontFamily: 'sans-serif', fontWeight: 'bold', padding: '0 0 10px 0' }}>Mentor Name: <span style={{ fontWeight: 'normal' }}>{selectedMentor.name}</span></h1>
-                <h1 style={{ fontFamily: 'sans-serif', fontWeight: 'bold', padding: '10px 0' }}>Students Assigned: <span style={{ fontWeight: 'normal' }}>{selectedMentor.studentsAssigned}</span></h1>
+                <h1 style={{ fontFamily: 'sans-serif', fontWeight: 'bold', padding: '0 0 10px 0' }}>Mentor SAP ID: <span style={{ fontWeight: 'normal' }}>{selectedMentor.sapID}</span></h1>
+                <h1 style={{ fontFamily: 'sans-serif', fontWeight: 'bold', padding: '10px 0' }}>Students Assigned: <span style={{ fontWeight: 'normal' }}>{selectedMentor?.assignedStudents?.length}</span></h1>
                 <button onClick={handleClickOpen} style={{ padding: "5px 10px", fontSize: "17px", width: "150px", margin: "auto", backgroundColor: "#007aff", marginTop: "10px", color: "#fff", marginBottom: "10px" }}>Add Student</button>
             </div>
 
@@ -112,20 +194,30 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor , setSelectedMen
                         aria-describedby="alert-dialog-description"
                     >
                         <DialogTitle style={{ fontSize: "20px" }} id="alert-dialog-title">
-                            Add New Student to {selectedMentor.name}
+                            Add New Student to Mentor having SAP ID {selectedMentor.sapID}
                         </DialogTitle>
                         <hr style={{ margin: "0 20px" }} />
                         <DialogContent>
                             <h1 style={{ paddingBottom: '4px', fontSize: '14px', marginTop: "10px" }} className='font-semibold'>SAP ID: </h1>
-                            <input onChange={(e) => { setStudentData({ ...studentData, sapid: e.target.value }) }} value={studentData.sapid} type="text" style={{ width: '240px' }} placeholder='SAP ID' />
-                            <h1 style={{ paddingBottom: '4px', fontSize: '14px', marginTop: "16px" }} className='font-semibold'>Student Name: </h1>
-                            <input onChange={(e) => { setStudentData({ ...studentData, Name: e.target.value }) }} type="text" value={studentData.Name} style={{ width: '240px' }} placeholder='Name' />
-                            <h1 style={{ paddingBottom: '4px', fontSize: '14px', marginTop: "16px" }} className='font-semibold'>Dapartment: </h1>
-                            <input onChange={(e) => { setStudentData({ ...studentData, Department: e.target.value }) }} value={studentData.Department} type="text" style={{ width: '240px' }} placeholder='Dapartment' />
+                            <input onChange={handleChange} className="border rounded-md p-2 w-[100%] shadow-sm" type="text" placeholder='SAP ID' value={inputValue} />
+                            {suggestions.length > 0 && (
+                                <ul className="border rounded-md mt-1 shadow-md">
+                                    {suggestions.map((suggestion, index) => (
+                                        <li
+                                            key={index}
+                                            onClick={() => handleSuggestionClick(suggestion)}
+                                            className="px-2 py-1 cursor-pointer hover:bg-gray-200"
+                                        >
+                                            <p>SAP ID:  {suggestion?.sapid} <span className="mr-6"></span>  Department: {suggestion?.dept}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+
                         </DialogContent>
                         <DialogActions>
                             <Button style={{ fontSize: '14px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={handleClose}>Close</Button>
-                            <Button disabled={!studentData.sapid || !studentData.Name || !studentData.Department} style={{ fontSize: '14px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={() => { setStudentList([studentData, ...data]); ToastContainer("Student Assigned Successfully!"); handleClose() }} autoFocus>
+                            <Button disabled={!selectedOption} style={{ fontSize: '14px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={() => { AssignStudent(); ToastContainer("Student Assigned Successfully!"); handleClose() }} autoFocus>
                                 Add Student
                             </Button>
                         </DialogActions>

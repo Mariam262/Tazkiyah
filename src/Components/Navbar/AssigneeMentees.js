@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import Woman2Icon from '@mui/icons-material/Woman2';
 import PeopleIcon from '@mui/icons-material/People';
+import PublicIcon from '@mui/icons-material/Public';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow, setSideBarShow, setProceed, selectedSemester, setSelectedSemester, selectDpt, setSelectDpt }) => {
     let [onClick, setOnClick] = useState(false)
-    
+
     return (
         <>
             <p style={{ color: '#fff', fontSize: '17px', marginTop: '15px' }}>Select your Department: </p>
@@ -51,6 +53,35 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                         </NavLink>
                     </div>
                 }
+                <NavLink to="/assign-mentees">
+                    <li onClick={() => {
+                        setCurrentDept('Pharmacy'); closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
+                        setSelectDpt(!selectDpt)
+                    }} style={{ backgroundColor: `${currentDept === 'Pharmacy' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'Pharmacy' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '20px', width: '90%', paddingTop: '10px', paddingBottom: '10px' }}>
+                        <PeopleIcon style={{ fontSize: '30px', marginRight: '10px' }} />
+                        Pharmacy
+                    </li>
+                </NavLink>
+
+                <NavLink to="/assign-mentees">
+                    <li onClick={() => {
+                        setCurrentDept('DBD'); closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
+                        setSelectDpt(!selectDpt)
+                    }} style={{ backgroundColor: `${currentDept === 'DBD' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'DBD' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '20px', width: '90%', paddingTop: '10px', paddingBottom: '10px' }}>
+                        <Woman2Icon style={{ fontSize: '30px', marginRight: '10px' }} />
+                        DBD
+                    </li>
+                </NavLink>
+
+                <NavLink to="/assign-mentees">
+                    <li onClick={() => {
+                        setCurrentDept('Psychology'); closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
+                        setSelectDpt(!selectDpt)
+                    }} style={{ backgroundColor: `${currentDept === 'Psychology' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'Psychology' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '20px', width: '90%', paddingTop: '10px', paddingBottom: '10px' }}>
+                        <PublicIcon style={{ fontSize: '30px', marginRight: '10px' }} />
+                        Psychology
+                    </li>
+                </NavLink>
             </div>
         </>
     )
