@@ -32,7 +32,7 @@ export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proc
                 <Route path='/' element={<MainPage />} />
                 <Route path='/performance' element={<Performancepage2 selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor}/>} />
                 <Route path='/ebook' element={<Ebook />} />
-                <Route path='/assign-mentees' element={<AssignMentees selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} selectedSemesterTemp={selectedSemesterTemp}/>} />
+                <Route path='/assign-mentees' element={<AssignMentees selectedSemester={selectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} selectedSemesterTemp={selectedSemesterTemp} currentDept={currentDept}/>} />
                 <Route path='/timeline' element={<TimeLine />} />
                 <Route path='/calendar' element={<Calendar />} />
                 <Route path="/attendence" element={<AttendenceTable currentDept={currentDept} setCurrentDept={setCurrentDept} />} />

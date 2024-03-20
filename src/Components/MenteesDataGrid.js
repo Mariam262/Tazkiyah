@@ -33,6 +33,7 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMent
             FailedToast(err.response.data.message)
         })
     }, [fetchAgain])
+
     const updateData = () => {
         axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign`, {
             headers: {
@@ -48,6 +49,7 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMent
             FailedToast(err.response.data.message)
         })
     }
+
     const handleChange = (e) => {
         const value = e.target.value;
         setInputValue(value);
@@ -127,11 +129,6 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMent
         };
         // eslint-disable-next-line
     }, [window.innerWidth]);
-    const handleDelete = (id) => {
-        const updatedData = data.filter(arr => arr.sapID !== id);
-        setStudentList(updatedData)
-        ToastContainer("Student Removed from the mentor!")
-    }
     const columns = [
         {
             field: 'sapID',

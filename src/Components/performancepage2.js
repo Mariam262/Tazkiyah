@@ -5,6 +5,7 @@ import ApexCharts from 'apexcharts';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import AssignMentees from "./AssignMentees";
 import StudentDataItems from "./StudentList";
+import MentorList from "./MentorLists";
 
 export const Performancepage2 = ({ selectedSemester, setSelectedSemester, selectedMentor, setSelectedMentor }) => {
     //eslint-disable-next-line
@@ -12,6 +13,8 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
     const [selectedStudent, setSelectedStudent] = useState(null);
     const [sapId, setId] = useState();
     const [studentLogined, setStudentLogined] = useState(false);
+    const [studentList, setStudentList] = useState([]);
+
     useEffect(() => {
         if (email !== "tarbiyah@gmail.com" && email !== "manager@gmail.com" && email!=="mentor@gmail.com") {
             setStudentLogined(true)
@@ -331,10 +334,10 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                             </div>
                         }
                         {
-                            selectedSemester && !selectedMentor && <AssignMentees selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} />
+                            selectedSemester && !selectedMentor && <MentorList selectedSemester={selectedSemester}  selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} studentList={studentList} setStudentList={setStudentList} />
                         }
                         {
-                            selectedSemester && selectedMentor && !selectedStudent && <StudentDataItems setStudentData={setSelectedStudent} mentorName={selectedMentor} semester={selectedSemester} setid={setId} setmentor={setSelectedMentor}/>
+                            selectedSemester && selectedMentor && !selectedStudent && <StudentDataItems setStudentData={setSelectedStudent} mentorName={selectedMentor} semester={selectedSemester} setid={setId} setmentor={setSelectedMentor} studentList={studentList}/>
                         }
                     </div>
             }

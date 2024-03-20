@@ -3,13 +3,14 @@ import './style.css'
 import MenteesDataGrid from './MenteesDataGrid';
 import axios from "axios"
 import { FailedToast } from './toast';
-const AssignMentees = ({ selectedSemester, selectedMentor, setSelectedMentor, selectedSemesterTemp, currentDept }) => {
+
+const MentorList = ({ selectedSemester, selectedMentor, setSelectedMentor, selectedSemesterTemp , studentList, setStudentList}) => {
     const [loading, setLoading] = useState(false);
     const [found, setFound] = useState(true);
     useEffect(() => {
-        if (selectedSemester && !selectedMentor && currentDept !== 'FC') {
+        if (selectedSemester && !selectedMentor) {
             setLoading(true);
-            axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign?dept=${(currentDept === 'Computer Science' || currentDept === 'Software Engineering' || currentDept === 'Computer Arts') ? 'FC' : currentDept}&subDept=${(currentDept === 'Computer Science' || currentDept === 'Software Engineering' || currentDept === 'Computer Arts') ? currentDept : ''}`, {
+            axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': "application/json"
@@ -22,20 +23,17 @@ const AssignMentees = ({ selectedSemester, selectedMentor, setSelectedMentor, se
                 setLoading(false)
                 FailedToast(err.response.data.message)
             })
-        } else if (selectedSemester && selectedMentor) {
-            const data = selectedMentor.assignedStudents?.map((Item) => {
-                return { sapID: Item.sapID, Department: Item.department, id: Item.sapID };
-            });
-            setStudentList(data);
-        } else {
+        }else {
             setFound(true);
             setLoading(false);
         }
-    }, [selectedSemester, selectedMentor, currentDept])
+    }, [selectedSemester, selectedMentor])
 
+    const selectMentor = (MentorDetail) => {
+        const data = MentorDetail.assignedStudents;
+        setStudentList(data);
+    }
     const [mentorList, setMentorList] = useState([]);
-
-    const [studentList, setStudentList] = useState([]);
 
     return (
         <>
@@ -47,12 +45,14 @@ const AssignMentees = ({ selectedSemester, selectedMentor, setSelectedMentor, se
                             <h1 style={{ textAlign: "center", fontSize: "22px" }}>Mentor's List</h1>
                             <hr style={{ width: "100px", margin: "4px auto 30px auto", padding: "1px" }} />
                             <div>
-                                <h1 style={{ textAlign: "center", fontSize: "18px", marginBottom: "10px" }}>Semester: {selectedSemesterTemp}</h1>
+                                <h1 style={{ textAlign: "center", fontSize: "18px", marginBottom: "10px" }}>Total Registered Mentors: {mentorList?.length}</h1>
                             </div>
                             <div className="mentor-list">
                                 {mentorList?.map((mentor, index) => (
-                                    <div onClick={() => { setSelectedMentor(mentor) }} style={{ cursor: "pointer", border: "2px solid #15375c", transition: "transform 300ms ease-in-out 0s" }} key={index} className="mentor-card hover:scale-110">
+                                    <div onClick={() => { setSelectedMentor(mentor); selectMentor(mentor) }} style={{ cursor: "pointer", border: "2px solid #15375c", transition: "transform 300ms ease-in-out 0s" }} key={index} className="mentor-card hover:scale-110">
                                         <h2>SAP ID: {mentor.sapID}</h2>
+                                        <h2>Department: {mentor.dept}</h2>
+                                        {mentor.dept === 'FC'  && <h2>Sub Department: {mentor.subDept}</h2>}
                                         <p>Students Assigned: {mentor.assignedStudents.length}</p>
                                     </div>
                                 ))}
@@ -76,4 +76,4 @@ const AssignMentees = ({ selectedSemester, selectedMentor, setSelectedMentor, se
     )
 }
 
-export default AssignMentees
+export default MentorList

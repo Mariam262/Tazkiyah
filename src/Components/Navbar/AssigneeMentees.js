@@ -14,7 +14,7 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
             <p style={{ color: '#fff', fontSize: '17px', marginTop: '15px' }}>Select your Department: </p>
             <div style={{ paddingLeft: '10px', marginBottom: '10px' }}>
                 <NavLink to="/assign-mentees">
-                    <li onClick={() => { setOnClick(!onClick); setCurrentDept('FC') }} style={{ backgroundColor: `${currentDept === 'FC' || currentDept === 'CS' || currentDept === 'SE' || currentDept === 'CA' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'FC' || currentDept === 'CS' || currentDept === 'SE' || currentDept === 'CA' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '20px', width: '90%', paddingTop: '10px', paddingBottom: '10px' }}>
+                    <li onClick={() => { setOnClick(!onClick); setCurrentDept('FC'); setSelectedSemester(null) }} style={{ backgroundColor: `${currentDept === 'FC' || currentDept === 'Software Engineering' || currentDept === 'Computer Science' || currentDept === 'Computer Arts' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'FC' || currentDept === 'Software Engineering' || currentDept === 'Computer Science' || currentDept === 'Computer Arts' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '20px', width: '90%', paddingTop: '10px', paddingBottom: '10px' }}>
                         <PeopleIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                         FC
                         {
@@ -26,28 +26,31 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                     onClick && <div style={{ paddingLeft: '20px', marginBottom: '10px' }}>
                         <NavLink to="/assign-mentees">
                             <li onClick={() => {
-                                setCurrentDept('SE');
+                                setCurrentDept('Software Engineering');
                                 closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
-                                setSelectDpt(!selectDpt)
-                            }} style={{ backgroundColor: `${currentDept === 'SE' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'SE' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '1px', width: '100%', paddingTop: '10px', paddingBottom: '10px', textAlign: 'center' }}>
+                                setSelectDpt(!selectDpt);
+                                setSelectedSemester(null)
+                            }} style={{ backgroundColor: `${currentDept === 'Software Engineering' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'Software Engineering' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '1px', width: '100%', paddingTop: '10px', paddingBottom: '10px', textAlign: 'center' }}>
                                 Software Engineering
                             </li>
                         </NavLink>
                         <NavLink to="/assign-mentees">
                             <li onClick={() => {
-                                setCurrentDept('CS');
-                                setSelectDpt(!selectDpt)
+                                setCurrentDept('Computer Science');
+                                setSelectDpt(!selectDpt);
+                                setSelectedSemester(null)
                                 closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
-                            }} style={{ backgroundColor: `${currentDept === 'CS' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'CS' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '21px', width: '100%', paddingTop: '10px', paddingBottom: '10px' }}>
+                            }} style={{ backgroundColor: `${currentDept === 'Computer Science' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'Computer Science' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '21px', width: '100%', paddingTop: '10px', paddingBottom: '10px' }}>
                                 Computer Science
                             </li>
                         </NavLink>
                         <NavLink to="/assign-mentees">
                             <li onClick={() => {
-                                setCurrentDept('CA');
-                                setSelectDpt(!selectDpt)
+                                setCurrentDept('Computer Arts');
+                                setSelectDpt(!selectDpt);
+                                setSelectedSemester(null)
                                 closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
-                            }} style={{ backgroundColor: `${currentDept === 'CA' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'CA' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '21px', width: '100%', paddingTop: '10px', paddingBottom: '10px' }}>
+                            }} style={{ backgroundColor: `${currentDept === 'Computer Arts' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'Computer Arts' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '21px', width: '100%', paddingTop: '10px', paddingBottom: '10px' }}>
                                 Computer Arts
                             </li>
                         </NavLink>
@@ -56,7 +59,8 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                 <NavLink to="/assign-mentees">
                     <li onClick={() => {
                         setCurrentDept('Pharmacy'); closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
-                        setSelectDpt(!selectDpt)
+                        setSelectDpt(!selectDpt);
+                        setSelectedSemester(null)
                     }} style={{ backgroundColor: `${currentDept === 'Pharmacy' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'Pharmacy' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '20px', width: '90%', paddingTop: '10px', paddingBottom: '10px' }}>
                         <PeopleIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                         Pharmacy
@@ -66,7 +70,8 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                 <NavLink to="/assign-mentees">
                     <li onClick={() => {
                         setCurrentDept('DBD'); closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
-                        setSelectDpt(!selectDpt)
+                        setSelectDpt(!selectDpt);
+                        setSelectedSemester(null)
                     }} style={{ backgroundColor: `${currentDept === 'DBD' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'DBD' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '20px', width: '90%', paddingTop: '10px', paddingBottom: '10px' }}>
                         <Woman2Icon style={{ fontSize: '30px', marginRight: '10px' }} />
                         DBD
@@ -76,7 +81,8 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                 <NavLink to="/assign-mentees">
                     <li onClick={() => {
                         setCurrentDept('Psychology'); closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
-                        setSelectDpt(!selectDpt)
+                        setSelectDpt(!selectDpt);
+                        setSelectedSemester(null)
                     }} style={{ backgroundColor: `${currentDept === 'Psychology' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'Psychology' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '20px', width: '90%', paddingTop: '10px', paddingBottom: '10px' }}>
                         <PublicIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                         Psychology

@@ -2,7 +2,7 @@ import React from 'react'
 import './style.css'
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 
-const StudentDataItems = ({ setStudentData, mentorName, semester, setid , setmentor}) => {
+const StudentDataItems = ({ setStudentData, mentorName, semester, setid, setmentor, studentList }) => {
     const StudentLists = [
         {
             id: 1,
@@ -84,16 +84,18 @@ const StudentDataItems = ({ setStudentData, mentorName, semester, setid , setmen
                         <h1 style={{ textAlign: "center", fontSize: "22px" }}>Student's List</h1>
                         <hr style={{ width: "100px", margin: "4px auto 30px auto", padding: "1px" }} />
                         <div>
-                            <h1 style={{ textAlign: "center", fontSize: "18px", marginBottom: "20px" }}>Semester: {semester}</h1>
-                            <h1 style={{ textAlign: "center", fontSize: "18px", marginBottom: "20px" }}>Mentor Name: {mentorName.name}</h1>
+                            <h1 style={{ textAlign: "center", fontSize: "18px", marginBottom: "20px" }}>Mentor SAPID: {mentorName.sapID}</h1>
                         </div>
                         <div className="mentor-list mx-4">
-                            {StudentLists.map((student, index) => (
+                            {studentList.map((student, index) => (
                                 <div onClick={() => { setStudentData(student); setid(student.sapid) }} style={{ cursor: "pointer", width: "300px", border: "2px solid #15375c", transition: "transform 300ms ease-in-out 0s" }} key={index} className="mentor-card hover:scale-110">
-                                    <h2 style={{color: "#15375c"}}>Name: {student.name}</h2>
-                                    <p style={{color: "#15375c"}}>SAP ID: {student.sapid}</p>
+                                    <p style={{ color: "#15375c" }}>SAP ID: {student.sapID}</p>
+                                    <p style={{ color: "#15375c" }}>Department: {student.department}</p>
                                 </div>
                             ))}
+                            {!studentList.length && <div className='flex flex-col justify-center items-center' style={{ height: '50vh' }}>
+                                <h1 style={{ fontWeight: 'bold', fontSize: '23px', textAlign: 'center', lineHeight: '3.5rem' }}>No Student Assigned</h1>
+                            </div>}
                         </div>
                     </>
                 }
