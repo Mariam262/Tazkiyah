@@ -3,6 +3,7 @@ import './style.css'
 import MenteesDataGrid from './MenteesDataGrid';
 import axios from "axios"
 import { FailedToast } from './toast';
+
 const AssignMentees = ({ selectedSemester, selectedMentor, setSelectedMentor, selectedSemesterTemp, currentDept }) => {
     const [loading, setLoading] = useState(false);
     const [found, setFound] = useState(true);
@@ -30,6 +31,7 @@ const AssignMentees = ({ selectedSemester, selectedMentor, setSelectedMentor, se
         } else {
             setFound(true);
             setLoading(false);
+            setSelectedMentor(false);
         }
     }, [selectedSemester, selectedMentor, currentDept])
 

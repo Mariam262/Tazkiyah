@@ -72,6 +72,7 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMent
                 'Accept': "application/json"
             }
         }).then((res) => {
+            setSelectedMentor(false);
             setFetchAgain(!fetchAgain)
             setInputValue("");
             updateData();
@@ -90,6 +91,7 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMent
                 'Accept': "application/json"
             }
         }).then((res) => {
+            setSelectedMentor(false);
             setFetchAgain(!fetchAgain)
             updateData();
             ToastContainer("Deleted Successfully")
@@ -214,7 +216,7 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMent
                         </DialogContent>
                         <DialogActions>
                             <Button style={{ fontSize: '14px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={handleClose}>Close</Button>
-                            <Button disabled={!selectedOption} style={{ fontSize: '14px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={() => { AssignStudent(); ToastContainer("Student Assigned Successfully!"); handleClose() }} autoFocus>
+                            <Button disabled={!selectedOption} style={{ fontSize: '14px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={() => { AssignStudent(); handleClose() }} autoFocus>
                                 Add Student
                             </Button>
                         </DialogActions>
