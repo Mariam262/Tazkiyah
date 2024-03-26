@@ -20,6 +20,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AssignMentees from './AssigneeMentees';
 import PerformanceAnalyticsSideBar from './PerformanceAnalyticsSidebar';
 import EditIcon from '@mui/icons-material/Edit';
+import { validateMentorEmail } from './../../utils/validateEmail';
 export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSideBarShow, showclose, setIsLogin, currentDept, setCurrentDept, editProfilePopup, setEditProfilePopup, editUploadContentPopup, setEditUploadContentPopup, selectedSemester, setSelectedSemester, selectDpt, setSelectDpt, notificationPopUp, setNotificationPopUp }) => {
     const dispatch = useDispatch();
     //eslint-disable-next-line
@@ -91,7 +92,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                         <p style={{ color: '#fff', fontSize: '17px', marginBottom: '4px' }}>Navigation: </p>
                         <ul>
                             {
-                                email && email.email !== "tarbiyah@gmail.com" && email.email !== "manager@gmail.com" && email.email !== "mentor@gmail.com" && <NavLink to="/goal">
+                                email && email.email !== "tarbiyah@gmail.com" && email.email !== "manager@gmail.com" && !validateMentorEmail(email.email) && <NavLink to="/goal">
                                     <li onClick={() => { setCurrentGoal(initial); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/goal' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/goal' ? '14px' : ''}` }}>
                                         <SelfImprovementIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                                         Self Development
@@ -115,7 +116,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 />
                             }
                             {
-                                email && email.email !== "tarbiyah@gmail.com" && email.email !== "manager@gmail.com" && email.email !== "mentor@gmail.com" && <NavLink to="/achieved-goals" >
+                                email && email.email !== "tarbiyah@gmail.com" && email.email !== "manager@gmail.com" && !validateMentorEmail(email.email) && <NavLink to="/achieved-goals" >
                                     <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/achieved-goals' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/achieved-goals' ? '14px' : ''}` }}>
                                         <FlagIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                                         View Goals
@@ -123,7 +124,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 </NavLink>
                             }
                             {
-                                email && email.email !== "tarbiyah@gmail.com" && email.email !== "manager@gmail.com" && email.email !== "mentor@gmail.com" && <NavLink to="/view-goal" >
+                                email && email.email !== "tarbiyah@gmail.com" && email.email !== "manager@gmail.com" && !validateMentorEmail(email.email) && <NavLink to="/view-goal" >
                                     <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/view-goal' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/view-goal' ? '14px' : ''}` }}>
                                         <EditIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                                         Edit Goals
@@ -131,10 +132,10 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 </NavLink>
                             }
                             {
-                                email && (email.email === "tarbiyah@gmail.com" || email.email === "mentor@gmail.com") && <>
+                                email && (email.email === "tarbiyah@gmail.com" || validateMentorEmail(email.email)) && <>
                                     <li className='hover:underline cursor-pointer' onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false); setEditUploadContentPopup(!editUploadContentPopup) }} style={{ backgroundColor: `${editUploadContentPopup ? '#3f6184' : ''}`, borderRadius: `${editUploadContentPopup ? '14px' : ''}` }}>
                                         <CloudUploadIcon style={{ fontSize: '30px', marginRight: '10px' }} />
-                                        {email.email === "mentor@gmail.com" ? 'Mentoring' : 'Upload Content'}
+                                        {validateMentorEmail(email.email) ? 'Mentoring' : 'Upload Content'}
                                     </li>
                                 </>
                             }
@@ -147,7 +148,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 </NavLink>
                             }
                             {
-                                email && email.email === "mentor@gmail.com" && <NavLink to="/training" >
+                                email && validateMentorEmail(email.email) && <NavLink to="/training" >
                                     <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/training' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/training' ? '14px' : ''}` }}>
                                         <FlagIcon style={{ fontSize: '30px', marginRight: '10px' }} />                                        Mentor Training
                                     </li>
@@ -186,7 +187,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 email && (email.email === "tarbiyah@gmail.com") && location.pathname === '/performance' && <PerformanceAnalyticsSideBar currentDept={currentDept} setCurrentDept={setCurrentDept} closeSideBar={closeSideBar} sidebarshow={sidebarshow} setSideBarShow={setSideBarShow} setProceed={setProceed} selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} />
                             }
                             {
-                                email?.email === "mentor@gmail.com" && <NavLink to="/attendence" >
+                                validateMentorEmail(email?.email) && <NavLink to="/attendence" >
                                     <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/attendence' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/attendence' ? '14px' : ''}` }}>
                                         <NotificationsIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                                         Sessions
@@ -209,7 +210,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                             }
 
                             {
-                                email && email.email !== "tarbiyah@gmail.com" && email.email !== "mentor@gmail.com" && email.email !== "manager@gmail.com" && <>
+                                email && email.email !== "tarbiyah@gmail.com" && !validateMentorEmail(email.email) && email.email !== "manager@gmail.com" && <>
                                     <NavLink to="/timeline" >
                                         <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/timeline' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/timeline' ? '14px' : ''}` }}>
                                             <TimelineIcon style={{ fontSize: '30px', marginRight: '10px' }} />

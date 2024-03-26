@@ -6,6 +6,7 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import AssignMentees from "./AssignMentees";
 import StudentDataItems from "./StudentList";
 import MentorList from "./MentorLists";
+import { validateMentorEmail } from "../utils/validateEmail";
 
 export const Performancepage2 = ({ selectedSemester, setSelectedSemester, selectedMentor, setSelectedMentor }) => {
     //eslint-disable-next-line
@@ -16,16 +17,16 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
     const [studentList, setStudentList] = useState([]);
 
     useEffect(() => {
-        if (email !== "tarbiyah@gmail.com" && email !== "manager@gmail.com" && email!=="mentor@gmail.com") {
+        if (email !== "tarbiyah@gmail.com" && email !== "manager@gmail.com" && !validateMentorEmail(email)) {
             setStudentLogined(true)
             setSelectedStudent(true)
         }
         if(email === "manager@gmail.com"){
             setSelectedSemester(1)
         }
-        if(email === "mentor@gmail.com"){
+        if(validateMentorEmail(email)){
             setSelectedSemester(1)
-            setSelectedMentor({name: "Mentor Name"})
+            // setSelectedMentor({name: "Mentor Name"})
         }
         //eslint-disable-next-line
     }, [])
@@ -266,7 +267,7 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                         <header className="headerssss1 mb-7">
                             <div style={{ position: "relative" }} className="centersss">
                                 {
-                                    (email === "tarbiyah@gmail.com" || email === "manager@gmail.com" || email === "mentor@gmail.com") && <div onClick={() => { setSelectedStudent(null) }} style={{ position: "absolute", top: 0, left: 10, cursor: 'pointer' }}>
+                                    (email === "tarbiyah@gmail.com" || email === "manager@gmail.com" || validateMentorEmail(email)) && <div onClick={() => { setSelectedStudent(null) }} style={{ position: "absolute", top: 0, left: 10, cursor: 'pointer' }}>
                                         <ArrowLeftIcon style={{ color: "#000", fontWeight: "bold", fontSize: "25px" }} />
                                     </div>
                                 }
