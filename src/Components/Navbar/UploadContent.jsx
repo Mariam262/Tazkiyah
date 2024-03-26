@@ -6,6 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ToastContainer, { FailedToast } from '../toast';
+import {useNavigate} from "react-router-dom"
 
 export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopup }) => {
     const [isDoc, setIsDoc] = React.useState(false);
@@ -13,8 +14,16 @@ export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopu
     const [uploadedDocument, setUploadedDocument] = useState();
     const [title, setTitle] = useState("");
     const [link, setLink] = useState("");
-
+    const Navigate = useNavigate();
     const userID = useSelector(state => state.userId);
+    const resetValues = () => {
+        setEditUploadContentPopup(!editUploadContentPopup);
+        setIsDoc(false);
+        setIsLink(false);
+        setUploadedDocument();
+        setTitle("");
+        setLink("");
+    }
     const handleUpload = () => {
         if(!isDoc && !isLink){
             FailedToast('Select Document Type')
@@ -46,6 +55,8 @@ export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopu
                 }
             }).then(() => {
                 ToastContainer('Uploaded');
+                resetValues();
+                Navigate('/uploaded/material')
             }).catch((err) => {
                 FailedToast(err.response.data.message);
             })
@@ -59,16 +70,12 @@ export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopu
                 }
             }).then(() => {
                 ToastContainer('Uploaded');
+                resetValues();
+                Navigate('/uploaded/material')
             }).catch((err) => {
                 FailedToast(err.response.data.message);
             })
         }
-        setEditUploadContentPopup(!editUploadContentPopup);
-        setIsDoc(false);
-        setIsLink(false);
-        setUploadedDocument();
-        setTitle("");
-        setLink("");
     }
     return (
         <React.Fragment>

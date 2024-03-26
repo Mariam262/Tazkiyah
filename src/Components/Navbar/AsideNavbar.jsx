@@ -148,9 +148,23 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 </NavLink>
                             }
                             {
+                                email && validateMentorEmail(email.email) && <NavLink to="/uploaded/material" >
+                                    <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/uploaded/material' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/uploaded/material' ? '14px' : ''}` }}>
+                                        <FlagIcon style={{ fontSize: '30px', marginRight: '10px' }} />Uploaded Material
+                                    </li>
+                                </NavLink>
+                            }
+                            {
                                 email && validateMentorEmail(email.email) && <NavLink to="/training" >
                                     <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/training' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/training' ? '14px' : ''}` }}>
-                                        <FlagIcon style={{ fontSize: '30px', marginRight: '10px' }} />                                        Mentor Training
+                                        <FlagIcon style={{ fontSize: '30px', marginRight: '10px' }} />Mentor Training
+                                    </li>
+                                </NavLink>
+                            }
+                            {
+                                email && email.email.includes('student') && <NavLink to="/training" >
+                                    <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/training' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/training' ? '14px' : ''}` }}>
+                                        <FlagIcon style={{ fontSize: '30px', marginRight: '10px' }} />Student Training
                                     </li>
                                 </NavLink>
                             }
@@ -208,7 +222,6 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                             {
                                 email?.email === "tarbiyah@gmail.com" && location.pathname === '/attendence' && <Attendence currentDept={currentDept} setCurrentDept={setCurrentDept} closeSideBar={closeSideBar} sidebarshow={sidebarshow} setSideBarShow={setSideBarShow} setProceed={setProceed} />
                             }
-
                             {
                                 email && email.email !== "tarbiyah@gmail.com" && !validateMentorEmail(email.email) && email.email !== "manager@gmail.com" && <>
                                     <NavLink to="/timeline" >

@@ -16,6 +16,8 @@ import AssignMentees from "../Components/AssignMentees";
 import MentorTraining from "../Components/MentorTraining/MentorTraining";
 import GoalAcheivement from "../Components/Goal/GoalAcheivement";
 import ViewGoalDataGrid from "../Components/Goal/ViewGoalGrid";
+import StudentTraining from "../Components/StudentTraining/StudentTraining";
+import MentorMaterial from "../Components/MentorMaterial";
 
 export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proceed, setProceed, corner, setcorner, currentDept, setCurrentDept, selectedSemester, setSelectedSemester, forgetPasswordPopup, setForgetPasswordPopup, selectedSemesterTemp, selectedMentor, setSelectedMentor }) => {
     //eslint-disable-next-line
@@ -36,8 +38,9 @@ export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proc
                 <Route path='/timeline' element={<TimeLine />} />
                 <Route path='/calendar' element={<Calendar />} />
                 <Route path="/attendence" element={<AttendenceTable currentDept={currentDept} setCurrentDept={setCurrentDept} />} />
-                <Route path="/training" element={<MentorTraining />} />
+                <Route path="/training" element={useSelector(state => state.email).includes('student') ?  <StudentTraining /> : <MentorTraining />} />
                 <Route path="/achieved-goals" element={<GoalAcheivement />} />
+                <Route path="/uploaded/material" element={<MentorMaterial />} />
             </Routes>
         </>
     )

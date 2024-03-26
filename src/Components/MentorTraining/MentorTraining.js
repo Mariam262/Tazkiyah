@@ -20,7 +20,6 @@ const MentorTraining = () => {
         setOpen(false);
     };
 
-    
     const [trainingData, setTrainingData] = useState([
         {
             image: thumbnail1,

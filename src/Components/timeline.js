@@ -85,7 +85,7 @@ export const TimeLine = () => {
     }, [show])
     return (
         <div id={`${style.qualification}`}>
-            <div data-aos="fade-up" className={`${style.main} dark:bg-slate-400`}>
+            <div className={`${style.main} dark:bg-slate-400`}>
                 <>
                     <h3 className={`${style.head}`} style={{color: "#15375c"}}>Events TimeLine</h3>
                         <button onClick={() => { setShow(!show); handleClickOpen() }} type='submit' className='add-brn add-brn1' style={{ marginBottom: "0", backgroundColor: "#15375c" }}>Add New Event</button>
