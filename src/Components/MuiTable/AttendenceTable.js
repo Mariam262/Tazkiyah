@@ -52,7 +52,7 @@ export const AttendenceTable = ({ currentDept, setCurrentDept }) => {
         }).catch(err => {
             FailedToast(err.response.data.message)
         })
-    }, [selected])
+    }, [selected, markAttendece])
 
     const viewAttendence = (selectedAttendence) => {
         setSelectedAttendence(selectedAttendence);
