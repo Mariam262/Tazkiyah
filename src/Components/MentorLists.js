@@ -6,7 +6,7 @@ import { FailedToast } from './toast';
 import { useSelector } from 'react-redux';
 import { validateMentorEmail } from '../utils/validateEmail';
 
-const MentorList = ({ selectedSemester, selectedMentor, setSelectedMentor, selectedSemesterTemp, studentList, setStudentList }) => {
+const MentorList = ({ currentDept, selectedSemester, selectedMentor, setSelectedMentor, studentList, setStudentList }) => {
     const [loading, setLoading] = useState(false);
     const [found, setFound] = useState(true);
     const email = useSelector(state => state.email);
@@ -15,7 +15,7 @@ const MentorList = ({ selectedSemester, selectedMentor, setSelectedMentor, selec
     useEffect(() => {
         if (selectedSemester && !selectedMentor && !validateMentorEmail(email)) {
             setLoading(true);
-            axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign`, {
+            axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign?dept=${(currentDept === 'CS' || currentDept === 'SE' || currentDept === 'CA') ? 'FC' : currentDept ?? ""}&subDept=${(currentDept === 'CS' ? 'Computer Science' :  currentDept === 'SE' ? 'Software Engineering' : currentDept === 'CA' ? 'Computer Arts' : '')}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': "application/json"

@@ -35,6 +35,9 @@ function App() {
   const [notificationPopUp, setNotificationPopUp] = useState(false);
   const [selectedMentor, setSelectedMentor] = useState(null);
 
+  useEffect(()=>{
+    console.log("currentDept", currentDept);
+  }, [currentDept])
   useEffect(() => {
     const storedFormData = localStorage.getItem('FinalGoal');
     const storedLogin = localStorage.getItem('isLogin');
@@ -140,7 +143,7 @@ function App() {
       />
       <ForgetPassword forgetPasswordPopup={forgetPasswordPopup} setForgetPasswordPopup={setForgetPasswordPopup} />
       <Notifications notificationPopUp={notificationPopUp} setNotificationPopUp={setNotificationPopUp} />
-      <SelectedSemester selectDpt={selectDpt} setSelectDpt={setSelectDpt} setSelectedSemester={setSelectedSemester} selectedSemesterTemp={selectedSemesterTemp} setSelectedSemesterTemp={setSelectedSemesterTemp}/>
+      <SelectedSemester selectDpt={selectDpt} setSelectDpt={setSelectDpt} setSelectedSemester={setSelectedSemester} selectedSemesterTemp={selectedSemesterTemp} setSelectedSemesterTemp={setSelectedSemesterTemp} />
     </div>
   );
 }

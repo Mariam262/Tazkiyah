@@ -29,7 +29,7 @@ const SelectedSemester = ({selectDpt, setSelectDpt, setSelectedSemester, selecte
                     </div>
                     <DialogActions>
                         <Button onClick={() => { setSelectDpt(!selectDpt); setSelectedSemester(null) }} style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }}>Close</Button>
-                        <Button onClick={() => { setSelectDpt(!selectDpt); setSelectedSemester(selectedSemesterTemp) }} style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} autoFocus>
+                        <Button onClick={() => { setSelectDpt(!selectDpt); setSelectedSemester(selectedSemesterTemp); }} style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} autoFocus>
                             Select Semester
                         </Button>
                     </DialogActions>

@@ -13,7 +13,7 @@ const PerformanceAnalyticsSideBar = ({ currentDept, setCurrentDept, closeSideBar
             <p style={{ color: '#fff', fontSize: '17px', marginTop: '15px' }}>Select your Department: </p>
             <div style={{ paddingLeft: '10px', marginBottom: '10px' }}>
                 <NavLink to="/performance">
-                    <li onClick={() => { setOnClick(!onClick); setCurrentDept('FC') }} style={{ backgroundColor: `${currentDept === 'FC' || currentDept === 'CS' || currentDept === 'SE' || currentDept === 'CA' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'FC' || currentDept === 'CS' || currentDept === 'SE' || currentDept === 'CA' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '20px', width: '90%', paddingTop: '10px', paddingBottom: '10px' }}>
+                    <li onClick={() => { setOnClick(!onClick); setCurrentDept('FC'); }} style={{ backgroundColor: `${currentDept === 'FC' || currentDept === 'CS' || currentDept === 'SE' || currentDept === 'CA' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'FC' || currentDept === 'CS' || currentDept === 'SE' || currentDept === 'CA' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '20px', width: '90%', paddingTop: '10px', paddingBottom: '10px' }}>
                         <PeopleIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                         FC
                         {
@@ -29,7 +29,7 @@ const PerformanceAnalyticsSideBar = ({ currentDept, setCurrentDept, closeSideBar
                                 closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
                                 setSelectDpt(!selectDpt);
                                 setSelectedSemester(null);
-                            }} style={{ backgroundColor: `${currentDept === 'SE' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'SE' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '1px', width: '100%', paddingTop: '10px', paddingBottom: '10px', textAlign: 'center' }}>
+                            }} style={{ backgroundColor: `${currentDept === 'SE' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'SE' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '21px', width: '100%', paddingTop: '10px', paddingBottom: '10px' }}>
                                 Software Engineering
                             </li>
                         </NavLink>
@@ -39,7 +39,7 @@ const PerformanceAnalyticsSideBar = ({ currentDept, setCurrentDept, closeSideBar
                                 setSelectDpt(!selectDpt)
                                 closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
                                 setSelectedSemester(null);
-                            }} style={{ backgroundColor: `${currentDept === 'CS' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'CS' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '21px', width: '100%', paddingTop: '10px', paddingBottom: '10px' }}>
+                            }} style={{ backgroundColor: `${currentDept === 'CS' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'CS' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '21px', width: '100%', paddingTop: '10px', paddingBottom: '10px'}}>
                                 Computer Science
                             </li>
                         </NavLink>

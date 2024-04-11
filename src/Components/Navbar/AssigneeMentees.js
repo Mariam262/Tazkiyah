@@ -30,7 +30,7 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                                 closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
                                 setSelectDpt(!selectDpt);
                                 setSelectedSemester(null)
-                            }} style={{ backgroundColor: `${currentDept === 'Software Engineering' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'Software Engineering' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '1px', width: '100%', paddingTop: '10px', paddingBottom: '10px', textAlign: 'center' }}>
+                            }} style={{ backgroundColor: `${currentDept === 'Software Engineering' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'Software Engineering' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '21px', width: '100%', paddingTop: '10px', paddingBottom: '10px'}}>
                                 Software Engineering
                             </li>
                         </NavLink>

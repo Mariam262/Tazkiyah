@@ -20,7 +20,8 @@ export const AttendenceTable = ({ currentDept, setCurrentDept }) => {
     const [markAttendece, setMarkAttendence] = useState(false);
     const [showAttendence, setShowAttendence] = useState(false);
     const [selectedAttendence, setSelectedAttendence] = useState(false);
-
+    const [loading, setLoading] = useState(false);
+    const email = useSelector(state => state)?.email;
     const userId = useSelector(state => state.userId);
     const mentorEmail = useSelector(state => state)?.email?.includes('mentor');
 
@@ -39,19 +40,21 @@ export const AttendenceTable = ({ currentDept, setCurrentDept }) => {
     }, [window.innerWidth]);
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign/${userId}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': "application/json"
-            }
-        }).then((res) => {
-            const newData = res.data.data.assignedStudents.map((Item) => {
-                return { ...Item, id: Item.sapID, status: "Present" }
+        if (email !== 'tarbiyah@gmail.com') {
+            axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign/${userId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': "application/json"
+                }
+            }).then((res) => {
+                const newData = res.data.data.assignedStudents.map((Item) => {
+                    return { ...Item, id: Item.sapID, status: "Present" }
+                })
+                setRows(newData);
+            }).catch(err => {
+                FailedToast(err.response.data.message)
             })
-            setRows(newData);
-        }).catch(err => {
-            FailedToast(err.response.data.message)
-        })
+        }
     }, [selected, markAttendece])
 
     const viewAttendence = (selectedAttendence) => {
@@ -91,7 +94,7 @@ export const AttendenceTable = ({ currentDept, setCurrentDept }) => {
             fontSize: "20px",
             width: gridWidth > 500 ? 130 : 100,
             renderCell: (params) => (
-                <div style={{ color: '#fff', padding: `${gridWidth > 500 ? '7px 23px' : '7px 10px'}`, borderRadius: '3px', backgroundColor: `${params.value==='Present' ? 'green' : '#FA5A16'}`, fontSize: '14px' }}>
+                <div style={{ color: '#fff', padding: `${gridWidth > 500 ? '7px 23px' : '7px 10px'}`, borderRadius: '3px', backgroundColor: `${params.value === 'Present' ? 'green' : '#FA5A16'}`, fontSize: '14px' }}>
                     {params.value}
                 </div>
             ),
@@ -142,7 +145,6 @@ export const AttendenceTable = ({ currentDept, setCurrentDept }) => {
         },
     ];
 
-
     const markAttendence = () => {
         axios.post(`${process.env.REACT_APP_BACKEND_PORT}/attendence`, {
             mentorId: userId,
@@ -160,20 +162,40 @@ export const AttendenceTable = ({ currentDept, setCurrentDept }) => {
         }).catch(err => {
             FailedToast(err.response.data.message)
         })
-        // setEventDetail([eventDetails, ...eventDetail]); setMarkAttendence(false);
     }
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/attendence?mentorId=${userId}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': "application/json"
-            }
-        }).then((res) => {
-            setEventDetail(res.data.data);
-        }).catch(err => {
-            FailedToast(err.response.data.message)
-        })
-    }, [fetchEvents])
+        if (email === 'tarbiyah@gmail.com') {
+            setLoading(true);
+            setEventDetail(null);
+            axios.get(`${process.env.REACT_APP_BACKEND_PORT}/attendence/all?dept=${(currentDept === 'CS' || currentDept === 'SE' || currentDept === 'CA') ? 'FC' : currentDept ?? ""}&subDept=${(currentDept === 'CS' ? 'Computer Science' :  currentDept === 'SE' ? 'Software Engineering' : currentDept === 'CA' ? 'Computer Arts' : '')}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': "application/json"
+                }
+            }).then((res) => {
+                setLoading(false);
+                setEventDetail(res.data.data);
+            }).catch(err => {
+                setLoading(false);
+                setEventDetail(null);
+            })
+        } else {
+            setLoading(true);
+            setEventDetail(null);
+            axios.get(`${process.env.REACT_APP_BACKEND_PORT}/attendence?mentorId=${userId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': "application/json"
+                }
+            }).then((res) => {
+                setLoading(false);
+                setEventDetail(res.data.data);
+            }).catch(err => {
+                setLoading(false);
+                setEventDetail(null);
+            })
+        }
+    }, [fetchEvents, currentDept])
     useEffect(() => {
         setSelected(false);
         setEvent({});
@@ -186,15 +208,21 @@ export const AttendenceTable = ({ currentDept, setCurrentDept }) => {
             {
                 tableShow ? (<>
                     <div id={`${style.qualification}`}>
-                        {
+                        {email === "tarbiyah@gmail.com" && <div>
+                                <h1 className='text-center text-4xl mx-3 font-semibold mb-5'>All Events Attendence Under {currentDept} Department</h1>
+                            </div>}
+                        { email !== "tarbiyah@gmail.com" &&
                             !markAttendece && !showAttendence && !selected && <div style={{ display: "flex", justifyContent: "center" }}>
                                 <button onClick={() => { setMarkAttendence(true) }} style={{ margin: "20px 0", backgroundColor: "#15375c", color: "#fff", padding: "7px 14px", borderRadius: "4px" }}>Add Session Attendence</button>
                             </div>
                         }
                         {
-                            !markAttendece && !showAttendence && !selected && <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+                            loading && eventDetail ? <div className="h-[50vh] flex justify-center items-center"><h2 className="text-center text-3xl font-semibold">loading...</h2></div> : !loading && eventDetail===null && <div className="h-[50vh] flex justify-center items-center"><h2 className="text-center text-3xl font-semibold">No Event Found Under this Department</h2></div>
+                        }
+                        {
+                            !markAttendece && !showAttendence && !selected && <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }} className="ml-3">
                                 {
-                                    eventDetail.map((item) => (
+                                    eventDetail?.map((item) => (
                                         <div style={{ padding: '20px', margin: '20px', border: '1px solid #ccc', boxShadow: '1px 1px 2px 3px #ccc', width: '300px', height: '230px', position: 'relative' }}>
                                             <h1 style={{ margin: '10px', fontSize: '17px', fontWeight: 'bold' }}>Event Name: <span style={{ fontWeight: 'normal', lineHeight: '2.1rem' }}>{item.eventName}</span></h1>
                                             <h1 style={{ margin: '20px 10px', fontSize: '17px', fontWeight: 'bold' }}>Date: <span style={{ fontWeight: 'normal' }}>{item.eventDate.slice(0, 10)}</span></h1>

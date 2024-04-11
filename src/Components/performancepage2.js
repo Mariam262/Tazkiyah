@@ -8,7 +8,7 @@ import StudentDataItems from "./StudentList";
 import MentorList from "./MentorLists";
 import { validateMentorEmail } from "../utils/validateEmail";
 
-export const Performancepage2 = ({ selectedSemester, setSelectedSemester, selectedMentor, setSelectedMentor }) => {
+export const Performancepage2 = ({ selectedSemester, setSelectedSemester, selectedMentor, setSelectedMentor, currentDept }) => {
     //eslint-disable-next-line
     const [email, setemail] = useState(useSelector(state => state)?.email);
     const [selectedStudent, setSelectedStudent] = useState(null);
@@ -335,7 +335,7 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                             </div>
                         }
                         {
-                            selectedSemester && !selectedMentor && <MentorList selectedSemester={selectedSemester}  selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} studentList={studentList} setStudentList={setStudentList} />
+                            selectedSemester && !selectedMentor && <MentorList currentDept={currentDept}selectedSemester={selectedSemester}  selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} studentList={studentList} setStudentList={setStudentList}/>
                         }
                         {
                             selectedSemester && selectedMentor && !selectedStudent && <StudentDataItems setStudentData={setSelectedStudent} mentorName={selectedMentor} semester={selectedSemester} setid={setId} setmentor={setSelectedMentor} studentList={studentList}/>

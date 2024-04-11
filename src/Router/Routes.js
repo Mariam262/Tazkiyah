@@ -10,7 +10,7 @@ import { Ebook } from "../Components/ebook";
 import { TimeLine } from "../Components/timeline";
 import { Performancepage2 } from "../Components/performancepage2";
 import { useSelector } from 'react-redux'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "../Components/EventsCalender/Calender";
 import AssignMentees from "../Components/AssignMentees";
 import MentorTraining from "../Components/MentorTraining/MentorTraining";
@@ -32,7 +32,7 @@ export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proc
                 <Route path='/goal' element={<SetGoal finalGoal={finalGoal} setFinalGoal={setFinalGoal} proceed={proceed} setProceed={setProceed} corner={corner} setcorner={setcorner} />} />
                 <Route path='/view-goal' element={window.innerWidth<700 ? <ViewGoals finalGoal={finalGoal} setFinalGoal={setFinalGoal} /> : <ViewGoalDataGrid finalGoal={finalGoal} setFinalGoal={setFinalGoal}/>} />
                 <Route path='/' element={<MainPage />} />
-                <Route path='/performance' element={<Performancepage2 selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor}/>} />
+                <Route path='/performance' element={<Performancepage2 selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} currentDept={currentDept}/>}/>
                 <Route path='/ebook' element={<Ebook />} />
                 <Route path='/assign-mentees' element={<AssignMentees selectedSemester={selectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} selectedSemesterTemp={selectedSemesterTemp} currentDept={currentDept}/>} />
                 <Route path='/timeline' element={<TimeLine />} />

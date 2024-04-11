@@ -170,7 +170,12 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                             }
                             {
                                 email && email.email === "manager@gmail.com" && <NavLink to="/assign-mentees" >
-                                    <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/assign-mentees' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/assign-mentees' ? '14px' : ''}` }}>
+                                    <li onClick={() => {
+                                        closeSideBar && setSideBarShow(!sidebarshow); setProceed(false)
+                                        setCurrentDept(null);
+                                        setSelectDpt(null);
+                                        setSelectedSemester(null)
+                                    }} style={{ backgroundColor: `${location.pathname === '/assign-mentees' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/assign-mentees' ? '14px' : ''}` }}>
                                         <MenuBookIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                                         Assign Mentees
                                         {
@@ -189,7 +194,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                             </li>
 
                             <NavLink to="/performance" >
-                                <li onClick={() => { }} style={{ backgroundColor: `${location.pathname === '/performance' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/performance' ? '14px' : ''}`, fontSize: "15px" }}>
+                                <li onClick={() => { setCurrentDept(null) }} style={{ backgroundColor: `${location.pathname === '/performance' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/performance' ? '14px' : ''}`, fontSize: "15px" }}>
                                     <AssessmentIcon style={{ fontSize: '25px', marginRight: '10px' }} />
                                     Performance Analytics
                                     {
