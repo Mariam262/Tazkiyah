@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import AssignMenteesDialog from './Components/Dialog/AssignMenteesDialog';
 import { ForgetPassword } from './Components/ForgetPassword';
 import { Notifications } from './Components/Notifications';
+import SelectedSemester from './Components/selectedSemester';
 
 function App() {
   const location = useLocation()
@@ -33,7 +34,6 @@ function App() {
   const [forgetPasswordPopup, setForgetPasswordPopup] = useState(false);
   const [notificationPopUp, setNotificationPopUp] = useState(false);
   const [selectedMentor, setSelectedMentor] = useState(null);
-
 
   useEffect(() => {
     const storedFormData = localStorage.getItem('FinalGoal');
@@ -140,6 +140,7 @@ function App() {
       />
       <ForgetPassword forgetPasswordPopup={forgetPasswordPopup} setForgetPasswordPopup={setForgetPasswordPopup} />
       <Notifications notificationPopUp={notificationPopUp} setNotificationPopUp={setNotificationPopUp} />
+      <SelectedSemester selectDpt={selectDpt} setSelectDpt={setSelectDpt} setSelectedSemester={setSelectedSemester} selectedSemesterTemp={selectedSemesterTemp} setSelectedSemesterTemp={setSelectedSemesterTemp}/>
     </div>
   );
 }

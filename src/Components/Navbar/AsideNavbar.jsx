@@ -198,7 +198,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 </li>
                             </NavLink>
                             {
-                                email && (email.email === "tarbiyah@gmail.com") && location.pathname === '/performance' && <PerformanceAnalyticsSideBar currentDept={currentDept} setCurrentDept={setCurrentDept} closeSideBar={closeSideBar} sidebarshow={sidebarshow} setSideBarShow={setSideBarShow} setProceed={setProceed} selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} />
+                                email && (email.email === "tarbiyah@gmail.com") && location.pathname === '/performance' && <PerformanceAnalyticsSideBar currentDept={currentDept} setCurrentDept={setCurrentDept} closeSideBar={closeSideBar} sidebarshow={sidebarshow} setSideBarShow={setSideBarShow} setProceed={setProceed} selectDpt={selectDpt} setSelectDpt={setSelectDpt} setSelectedSemester={setSelectedSemester}/>
                             }
                             {
                                 validateMentorEmail(email?.email) && <NavLink to="/attendence" >
