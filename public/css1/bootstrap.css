@@ -907,14 +907,14 @@ pre code {
   clear: both;
 }
 
-.row {
+/* .row {
   margin-left: -15px;
   margin-right: -15px;
-}
-.row:before, .row:after {
+} */
+/* .row:before, .row:after {
   content: " ";
   display: table;
-}
+} */
 .row:after {
   clear: both;
 }

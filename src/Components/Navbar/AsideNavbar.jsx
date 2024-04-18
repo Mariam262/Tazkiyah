@@ -21,10 +21,12 @@ import AssignMentees from './AssigneeMentees';
 import PerformanceAnalyticsSideBar from './PerformanceAnalyticsSidebar';
 import EditIcon from '@mui/icons-material/Edit';
 import { validateMentorEmail } from './../../utils/validateEmail';
+
 export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSideBarShow, showclose, setIsLogin, currentDept, setCurrentDept, editProfilePopup, setEditProfilePopup, editUploadContentPopup, setEditUploadContentPopup, selectedSemester, setSelectedSemester, selectDpt, setSelectDpt, notificationPopUp, setNotificationPopUp }) => {
     const dispatch = useDispatch();
     //eslint-disable-next-line
     const [email, setemail] = useState(useSelector(state => state));
+    console.log(email)
     let location = useLocation();
     const [closeSideBar, setCloseSidebar] = useState(sidebarshow && showclose)
     const [showdropdown, setShowDropdown] = useState(false)
@@ -66,8 +68,8 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <img src={RandomPerson} alt="" srcset="" />
                             <div>
-                                <h1 style={{ color: '#fff' }}>User</h1>
-                                <p style={{ color: '#fff', fontSize: '12px', marginTop: '3px' }}>Data Scientist</p>
+                                <h1 style={{ color: '#fff' }}>SAPID: {email.sapid}</h1>
+                                <p style={{ color: '#fff', fontSize: '12px', marginTop: '3px' }}>{email.isStudent ? 'Student' : email.isManager ? 'Manager' : email.isMentor ? 'Mentor' : email.isCentralTarbiyah ? 'Central Tarbiyah' : ''}</p>
                             </div>
                         </div>
                         <ArrowDropDownIcon style={{ fontSize: '30px', color: '#fff', cursor: 'pointer' }} />
@@ -75,8 +77,8 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                     {
                         showdropdown && <div style={{ position: 'absolute', top: '120px', left: '70px', width: '200px', backgroundColor: '#39638d' }} id="dropdownInformation" class="z-10 rounded-lg shadow">
                             <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                                <div style={{ fontSize: '15px', padding: '10px 0 4px 0', color: '#fff' }}>User Full Name</div>
-                                <div style={{ fontSize: '15px', padding: '10px 0', color: '#fff' }} class="font-medium truncate">user@gmail.com</div>
+                                <div style={{ fontSize: '15px', padding: '10px 0 4px 0', color: '#fff' }}>{email.sapid}</div>
+                                <div style={{ fontSize: '11px', padding: '10px 0', color: '#fff' }} class="font-medium truncate">{email.email}</div>
                             </div>
                             <div class="py-2">
                                 <p onClick={() => { setEditProfilePopup(!editProfilePopup); closeSideBar && setSideBarShow(!sidebarshow); setShowDropdown(!showdropdown); setProceed(false) }} style={{ fontSize: '15px', color: '#fff', marginBottom: '10px', cursor: 'pointer' }} className="block px-4 py-2 text-sm hover:underline">Edit Profile</p>
@@ -203,7 +205,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 </li>
                             </NavLink>
                             {
-                                email && (email.email === "tarbiyah@gmail.com") && location.pathname === '/performance' && <PerformanceAnalyticsSideBar currentDept={currentDept} setCurrentDept={setCurrentDept} closeSideBar={closeSideBar} sidebarshow={sidebarshow} setSideBarShow={setSideBarShow} setProceed={setProceed} selectDpt={selectDpt} setSelectDpt={setSelectDpt} setSelectedSemester={setSelectedSemester}/>
+                                email && (email.email === "tarbiyah@gmail.com") && location.pathname === '/performance' && <PerformanceAnalyticsSideBar currentDept={currentDept} setCurrentDept={setCurrentDept} closeSideBar={closeSideBar} sidebarshow={sidebarshow} setSideBarShow={setSideBarShow} setProceed={setProceed} selectDpt={selectDpt} setSelectDpt={setSelectDpt} setSelectedSemester={setSelectedSemester} />
                             }
                             {
                                 validateMentorEmail(email?.email) && <NavLink to="/attendence" >

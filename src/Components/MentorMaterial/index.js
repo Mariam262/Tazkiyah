@@ -4,10 +4,11 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 
-const MentorMaterial = () => {
+const MentorMaterial = ({setEditUploadContentPopup, fetchData, setFetchData}) => {
     const [data, setData] = useState([]);
     const userId = useSelector(state => state.userId);
     const [uploaded, setUploaded] = useState(false);
+
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND_PORT}/upload/${userId}`, {
             headers: {
@@ -19,12 +20,15 @@ const MentorMaterial = () => {
             setUploaded(false);
         }).catch(err => {
         })
-    }, [])
+    }, [fetchData, setFetchData])
 
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "center" }}>
                 <h1 className="text-3xl pt-6 pb-5">Mentor Uploaded Material</h1>
+            </div>
+            <div className='flex justify-center mx-3 mb-4'>
+                <button style={{ padding: "5px 10px", backgroundColor: "rgba(0, 122, 255, 0.6)", color: "#fff", borderRadius: "5px" }} className='mx-auto' onClick={() => setEditUploadContentPopup(true)}>Upload New Material</button>
             </div>
             <div style={{ padding: "10px 40px", display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
                 {

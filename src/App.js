@@ -22,7 +22,9 @@ function App() {
   const [onmobile, setOnMobile] = useState(false)
   const [showclose, setShowClose] = useState(false)
   const [show, setShow] = useState(false)
-  const [isLogin, setIsLogin] = useState(false)
+  // const [isLogin, setIsLogin] = useState(false)
+  const [isLogin, setIsLogin] = useState(useSelector(state=>state.userId) ? true : false)
+  // console.log(useSelector(state=>state));
   const [corner, setcorner] = useState("");
   const [proceed, setProceed] = useState(false);
   const [currentDept, setCurrentDept] = useState(null);
@@ -34,6 +36,7 @@ function App() {
   const [forgetPasswordPopup, setForgetPasswordPopup] = useState(false);
   const [notificationPopUp, setNotificationPopUp] = useState(false);
   const [selectedMentor, setSelectedMentor] = useState(null);
+  const [fetchData, setFetchData] = useState(false);
 
   useEffect(()=>{
     console.log("currentDept", currentDept);
@@ -44,9 +47,9 @@ function App() {
     if (storedFormData) {
       setFinalGoal(JSON.parse(storedFormData));
     }
-    if (storedLogin) {
-      setIsLogin(JSON.parse(storedLogin));
-    }
+    // if (storedLogin) {
+      // setIsLogin(JSON.parse(storedLogin));
+    // }
   }, [])
   useEffect(() => {
     localStorage.setItem('isLogin', JSON.stringify(isLogin));
@@ -125,11 +128,13 @@ function App() {
             selectedSemesterTemp={selectedSemesterTemp}
             selectedMentor={selectedMentor}
             setSelectedMentor={setSelectedMentor}
+            setEditUploadContentPopup={setEditUploadContentPopup}
+            fetchData={fetchData} setFetchData={setFetchData}
           />
         </div>
       </div>
       <EditProfile editProfilePopup={editProfilePopup} setEditProfilePopup={setEditProfilePopup} />
-      <UploadContent editUploadContentPopup={editUploadContentPopup} setEditUploadContentPopup={setEditUploadContentPopup} />
+      <UploadContent editUploadContentPopup={editUploadContentPopup} setEditUploadContentPopup={setEditUploadContentPopup} fetchData={fetchData} setFetchData={setFetchData}/>
       {
         ((!sidebarshow || !onmobile) && !isLogin) && <Footer />
       }

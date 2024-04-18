@@ -1,110 +1,152 @@
-import React from 'react'
-import './Contact.css'
+import React, { useState } from 'react';
+import './Contact.css';
 import { Link } from 'react-router-dom';
-import shape from '../../assets/shape.png'
-import email from '../../assets/email.png'
-import location from '../../assets/location.png'
-import phone from '../../assets/phone.png'
-import logo from '../../assets/Tazkiyah Logo Bg.png'
+import shape from '../../assets/shape.png';
+import emailIcon from '../../assets/email.png';
+import locationIcon from '../../assets/location.png';
+import phoneIcon from '../../assets/phone.png';
+import logo from '../../assets/Tazkiyah Logo Bg.png';
+import axios from 'axios';
+import ToastContainer from '../toast';
+
 export const ContactUs = () => {
-    const inputs = document.querySelectorAll(".input");
-
-    function focusFunc() {
-        let parent = this.parentNode;
-        parent.classList.add("focus");
-    }
-
-    function blurFunc() {
-        let parent = this.parentNode;
-        if (this.value === "") {
-            parent.classList.remove("focus");
-        }
-    }
-
-    inputs.forEach((input) => {
-        input.addEventListener("focus", focusFunc);
-        input.addEventListener("blur", blurFunc);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
     });
 
-    return (
-        <div class="containerssss">
-            <span class="big-circle"></span>
-            <img src={shape} class="square" alt="" />
-            <div class="form">
-                <div class="contact-info">
-                    <h3 class="title">Let's get in touch</h3>
-                    <img src={logo} className='logos' alt="" />
-                    {/* <p class="text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
-                        dolorum adipisci recusandae praesentium dicta!
-                    </p> */}
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
-                    <div class="info">
-                        <div class="information">
-                            <img src={location} class="icon" alt="" />
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            axios.post(`${process.env.REACT_APP_BACKEND_PORT}/contact`, formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then((res) => {
+                setFormData({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    message: ''
+                });
+                ToastContainer("Contact Form Submitted")
+            })
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('An error occurred while submitting the form. Please try again later.');
+        }
+    };
+
+    return (
+        <div className="containerssss">
+            <span className="big-circle"></span>
+            <img src={shape} className="square" alt="" />
+            <div className="form">
+                <div className="contact-info">
+                    <h3 className="title">Let's get in touch</h3>
+                    <img src={logo} className='logos' alt="" />
+
+                    <div className="info">
+                        <div className="information">
+                            <img src={locationIcon} className="icon" alt="" />
                             <p>92 Cherry Drive Uniondale, NY 11553</p>
                         </div>
-                        <div class="information">
-                            <img src={email} class="icon" alt="" />
+                        <div className="information">
+                            <img src={emailIcon} className="icon" alt="" />
                             <p>lorem@ipsum.com</p>
                         </div>
-                        <div class="information">
-                            <img src={phone} class="icon" alt="" />
+                        <div className="information">
+                            <img src={phoneIcon} className="icon" alt="" />
                             <p>123-456-789</p>
                         </div>
                     </div>
 
-                    <div class="social-media">
+                    <div className="social-media">
                         <p>Connect with us :</p>
-                        <div class="social-icons">
+                        <div className="social-icons">
                             <Link to="/">
-                                <i class="fab fa-facebook-f"></i>
+                                <i className="fab fa-facebook-f"></i>
                             </Link>
                             <Link to="/">
-                                <i class="fab fa-twitter"></i>
+                                <i className="fab fa-twitter"></i>
                             </Link>
                             <Link to="/">
-                                <i class="fab fa-instagram"></i>
+                                <i className="fab fa-instagram"></i>
                             </Link>
                             <Link to="/">
-                                <i class="fab fa-linkedin-in"></i>
+                                <i className="fab fa-linkedin-in"></i>
                             </Link>
                         </div>
                     </div>
                 </div>
 
-                <div class="contact-form">
-                    <span class="circle one"></span>
-                    <span class="circle two"></span>
+                <div className="contact-form">
+                    <span className="circle one"></span>
+                    <span className="circle two"></span>
 
-                    <form className='form1' action="index.html" autocomplete="off">
-                        <h3 class="title">Contact us</h3>
-                        <div class="input-container">
-                            <input style={{fontSize: "14px", color: "#fff", padding: "10px 20px"}} type="text" name="name" class="input" />
-                            <label for="">Username</label>
-                            <span>Username</span>
-                        </div>
-                        <div class="input-container">
-                            <input style={{fontSize: "14px", color: "#fff", padding: "10px 20px"}} type="email" name="email" class="input" />
-                            <label for="">Email</label>
-                            <span>Email</span>
-                        </div>
-                        <div class="input-container">
-                            <input style={{fontSize: "14px", color: "#fff", padding: "10px 20px"}} type="tel" name="phone" class="input" />
-                            <label for="">Phone</label>
-                            <span>Phone</span>
-                        </div>
-                        <div class="input-container textarea">
-                            <textarea style={{fontSize: "14px", color: "#fff", padding: "10px 20px"}} name="message" class="input"></textarea>
-                            <label for="">Message</label>
-                            <span>Message</span>
-                        </div>
+                    <form className='form1' onSubmit={handleSubmit}>
+                        <h3 className="title mb-4">Contact us</h3>
+                            <input
+                                style={{ color: "#fff", padding: "10px 20px" }}
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="border-none bg-transparent w-full h-[35px] outline-none"
+                                placeholder="Username"
+                                required
+                            />
+                            <input
+                                style={{ fontSize: "14px", color: "#fff", padding: "10px 20px" }}
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="border-none mt-4 bg-transparent w-full h-[35px] outline-none"
+                                placeholder="Email"
+                                required
+                            />
+                            <input
+                                style={{ fontSize: "14px", color: "#fff", padding: "10px 20px" }}
+                                type="tel"
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                className="border-none mt-4 bg-transparent w-full h-[35px] outline-none"
+                                placeholder="Contact Number"
+                                required
+                            />
+                            <textarea
+                                style={{ fontSize: "14px", color: "#fff", padding: "10px 20px" }}
+                                name="message"
+                                rows={10}
+                                value={formData.message}
+                                onChange={handleChange}
+                                className="mt-4 bg-transparent w-full outline-none"
+                                placeholder="Message"
+                                required
+                            ></textarea>
                         <div className='flex justify-center items-start mt-3'>
-                            <input style={{fontSize: "16px", padding: "10px 40px", backgroundColor: "rgb(27, 71, 119)", color: "#fff"}} type="submit" value="Send" class="btn" />
+                            <input
+                                style={{ fontSize: "16px", padding: "10px 40px", backgroundColor: "rgb(27, 71, 119)", color: "#fff" }}
+                                type="submit"
+                                value="Send"
+                                className="btn"
+                            />
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};

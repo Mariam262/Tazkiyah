@@ -104,10 +104,10 @@ textarea {
     outline: none;
     border: 2px solid #fafafa;
     background: none;
-    padding: 0.6rem 1.2rem;
+    /* padding: 0.6rem 1.2rem; */
     color: #fff;
-    font-weight: 500;
-    font-size: 0.95rem;
+    /* font-weight: 500; */
+    font-size: 0.15rem !important;
     letter-spacing: 0.5px;
     border-radius: 25px;
     transition: 0.3s;
@@ -382,7 +382,7 @@ textarea.input {
     }
 
     .input {
-        padding: 0.45rem 1.2rem;
+        /* padding: 0.45rem 1.2rem; */
     }
 
     .btn {

@@ -7,11 +7,10 @@ import { Link } from 'react-router-dom';
 
 
 const StudentTraining = () => {
-
     const [data, setData] = useState([]);
     const userId = useSelector(state => state.userId);
     const [showData, setShowData] = useState(true);
-    const [uploaded, setUploaded] = useState(false);
+    const [uploaded, setUploaded] = useState(true);
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND_PORT}/register/${userId}`, {
             headers: {
@@ -55,10 +54,10 @@ const StudentTraining = () => {
                     ))
                 }
                 {
-                    !showData && <div className="text-3xl text-center mx-4 mt-10 leading-10">You are unassigned! Ask the Tarbiyah Manager to assign a mentor to you</div> 
+                    !showData && <div className="text-3xl text-center mx-4 mt-10 md:max-w-[60%]" style={{lineHeight: "3.2rem"}}>Feeling unassigned? Time to thrive! Reach out to a Tarbiyah Manager and snag a task that'll ignite your growth</div>
                 }
                 {
-                    uploaded && !data.length && <div className="text-3xl text-center mx-4 mt-10 leading-10">No Material Uploaded by your Mentor yet.</div> 
+                    !uploaded && !data.length && <div className="text-3xl text-center mx-4 mt-10 leading-10">No Material Uploaded by your Mentor yet.</div> 
                 }
             </div>
         </div>

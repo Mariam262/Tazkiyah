@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -6,25 +6,40 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import avatar from "../assets/img/avatar.png"
 import DialogContent from '@mui/material/DialogContent';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-export const Notifications = ({notificationPopUp, setNotificationPopUp}) => {
+export const Notifications = ({ notificationPopUp, setNotificationPopUp }) => {
     //eslint-disable-next-line
-    let [data, setData] = useState([
-        {
-            image: avatar,
-            para: "Lecture material uploaded. All are Requested to view and we will be monitoring the performance",
-            uploaderName: "Abdullah"
-        },
-        {
-            image: avatar,
-            para: "Zoom Session on Character Building will held on friday. All are Requested to view the events page",
-            uploaderName: "Mariyam"
-        },{
-            image: avatar,
-            para: "Lecture material uploaded. All are Requested to view and we will be monitoring the performance",
-            uploaderName: "Abdullah"
+    let [data, setData] = useState()
+    const mentorId = useSelector(state => state.mentorId)
+    useEffect(() => {
+        if (mentorId) {
+            axios.get(`${process.env.REACT_APP_BACKEND_PORT}/notification/${mentorId}`, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                setData(res.data.data.notifications)
+            })
         }
-    ])
+    }, [mentorId])
+    // ([
+    //     {
+    //         image: avatar,
+    //         para: "Lecture material uploaded. All are Requested to view and we will be monitoring the performance",
+    //         uploaderName: "Abdullah"
+    //     },
+    //     {
+    //         image: avatar,
+    //         para: "Zoom Session on Character Building will held on friday. All are Requested to view the events page",
+    //         uploaderName: "Mariyam"
+    //     }, {
+    //         image: avatar,
+    //         para: "Lecture material uploaded. All are Requested to view and we will be monitoring the performance",
+    //         uploaderName: "Abdullah"
+    //     }
+    // ]
     return (
         <React.Fragment>
             <Dialog
@@ -37,16 +52,16 @@ export const Notifications = ({notificationPopUp, setNotificationPopUp}) => {
                     <hr style={{ margin: '10px 0 0 0' }} />
                 </DialogTitle>
                 <div style={{ padding: "0", margin: 0 }}>
-                    <DialogContent style={{margin: 0, padding: "0 20px"}}>
+                    <DialogContent style={{ margin: 0, padding: "0 20px" }}>
                         <div>
                             {
-                                data.map((Items) => (
+                                data?.map((Items) => (
                                     <div style={{ padding: "10px 0" }}>
                                         <div className='flex justify-between items-center'>
-                                            <img style={{ width: "50px", borderRadius: "50%" }} src={Items.image} alt="" />
+                                            {/* <img style={{ width: "50px", borderRadius: "50%" }} src={Items.image} alt="" /> */}
                                             <div style={{ padding: "10px" }}>
-                                                <p style={{ fontSize: "13px" }}>{Items.para}</p>
-                                                <p style={{ fontWeight: "bold", color: "gray", marginTop: "4px" }}>{Items.uploaderName}</p>
+                                                <p style={{ fontSize: "13px" }}>{Items.message}</p>
+                                                {/* <p style={{ fontWeight: "bold", color: "gray", marginTop: "4px" }}>{Items.uploaderName}</p> */}
                                             </div>
                                         </div>
                                         <hr style={{ color: "#000" }} />

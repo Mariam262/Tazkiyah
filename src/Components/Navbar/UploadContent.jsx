@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import ToastContainer, { FailedToast } from '../toast';
 import {useNavigate} from "react-router-dom"
 
-export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopup }) => {
+export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopup, fetchData, setFetchData }) => {
     const [isDoc, setIsDoc] = React.useState(false);
     const [isLink, setIsLink] = React.useState(false);
     const [uploadedDocument, setUploadedDocument] = useState();
@@ -25,6 +25,7 @@ export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopu
         setLink("");
     }
     const handleUpload = () => {
+        setEditUploadContentPopup(!editUploadContentPopup)
         if(!isDoc && !isLink){
             FailedToast('Select Document Type')
             return;
@@ -76,6 +77,16 @@ export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopu
                 FailedToast(err.response.data.message);
             })
         }
+
+        axios.post(`${process.env.REACT_APP_BACKEND_PORT}/notification/${userID}`, {
+            message: `${title} ${isDoc ? "Docuemnt" : "Link"} is uploaded in Student Training`,
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        setFetchData(!fetchData)
+        resetValues();
     }
     return (
         <React.Fragment>

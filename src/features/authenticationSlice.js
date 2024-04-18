@@ -3,8 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const loadAuthDataFromLocalStorage = () => {
     const storedAuthData = localStorage.getItem("auth");
     return storedAuthData ? JSON.parse(storedAuthData) : {
-        sapId: "",
+        sapid: "",
         userId: "",
+        mentorId: null,
         email: "user@example.com",
         isStudent: false,
         isManager: false,
@@ -21,12 +22,12 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         createAuth: (state, action) => {
-            const newState = { ...initialState, userId: action.payload._id , sapId: action.payload.sapId, isStudent: action.payload.isStudent, isManager: action.payload.isManager, isMentor: action.payload.isMentor, isCentralTarbiyah: action.payload.isCentralTarbiyah, email: action.payload.email, isLogin: true };
+            const newState = { ...initialState, userId: action.payload._id , sapid: action.payload.sapid, isStudent: action.payload.isStudent, isManager: action.payload.isManager, isMentor: action.payload.isMentor, isCentralTarbiyah: action.payload.isCentralTarbiyah, email: action.payload.email, mentorId: action.payload.mentorId, isLogin: true };
             localStorage.setItem("auth", JSON.stringify(newState));
             return newState;
         },
         deleteAuth: (state) => {
-            const newState = { ...initialState,sapId : "", userId: "", isStudent: false, isManager: false, isMentor: false, isCentralTarbiyah: false, email: "user@example.com", isLogin: false };
+            const newState = { ...initialState,sapid : "", userId: "", isStudent: false, isManager: false, isMentor: false, isCentralTarbiyah: false, email: "user@example.com", mentorId: null, isLogin: false };
             localStorage.setItem("auth", JSON.stringify(newState));
             return newState;
         }
