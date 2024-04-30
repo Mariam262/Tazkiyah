@@ -9,7 +9,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import EventIcon from '@mui/icons-material/Event';
 import RandomPerson from '../../assets/img/avatar.png'
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation,  useNavigate } from 'react-router-dom';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -22,11 +22,11 @@ import PerformanceAnalyticsSideBar from './PerformanceAnalyticsSidebar';
 import EditIcon from '@mui/icons-material/Edit';
 import { validateMentorEmail } from './../../utils/validateEmail';
 
-export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSideBarShow, showclose, setIsLogin, currentDept, setCurrentDept, editProfilePopup, setEditProfilePopup, editUploadContentPopup, setEditUploadContentPopup, selectedSemester, setSelectedSemester, selectDpt, setSelectDpt, notificationPopUp, setNotificationPopUp }) => {
+export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSideBarShow, showclose, setIsLogin, currentDept, setCurrentDept, editProfilePopup, setEditProfilePopup, editUploadContentPopup, setEditUploadContentPopup, selectedSemester, setSelectedSemester, selectDpt, setSelectDpt, notificationPopUp, setNotificationPopUp, fetchMentorTraining, setFetchMentorTraining}) => {
     const dispatch = useDispatch();
     //eslint-disable-next-line
     const [email, setemail] = useState(useSelector(state => state));
-    console.log(email)
+    const Navigate = useNavigate('');
     let location = useLocation();
     const [closeSideBar, setCloseSidebar] = useState(sidebarshow && showclose)
     const [showdropdown, setShowDropdown] = useState(false)
@@ -85,7 +85,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                             </div>
                             <hr style={{ marginBottom: '10px' }} />
                             <div class="py-2">
-                                <a href="/" onClick={() => { setIsLogin(false); dispatch(deleteAuth()) }} style={{ fontSize: '15px', color: '#fff', marginBottom: '10px' }} class="block px-4 py-2 text-sm ">Sign out</a>
+                                <div onClick={() => { setIsLogin(false); dispatch(deleteAuth()); Navigate('/') }} style={{ fontSize: '15px', color: '#fff', marginBottom: '10px' }} class="block px-4 py-2 text-sm ">Sign out</div>
                             </div>
                         </div>
                     }
@@ -135,7 +135,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                             }
                             {
                                 email && (email.email === "tarbiyah@gmail.com" || validateMentorEmail(email.email)) && <>
-                                    <li className='hover:underline cursor-pointer' onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false); setEditUploadContentPopup(!editUploadContentPopup) }} style={{ backgroundColor: `${editUploadContentPopup ? '#3f6184' : ''}`, borderRadius: `${editUploadContentPopup ? '14px' : ''}` }}>
+                                    <li className='hover:underline cursor-pointer' onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false); setEditUploadContentPopup(!editUploadContentPopup); Navigate('/uploaded/material') }} style={{ backgroundColor: `${editUploadContentPopup ? '#3f6184' : ''}`, borderRadius: `${editUploadContentPopup ? '14px' : ''}` }}>
                                         <CloudUploadIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                                         {validateMentorEmail(email.email) ? 'Mentoring' : 'Upload Content'}
                                     </li>
@@ -158,7 +158,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                             }
                             {
                                 email && validateMentorEmail(email.email) && <NavLink to="/training" >
-                                    <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/training' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/training' ? '14px' : ''}` }}>
+                                    <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false); setFetchMentorTraining(!fetchMentorTraining); }} style={{ backgroundColor: `${location.pathname === '/training' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/training' ? '14px' : ''}` }}>
                                         <FlagIcon style={{ fontSize: '30px', marginRight: '10px' }} />Mentor Training
                                     </li>
                                 </NavLink>
@@ -190,7 +190,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 email?.email === "manager@gmail.com" && location.pathname === '/assign-mentees' && <AssignMentees currentDept={currentDept} setCurrentDept={setCurrentDept} closeSideBar={closeSideBar} sidebarshow={sidebarshow} setSideBarShow={setSideBarShow} setProceed={setProceed} selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} selectDpt={selectDpt} setSelectDpt={setSelectDpt} />
                             }
 
-                            <li className='hover:underline cursor-pointer' onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false); setNotificationPopUp(!notificationPopUp) }} style={{ backgroundColor: `${editUploadContentPopup ? '#3f6184' : ''}`, borderRadius: `${editUploadContentPopup ? '14px' : ''}` }}>
+                            <li className='hover:underline cursor-pointer' onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false); setNotificationPopUp(!notificationPopUp) }} style={{ backgroundColor: `${notificationPopUp ? '#3f6184' : ''}`, borderRadius: `${notificationPopUp ? '14px' : ''}` }}>
                                 <NotificationsIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                                 Notifications
                             </li>

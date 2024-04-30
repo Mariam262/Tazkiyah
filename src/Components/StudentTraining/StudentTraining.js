@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 
-const StudentTraining = () => {
+const StudentTraining = (fetchMentorTraining) => {
     const [data, setData] = useState([]);
     const userId = useSelector(state => state.userId);
     const [showData, setShowData] = useState(true);
@@ -34,7 +34,7 @@ const StudentTraining = () => {
             })
         }).catch(err => {
         })
-    }, [])
+    }, [fetchMentorTraining])
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "center" }}>

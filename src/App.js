@@ -37,6 +37,7 @@ function App() {
   const [notificationPopUp, setNotificationPopUp] = useState(false);
   const [selectedMentor, setSelectedMentor] = useState(null);
   const [fetchData, setFetchData] = useState(false);
+  const [fetchMentorTraining, setFetchMentorTraining] = useState(false)
 
   useEffect(()=>{
     console.log("currentDept", currentDept);
@@ -107,6 +108,8 @@ function App() {
             setSelectDpt={setSelectDpt}
             notificationPopUp={notificationPopUp}
             setNotificationPopUp={setNotificationPopUp}
+            fetchMentorTraining={fetchMentorTraining}
+            setFetchMentorTraining={setFetchMentorTraining}
           />
         }
         <div style={{ marginLeft: `${(sidebarshow && show && isLogin) ? '280px' : '0'}`, marginBottom: `${isLogin ? '20px' : '0'}` }}>
@@ -130,6 +133,8 @@ function App() {
             setSelectedMentor={setSelectedMentor}
             setEditUploadContentPopup={setEditUploadContentPopup}
             fetchData={fetchData} setFetchData={setFetchData}
+            fetchMentorTraining={fetchMentorTraining}
+            setFetchMentorTraining={setFetchMentorTraining}
           />
         </div>
       </div>

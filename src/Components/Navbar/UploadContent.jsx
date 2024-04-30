@@ -6,7 +6,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ToastContainer, { FailedToast } from '../toast';
-import {useNavigate} from "react-router-dom"
 
 export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopup, fetchData, setFetchData }) => {
     const [isDoc, setIsDoc] = React.useState(false);
@@ -14,8 +13,8 @@ export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopu
     const [uploadedDocument, setUploadedDocument] = useState();
     const [title, setTitle] = useState("");
     const [link, setLink] = useState("");
-    const Navigate = useNavigate();
     const userID = useSelector(state => state.userId);
+    const userType = useSelector(state => state);
     const resetValues = () => {
         setEditUploadContentPopup(!editUploadContentPopup);
         setIsDoc(false);
@@ -26,17 +25,17 @@ export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopu
     }
     const handleUpload = () => {
         setEditUploadContentPopup(!editUploadContentPopup)
-        if(!isDoc && !isLink){
+        if (!isDoc && !isLink) {
             FailedToast('Select Document Type')
             return;
         }
-        if(isDoc){
-            if(!uploadedDocument || !title){
+        if (isDoc) {
+            if (!uploadedDocument || !title) {
                 FailedToast('All fields are required')
                 return;
             }
-        }else{
-            if(!link || !title){
+        } else {
+            if (!link || !title) {
                 FailedToast('All fields are required')
                 return;
             }
@@ -57,7 +56,7 @@ export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopu
             }).then(() => {
                 ToastContainer('Uploaded');
                 resetValues();
-                Navigate('/uploaded/material')
+                setFetchData(!fetchData)
             }).catch((err) => {
                 FailedToast(err.response.data.message);
             })
@@ -72,22 +71,22 @@ export const UploadContent = ({ editUploadContentPopup, setEditUploadContentPopu
             }).then(() => {
                 ToastContainer('Uploaded');
                 resetValues();
-                Navigate('/uploaded/material')
+                setFetchData(!fetchData)
             }).catch((err) => {
                 FailedToast(err.response.data.message);
             })
         }
-
         axios.post(`${process.env.REACT_APP_BACKEND_PORT}/notification/${userID}`, {
-            message: `${title} ${isDoc ? "Docuemnt" : "Link"} is uploaded in Student Training`,
+            message: `${title} ${isDoc ? "Docuemnt" : "Link"} is uploaded in ${userType.isCentralTarbiyah
+? 'Mentor Training' : 'Student Training'}`,
         }, {
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-        setFetchData(!fetchData)
         resetValues();
     }
+
     return (
         <React.Fragment>
             <Dialog

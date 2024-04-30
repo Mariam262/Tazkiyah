@@ -12,7 +12,8 @@ import { useSelector } from 'react-redux';
 export const Notifications = ({ notificationPopUp, setNotificationPopUp }) => {
     //eslint-disable-next-line
     let [data, setData] = useState()
-    const mentorId = useSelector(state => state.mentorId)
+    const mentorId = useSelector(state => state.userId)
+    const userType = useSelector(state => state);
     useEffect(() => {
         if (mentorId) {
             axios.get(`${process.env.REACT_APP_BACKEND_PORT}/notification/${mentorId}`, {
@@ -20,26 +21,18 @@ export const Notifications = ({ notificationPopUp, setNotificationPopUp }) => {
                     'Content-Type': 'application/json'
                 }
             }).then((res) => {
-                setData(res.data.data.notifications)
+                setData(res?.data?.data?.notifications)
+            })
+        } else if(userType.isMentor){
+            axios.get(`${process.env.REACT_APP_BACKEND_PORT}/notification/tarbiyah`, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                setData(res.data?.data?.notifications)
             })
         }
-    }, [mentorId])
-    // ([
-    //     {
-    //         image: avatar,
-    //         para: "Lecture material uploaded. All are Requested to view and we will be monitoring the performance",
-    //         uploaderName: "Abdullah"
-    //     },
-    //     {
-    //         image: avatar,
-    //         para: "Zoom Session on Character Building will held on friday. All are Requested to view the events page",
-    //         uploaderName: "Mariyam"
-    //     }, {
-    //         image: avatar,
-    //         para: "Lecture material uploaded. All are Requested to view and we will be monitoring the performance",
-    //         uploaderName: "Abdullah"
-    //     }
-    // ]
+    }, [mentorId, userType, notificationPopUp])
     return (
         <React.Fragment>
             <Dialog
@@ -55,7 +48,7 @@ export const Notifications = ({ notificationPopUp, setNotificationPopUp }) => {
                     <DialogContent style={{ margin: 0, padding: "0 20px" }}>
                         <div>
                             {
-                                data?.map((Items) => (
+                                data && data?.map((Items) => (
                                     <div style={{ padding: "10px 0" }}>
                                         <div className='flex justify-between items-center'>
                                             {/* <img style={{ width: "50px", borderRadius: "50%" }} src={Items.image} alt="" /> */}

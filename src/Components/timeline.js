@@ -51,23 +51,7 @@ export const TimeLine = () => {
     useEffect(()=>{
         fetchData()
     }, [])
-    let [data, setData] = useState([
-        // {
-        //     name: "Github Event",
-        //     data: "2023-10-13",
-        //     time: '23:10'
-        // },
-        // {
-        //     name: "Google Cloud",
-        //     data: "2023-11-19",
-        //     time: '12:00'
-        // },
-        // {
-        //     name: "Web Development",
-        //     data: "2023-12-13",
-        //     time: '01:00'
-        // },
-    ])
+    let [data, setData] = useState([])
     let name = useRef();
     let date = useRef();
     let time = useRef();

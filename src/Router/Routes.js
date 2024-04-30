@@ -19,7 +19,7 @@ import ViewGoalDataGrid from "../Components/Goal/ViewGoalGrid";
 import StudentTraining from "../Components/StudentTraining/StudentTraining";
 import MentorMaterial from "../Components/MentorMaterial";
 
-export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proceed, setProceed, corner, setcorner, currentDept, setCurrentDept, selectedSemester, setSelectedSemester, forgetPasswordPopup, setForgetPasswordPopup, selectedSemesterTemp, selectedMentor, setSelectedMentor, setEditUploadContentPopup, fetchData, setFetchData }) => {
+export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proceed, setProceed, corner, setcorner, currentDept, setCurrentDept, selectedSemester, setSelectedSemester, forgetPasswordPopup, setForgetPasswordPopup, selectedSemesterTemp, selectedMentor, setSelectedMentor, setEditUploadContentPopup, fetchData, setFetchData, fetchMentorTraining, setFetchMentorTraining }) => {
     //eslint-disable-next-line
     const [email, setemail] = useState(useSelector(state => state.email));
 
@@ -38,7 +38,7 @@ export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proc
                 <Route path='/timeline' element={<TimeLine />} />
                 <Route path='/calendar' element={<Calendar />} />
                 <Route path="/attendence" element={<AttendenceTable currentDept={currentDept} setCurrentDept={setCurrentDept} />} />
-                <Route path="/training" element={useSelector(state => state.email).includes('student') ?  <StudentTraining /> : <MentorTraining />} />
+                <Route path="/training" element={useSelector(state => state.email).includes('student') ?  <StudentTraining fetchMentorTraining={fetchMentorTraining} /> : <MentorTraining fetchMentorTraining={fetchMentorTraining} setFetchMentorTraining={setFetchMentorTraining}/>} />
                 <Route path="/achieved-goals" element={<GoalAcheivement />} />
                 <Route path="/uploaded/material" element={<MentorMaterial setEditUploadContentPopup={setEditUploadContentPopup} fetchData={fetchData} setFetchData={setFetchData}/>} />
             </Routes>

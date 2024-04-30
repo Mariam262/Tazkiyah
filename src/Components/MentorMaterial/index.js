@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 
-const MentorMaterial = ({setEditUploadContentPopup, fetchData, setFetchData}) => {
+const MentorMaterial = ({ setEditUploadContentPopup, fetchData, setFetchData }) => {
     const [data, setData] = useState([]);
     const userId = useSelector(state => state.userId);
     const [uploaded, setUploaded] = useState(false);
@@ -20,7 +20,7 @@ const MentorMaterial = ({setEditUploadContentPopup, fetchData, setFetchData}) =>
             setUploaded(false);
         }).catch(err => {
         })
-    }, [fetchData, setFetchData])
+    }, [fetchData])
 
     return (
         <div>
@@ -32,17 +32,48 @@ const MentorMaterial = ({setEditUploadContentPopup, fetchData, setFetchData}) =>
             </div>
             <div style={{ padding: "10px 40px", display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
                 {
-                    data.map((list) => (
-                        <div style={{ maxWidth: "350px", boxShadow: "2px 2px 3px #f4f4f4, -2px -3px 5px #f4f4f4", margin: "10px", height: "auto", width: "100%", border: "1px solid #ccc", borderRadius: "4px" }}>
+                    data?.map((list) => (
+                        <div style={{
+                            maxWidth: "400px",
+                            boxShadow: "2px 2px 3px #f4f4f4, -2px -3px 5px #f4f4f4",
+                            margin: "10px",
+                            height: "auto",
+                            width: "100%",
+                            border: "1px solid #ccc",
+                            borderRadius: "4px",
+                            wordWrap: "break-word",
+                            overflowWrap: "break-word" // Add this CSS property
+                        }} className="px-2">
                             <div class="card-content">
-                                <h2 style={{ fontSize: "18px", color: "gray", padding: "20px 0 10px 20px", textAlign: "center" }}>Title: {list.title}</h2>
+                                <h2 style={{
+                                    fontSize: "18px",
+                                    color: "gray",
+                                    padding: "20px 0 10px 20px",
+                                    textAlign: "center"
+                                }}>Title: {list.title}</h2>
                                 {
-                                    list.pdf ? <p style={{ fontSize: "15px", padding: "10px 0 10px 20px", textAlign: "center", color: "blue" }}><Link to={`${process.env.REACT_APP_BACKEND_PORT}/files/${list.pdf}`} target="_blank" >Download</Link></p> : <p style={{ fontSize: "15px", padding: "10px 0 10px 20px", textAlign: "center", color: "blue" }}>{list.link}</p>
+                                    list.pdf ?
+                                        <p style={{
+                                            fontSize: "15px",
+                                            padding: "10px 0 10px 20px",
+                                            textAlign: "center",
+                                            color: "blue"
+                                        }}>
+                                            <Link to={`${process.env.REACT_APP_BACKEND_PORT}/files/${list.pdf}`} target="_blank" >Download</Link>
+                                        </p>
+                                        :
+                                        <p style={{
+                                            fontSize: "15px",
+                                            padding: "10px 0 10px 20px",
+                                            textAlign: "center",
+                                            color: "blue"
+                                        }}>{list.link}</p>
                                 }
                             </div>
                         </div>
                     ))
                 }
+
                 {
                     uploaded && !data.length && <div className="text-3xl text-center mx-4 mt-10 leading-10">No Material by you yet.</div>
                 }
