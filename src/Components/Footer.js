@@ -27,7 +27,7 @@ export const Footer = () => {
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <ul>
                                             <li><a href="/"><i class="fa fa-caret-right" aria-hidden="true"></i>Home</a></li>
-                                            <li><a href="/"><i class="fa fa-caret-right" aria-hidden="true"></i>Tazkiyah Vision</a></li>
+                                            <li><a href="/#tazkiyahvision"><i class="fa fa-caret-right" aria-hidden="true"></i>Tazkiyah Vision</a></li>
                                             {/* <li><a href="/"><i class="fa fa-caret-right" aria-hidden="true"></i>Services</a></li> */}
                                             {/* <li><a href="/"><i class="fa fa-caret-right" aria-hidden="true"></i>Our Cases</a></li> */}
                                             {/* <li><a href="/"><i class="fa fa-caret-right" aria-hidden="true"></i>Other Links</a></li> */}
@@ -35,8 +35,8 @@ export const Footer = () => {
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <ul>
-                                            <li><a href="/"><i class="fa fa-caret-right" aria-hidden="true"></i>Login/Register</a></li>
-                                            <li><a href="/"><i class="fa fa-caret-right" aria-hidden="true"></i>Contact Us</a></li>
+                                            <li><a href="/login"><i class="fa fa-caret-right" aria-hidden="true"></i>Login/Register</a></li>
+                                            <li><a href="/contact"><i class="fa fa-caret-right" aria-hidden="true"></i>Contact Us</a></li>
                                             {/* <li><a href="/"><i class="fa fa-caret-right" aria-hidden="true"></i>Testimonials</a></li> */}
                                             {/* <li><a href="/"><i class="fa fa-caret-right" aria-hidden="true"></i>FAQ</a></li> */}
                                             {/* <li><a href="/"><i class="fa fa-caret-right" aria-hidden="true"></i>Contact Us</a></li> */}
