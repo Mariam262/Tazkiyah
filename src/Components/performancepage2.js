@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import '../Pages/styles.css';
 import ApexCharts from 'apexcharts';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import AssignMentees from "./AssignMentees";
 import StudentDataItems from "./StudentList";
 import MentorList from "./MentorLists";
 import { validateMentorEmail } from "../utils/validateEmail";
+import axios from "axios";
 
 export const Performancepage2 = ({ selectedSemester, setSelectedSemester, selectedMentor, setSelectedMentor, currentDept }) => {
     //eslint-disable-next-line
@@ -15,6 +15,8 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
     const [sapId, setId] = useState();
     const [studentLogined, setStudentLogined] = useState(false);
     const [studentList, setStudentList] = useState([]);
+    const setterId = useState(useSelector(state => state)?.userId)
+    const [data, setData] = useState(null);
 
     useEffect(() => {
         if (email !== "tarbiyah@gmail.com" && email !== "manager@gmail.com" && !validateMentorEmail(email)) {
@@ -30,12 +32,26 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
         }
         //eslint-disable-next-line
     }, [])
+
     useEffect(() => {
-        if (selectedStudent || studentLogined) {
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/performanceAnalytics/${selectedStudent?._id ?? setterId[0]}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then((res) => {
+            setData([res.data.completedGoals ?? 0, res.data.notCompletedGoals ?? 0, res.data.pendingGoals ?? 0])
+        }).catch(err => {
+        }
+        );
+    }, [selectedStudent])
+
+    useEffect(() => {
+        if (data && (selectedStudent || studentLogined)) {
             const barChartOptions = {
                 series: [
                     {
-                        data: [10, 8, 6, 4, 2],
+                        data: data,
                         name: 'Products',
                     },
                 ],
@@ -93,7 +109,7 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                     theme: 'dark',
                 },
                 xaxis: {
-                    categories: ['Laptop', 'Phone', 'Monitor', 'Headphones', 'Camera'],
+                    categories: ['Completed', 'Not Completed', 'Pending'],
                     title: {
                         style: {
                             color: '#000',
@@ -139,54 +155,15 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
             barChart.render();
 
             // AREA CHART
-            const areaChartOptions = {
-                series: [
-                    {
-                        name: 'Purchase Orders',
-                        data: [31, 40, 28, 51, 42, 109, 100],
-                    },
-                    {
-                        name: 'Sales Orders',
-                        data: [11, 32, 45, 32, 34, 52, 41],
-                    },
-                ],
+            const pieChartOptions = {
+                series: data,
                 chart: {
-                    type: 'area',
+                    type: 'pie',
                     background: 'transparent',
                     height: 350,
-                    stacked: false,
-                    toolbar: {
-                        show: false,
-                    },
                 },
-                colors: ['#2962ff', '#15375c'],
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-                dataLabels: {
-                    enabled: false,
-                },
-                fill: {
-                    gradient: {
-                        opacityFrom: 0.4,
-                        opacityTo: 0.1,
-                        shadeIntensity: 1,
-                        stops: [0, 100],
-                        type: 'vertical',
-                    },
-                    type: 'gradient',
-                },
-                grid: {
-                    borderColor: '#15375c',
-                    yaxis: {
-                        lines: {
-                            show: true,
-                        },
-                    },
-                    xaxis: {
-                        lines: {
-                            show: true,
-                        },
-                    },
-                },
+                labels: ['Completed', 'Not Completed', 'Pending'],
+                colors: ['#2962ff', '#ff6b78',  '#4caf50'],
                 legend: {
                     labels: {
                         colors: '#15375c',
@@ -194,70 +171,23 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                     show: true,
                     position: 'top',
                 },
-                markers: {
-                    size: 6,
-                    strokeColors: '#15375c',
-                    strokeWidth: 3,
+                dataLabels: {
+                    enabled: true,
                 },
-                stroke: {
-                    curve: 'smooth',
-                },
-                xaxis: {
-                    axisBorder: {
-                        color: '#55596e',
-                        show: true,
-                    },
-                    axisTicks: {
-                        color: '#55596e',
-                        show: true,
-                    },
-                    labels: {
-                        offsetY: 5,
-                        style: {
-                            colors: '#000',
-                        },
-                    },
-                },
-                yaxis: [
-                    {
-                        title: {
-                            text: 'Purchase Orders',
-                            style: {
-                                color: '#000',
-                            },
-                        },
-                        labels: {
-                            style: {
-                                colors: ['#000'],
-                            },
-                        },
-                    },
-                    {
-                        opposite: true,
-                        title: {
-                            text: 'Sales Orders',
-                            style: {
-                                color: '#000',
-                            },
-                        },
-                        labels: {
-                            style: {
-                                colors: ['#000'],
-                            },
-                        },
-                    },
-                ],
                 tooltip: {
-                    shared: true,
-                    intersect: false,
-                    theme: 'dark',
+                    enabled: true,
+                    y: {
+                        formatter: function (val) {
+                            return val + ' orders';
+                        },
+                    },
                 },
             };
-            const areaChart = new ApexCharts(document.getElementById('area-chart'), areaChartOptions);
+            const areaChart = new ApexCharts(document.getElementById('area-chart'), pieChartOptions);
             areaChart.render();
         }
         //eslint-disable-next-line
-    }, [selectedStudent]);
+    }, [selectedStudent, data]);
 
     return (
         <>
@@ -317,9 +247,8 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                             </div>
 
                             <div className="charts" style={{ display: 'flex', flexDirection: 'column', maxWidth: '600px', margin: '60px auto' }}>
-
                                 <div className="charts-card">
-                                    <h2 className="chart-title color">Top 5 Products</h2>
+                                    <h2 className="chart-title color">Performance</h2>
                                     <div id="bar-chart"></div>
                                 </div>
                                 <div className="charts-card">

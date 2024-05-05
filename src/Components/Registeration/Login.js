@@ -24,12 +24,12 @@ export const LoginUser = ({ isLogin, setIsLogin, forgetPasswordPopup, setForgetP
         'Accept': 'application/json'
       }
     }).then((res) => {
+      window.location.href = '/'; // Redirect to '/notifications' page
       localStorage.setItem('User Credential', JSON.stringify(res.data.data))
       dispatch(createAuth( res.data.data[0] ));
       setIsLogin(true);
       ToastContainer("Successfully Logined")
-      navigate('/notifications')
-
+      // navigate('/notifications')
     }).catch(err => FailedToast(err.response.data.message));
   }
   return (

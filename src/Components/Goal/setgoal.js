@@ -6,6 +6,7 @@ import ToastContainer, { FailedToast } from '../toast';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { SetDates } from './select';
 import AddIcon from '@mui/icons-material/Add';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -77,7 +78,7 @@ export const SetGoal = ({ finalGoal, setFinalGoal, proceed, setProceed, corner, 
                 return;
             }
         }
-        axios.post(`${process.env.REACT_APP_BACKEND_PORT}/goals`, goal, {
+        axios.post(`${process.env.REACT_APP_BACKEND_PORT}/goals?userId=${setterId[0]}`, goal, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -218,7 +219,7 @@ export const SetGoal = ({ finalGoal, setFinalGoal, proceed, setProceed, corner, 
                                                                 }
                                                             </select>
                                                         </div>
-                                                        <AddIcon onClick={() => { setAchievement(true); setSelectedMilestone(index); }} style={{ cursor: "pointer", fontSize: '20px', color: "#000", position: "absolute", right: '36px', top: "47%" }} />
+                                                        <ArrowForwardIcon onClick={() => { setAchievement(true); setSelectedMilestone(index); }} style={{ cursor: "pointer", fontSize: '20px', color: "#000", position: "absolute", right: '36px', top: "47%" }} />
                                                     </div>
                                                     <hr style={{ backgroundColor: "#ccc", width: "auto", paddingTop: "1px", marginTop: "10px", margin: "auto" }} />
                                                     {

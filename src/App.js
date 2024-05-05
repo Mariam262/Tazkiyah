@@ -135,6 +135,8 @@ function App() {
             fetchData={fetchData} setFetchData={setFetchData}
             fetchMentorTraining={fetchMentorTraining}
             setFetchMentorTraining={setFetchMentorTraining}
+            sidebarshow={sidebarshow}
+            onmobile={show}
           />
         </div>
       </div>

@@ -19,10 +19,9 @@ import ViewGoalDataGrid from "../Components/Goal/ViewGoalGrid";
 import StudentTraining from "../Components/StudentTraining/StudentTraining";
 import MentorMaterial from "../Components/MentorMaterial";
 
-export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proceed, setProceed, corner, setcorner, currentDept, setCurrentDept, selectedSemester, setSelectedSemester, forgetPasswordPopup, setForgetPasswordPopup, selectedSemesterTemp, selectedMentor, setSelectedMentor, setEditUploadContentPopup, fetchData, setFetchData, fetchMentorTraining, setFetchMentorTraining }) => {
+export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proceed, setProceed, corner, setcorner, currentDept, setCurrentDept, selectedSemester, setSelectedSemester, forgetPasswordPopup, setForgetPasswordPopup, selectedSemesterTemp, selectedMentor, setSelectedMentor, setEditUploadContentPopup, fetchData, setFetchData, fetchMentorTraining, setFetchMentorTraining, sidebarshow, onmobile }) => {
     //eslint-disable-next-line
-    const [email, setemail] = useState(useSelector(state => state.email));
-
+    // const [email, setemail] = useState(useSelector(state => state.email));
     return (
         <>
             <Routes>
@@ -31,7 +30,7 @@ export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proc
                 <Route path='/login' element={<LoginUser isLogin={isLogin} setIsLogin={setIsLogin} forgetPasswordPopup={forgetPasswordPopup} setForgetPasswordPopup={setForgetPasswordPopup}/>} />
                 <Route path='/goal' element={<SetGoal finalGoal={finalGoal} setFinalGoal={setFinalGoal} proceed={proceed} setProceed={setProceed} corner={corner} setcorner={setcorner} />} />
                 <Route path='/view-goal' element={window.innerWidth<700 ? <ViewGoals finalGoal={finalGoal} setFinalGoal={setFinalGoal} /> : <ViewGoalDataGrid finalGoal={finalGoal} setFinalGoal={setFinalGoal}/>} />
-                <Route path='/' element={<MainPage />} />
+                <Route path='/' element={<MainPage sidebarshow={sidebarshow} onmobile={onmobile}/>} />
                 <Route path='/performance' element={<Performancepage2 selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} currentDept={currentDept}/>}/>
                 <Route path='/ebook' element={<Ebook />} />
                 <Route path='/assign-mentees' element={<AssignMentees selectedSemester={selectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} selectedSemesterTemp={selectedSemesterTemp} currentDept={currentDept}/>} />

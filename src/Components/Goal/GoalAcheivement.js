@@ -13,6 +13,9 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
     const speed = 50;
     const [data, setData] = useState(null);
     const [fetchAgain, setFetchAgain] = useState(false);
+    const currentDatePlus24Hours = new Date();
+    currentDatePlus24Hours.setDate(currentDatePlus24Hours.getDate() + 1);
+
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND_PORT}/goals/${setterId[0]}`, {
             headers: {
@@ -21,6 +24,7 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
             }
         }).then((res) => {
             setData(res.data.data)
+            console.log(res.data.data)
         }).catch(err => {
             FailedToast(err.response.data.message)
         }
@@ -44,6 +48,25 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
         }
         );
     }
+
+    const handleChangeStatus = (event, id) => {
+        event.stopPropagation();
+        axios.patch(`${process.env.REACT_APP_BACKEND_PORT}/goals/status/${id}/${setterId[0]}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then((res) => {
+            ToastContainer("Goal Status Changed")
+            setFetchAgain(!fetchAgain);
+        }).catch(err => {
+            console.log(err);
+            // FailedToast(err.response.data.message)
+        }
+        );
+    }
+
+
     useEffect(() => {
         const progress = setInterval(() => {
             setProgressValue((prevValue) => {
@@ -115,8 +138,11 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
                                 <img style={{ width: "50px", height: "50px" }} src={avatar} alt="" />
                                 <h1 className='font-semibold ml-5 goal-text' style={{ color: "gray", flex: 1 }}>{Items.goalTitle}</h1>
                                 <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Items.goalstatus}</p>
-                                <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Items.endDate}</p>
                                 <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Items.startDate}</p>
+                                <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Items.endDate}</p>
+                                {
+                                    !edit && Items.goalStatus === 'Pending' && new Date(Items.endDate) >= currentDatePlus24Hours && <button onClick={(event) => handleChangeStatus(event, Items._id, Items)} style={{ cursor: 'pointer', backgroundColor: "rgba(200, 0 , 0 , 0.8)", color: "#fff", padding: "7px 14px", margin: "0 20px 0 0", fontSize: "14px" }}>Mark as Completed</button>
+                                }
                                 {edit && <button onClick={() => handleRowClick(Items._id, Items)} style={{ cursor: 'pointer', backgroundColor: "#15375c", color: "#fff", padding: "7px 14px", margin: "0 20px 0 0", fontSize: "14px" }}>Edit</button>}
                                 {edit && <button onClick={() => handledelete(Items._id)} style={{ cursor: 'pointer', backgroundColor: "rgba(200, 0 , 0 , 0.8)", color: "#fff", padding: "7px 14px", margin: "0 20px 0 0", fontSize: "14px" }}>Delete</button>}
                             </div>
