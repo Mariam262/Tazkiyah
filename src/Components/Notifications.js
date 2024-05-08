@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
-import avatar from "../assets/img/avatar.png"
 import DialogContent from '@mui/material/DialogContent';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -14,21 +13,26 @@ export const Notifications = ({ notificationPopUp, setNotificationPopUp }) => {
     let [data, setData] = useState()
     const mentorId = useSelector(state => state.userId)
     const userType = useSelector(state => state);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         if (mentorId) {
+            setLoading(true);
             axios.get(`${process.env.REACT_APP_BACKEND_PORT}/notification/${mentorId}`, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }).then((res) => {
+                setLoading(false);
                 setData(res?.data?.data?.notifications)
             })
         } else if(userType.isMentor){
+            setLoading(true);
             axios.get(`${process.env.REACT_APP_BACKEND_PORT}/notification/tarbiyah`, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }).then((res) => {
+                setLoading(false);
                 setData(res.data?.data?.notifications)
             })
         }
@@ -39,6 +43,8 @@ export const Notifications = ({ notificationPopUp, setNotificationPopUp }) => {
                 open={notificationPopUp}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                maxWidth= "sm"
+                fullWidth
             >
                 <DialogTitle id="alert-dialog-title">
                     <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>Notifications</h1>
@@ -60,6 +66,9 @@ export const Notifications = ({ notificationPopUp, setNotificationPopUp }) => {
                                         <hr style={{ color: "#000" }} />
                                     </div>
                                 ))
+                            }
+                            {
+                                !loading && <p> No Notification Yet!</p>
                             }
                         </div>
                     </DialogContent>

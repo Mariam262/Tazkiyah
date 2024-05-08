@@ -23,10 +23,10 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
             setStudentLogined(true)
             setSelectedStudent(true)
         }
-        if(email === "manager@gmail.com"){
+        if (email === "manager@gmail.com") {
             setSelectedSemester(1)
         }
-        if(validateMentorEmail(email)){
+        if (validateMentorEmail(email)) {
             setSelectedSemester(1)
             // setSelectedMentor({name: "Mentor Name"})
         }
@@ -163,7 +163,7 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                     height: 350,
                 },
                 labels: ['Completed', 'Not Completed', 'Pending'],
-                colors: ['#2962ff', '#ff6b78',  '#4caf50'],
+                colors: ['#2962ff', '#ff6b78', '#4caf50'],
                 legend: {
                     labels: {
                         colors: '#15375c',
@@ -209,7 +209,7 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                         </header>
                         <main className="main-container">
                             {
-                                (email === "tarbiyah@gmail.com" ||email === "manager@gmail.com") && <div style={{ color: '#000' }} className="flex justify-center flex-col items-center">
+                                (email === "tarbiyah@gmail.com" || email === "manager@gmail.com") && <div style={{ color: '#000' }} className="flex justify-center flex-col items-center">
                                     <p style={{ fontSize: "18px" }}>SAP ID: <span>{sapId}</span></p>
                                     <p style={{ fontSize: "18px", margin: "10px 10px 0 10px" }}>Student Name: <span>{selectedStudent.name}</span></p>
                                     <p style={{ fontSize: "18px", margin: "0 10px 10px 10px" }}>Mentor Name: <span>{selectedMentor.name}</span></p>
@@ -264,10 +264,10 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                             </div>
                         }
                         {
-                            selectedSemester && !selectedMentor && <MentorList currentDept={currentDept}selectedSemester={selectedSemester}  selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} studentList={studentList} setStudentList={setStudentList}/>
+                            selectedSemester && !selectedMentor && <MentorList currentDept={currentDept} selectedSemester={selectedSemester} selectedMentor={selectedMentor} setSelectedMentor={setSelectedMentor} studentList={studentList} setStudentList={setStudentList} />
                         }
                         {
-                            selectedSemester && selectedMentor && !selectedStudent && <StudentDataItems setStudentData={setSelectedStudent} mentorName={selectedMentor} semester={selectedSemester} setid={setId} setmentor={setSelectedMentor} studentList={studentList}/>
+                            selectedSemester && selectedMentor && !selectedStudent && <StudentDataItems setStudentData={setSelectedStudent} mentorName={selectedMentor} semester={selectedSemester} setid={setId} setmentor={setSelectedMentor} studentList={studentList} />
                         }
                     </div>
             }

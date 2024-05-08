@@ -10,7 +10,6 @@ import { Ebook } from "../Components/ebook";
 import { TimeLine } from "../Components/timeline";
 import { Performancepage2 } from "../Components/performancepage2";
 import { useSelector } from 'react-redux'
-import { useEffect, useState } from "react";
 import Calendar from "../Components/EventsCalender/Calender";
 import AssignMentees from "../Components/AssignMentees";
 import MentorTraining from "../Components/MentorTraining/MentorTraining";

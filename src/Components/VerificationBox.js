@@ -5,9 +5,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import axios from 'axios';
+import { FailedToast } from './toast';
+import { ToastContainer } from 'react-toastify';
 
 
-const VerificationBox = ({ otpModel, setOtpModel, verify, setverify, otp, setOtp, VerificationLength, heading, para}) => {
+const VerificationBox = ({ otpModel, setOtpModel, verify, setverify, otp, setOtp, VerificationLength, heading, para, email }) => {
     const referenceInput = useRef(new Array(VerificationLength).fill(null));
     const [current, setcurrent] = useState(0);
 
@@ -38,16 +41,26 @@ const VerificationBox = ({ otpModel, setOtpModel, verify, setverify, otp, setOtp
         const otpArray = [...otp];
         otpArray[current] = value;
         setOtp(otpArray);
-
-        if (current + 1 === VerificationLength) {
-            setverify(true)
-        }
         const index = current + 1 >= VerificationLength ? current : current + 1;
         setcurrent(index);
         if (index < VerificationLength) {
             referenceInput.current[index].focus();
             index < VerificationLength - 1 && (referenceInput.current[index].value = "")
         }
+    }
+
+    const verifyOTP = () => {
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/register/verify/${otp.join('')}?email=${email}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json"
+            }
+        }).then((res) => {
+            setverify(true)
+            ToastContainer("Please check your Email")
+        }).catch(err => {
+            // FailedToast('Invalid Key')
+        })
     }
 
     return (
@@ -59,10 +72,10 @@ const VerificationBox = ({ otpModel, setOtpModel, verify, setverify, otp, setOtp
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    <p style={{fontSize: "20px"}} className='text-4xl font-semibold text-center my-2'>{heading}</p>
+                    <p style={{ fontSize: "20px" }} className='text-4xl font-semibold text-center my-2'>{heading}</p>
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText style={{fontSize: "14px"}} id="alert-dialog-description">
+                    <DialogContentText style={{ fontSize: "14px" }} id="alert-dialog-description">
                         Check your <span className='font-semibold'>Email</span> for the code and verify it below. {para}
                     </DialogContentText>
                     <div className='flex justify-center my-6'>
@@ -88,8 +101,11 @@ const VerificationBox = ({ otpModel, setOtpModel, verify, setverify, otp, setOtp
                                         if (e.key === 'Backspace') {
                                             handleDelete()
                                         }
-                                        else{
-                                            setOtp([...otp, otp[index] = e.target.value])
+                                        else {
+                                            const newValue = e.target.value;
+                                            const updatedOtp = [...otp];
+                                            updatedOtp[index] = newValue;
+                                            setOtp(updatedOtp);
                                         }
                                     }}
                                     // placeholder='0'
@@ -100,12 +116,11 @@ const VerificationBox = ({ otpModel, setOtpModel, verify, setverify, otp, setOtp
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }}  onClick={() => { setOtpModel(false) }}>Cancel</Button>
-                    <Button style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }}  onClick={() => { setverify(true) }} autoFocus>
+                    <Button style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={() => { setOtpModel(false) }}>Cancel</Button>
+                    <Button style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={verifyOTP} autoFocus>
                         Verify
                     </Button>
                 </DialogActions>
-                {/* {verify && <LoaderModal />} */}
             </Dialog>
         </>
     )
