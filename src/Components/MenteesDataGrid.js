@@ -198,7 +198,7 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMent
                         <hr style={{ margin: "0 20px" }} />
                         <DialogContent>
                             <h1 style={{ paddingBottom: '4px', fontSize: '14px', marginTop: "10px" }} className='font-semibold'>SAP ID: </h1>
-                            <input onChange={handleChange} className="border rounded-md p-2 w-[100%] shadow-sm" type="text" placeholder='SAP ID' value={inputValue} />
+                            <input onChange={handleChange} className="border rounded-md p-2 w-[100%] shadow-sm" type="number" placeholder='SAP ID' value={inputValue} />
                             {suggestions.length > 0 && (
                                 <ul className="border rounded-md mt-1 shadow-md">
                                     {suggestions.map((suggestion, index) => (

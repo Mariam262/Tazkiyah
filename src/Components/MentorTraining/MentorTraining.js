@@ -43,10 +43,10 @@ const StudentTraining = ({fetchMentorTraining, setFetchMentorTraining}) => {
                 {
                     data.map((list) => (
                         <div style={{ maxWidth: "350px", boxShadow: "2px 2px 3px #f4f4f4, -2px -3px 5px #f4f4f4", margin: "10px", height: "auto", width: "100%", border: "1px solid #ccc", borderRadius: "4px" }} className="relative pb-16">
-                            <div class="card-content">
+                            <div class="card-content overflow-hidden w-full">
                                 <h2 style={{ fontSize: "18px", color: "gray", padding: "20px 0 10px 20px", textAlign: "center" }}>Title: {list.title}</h2>
                                 {
-                                    list.pdf ? <p style={{ fontSize: "15px", padding: "10px 0 10px 20px", textAlign: "center", color: "blue" }}><Link to={`${process.env.REACT_APP_BACKEND_PORT}/files/${list.pdf}`} target="_blank" >Download</Link></p> : <p style={{ fontSize: "15px", padding: "10px 0 10px 20px", textAlign: "center", color: "blue" }}>{list.link}</p>
+                                    list.pdf ? <p style={{ fontSize: "15px", padding: "10px 0 10px 20px", textAlign: "center", color: "blue" }}><Link to={`${process.env.REACT_APP_BACKEND_PORT}/files/${list.pdf}`} target="_blank" >Download</Link></p> : <a style={{ fontSize: "15px", padding: "10px 0 10px 20px", textAlign: "center", color: "blue" }} className="w-full block" href={list.link} target="_blank" >Open</a>
                                 }
                             </div>
                             {
@@ -56,7 +56,7 @@ const StudentTraining = ({fetchMentorTraining, setFetchMentorTraining}) => {
                     ))
                 }
                 {
-                    !uploaded && !data.length && <div className="text-3xl text-center mx-4 mt-10 leading-10">No Material Uploaded by your Tarbiyah Manager yet.</div>
+                    !uploaded && !data.length && <div className="text-3xl text-center mx-4 mt-10 leading-10">No Material Uploaded by Central Tarbiyah yet.</div>
                 }
             </div>
         </div>

@@ -74,16 +74,10 @@ export const ContactUs = () => {
                     <div className="social-media">
                         <p>Connect with us :</p>
                         <div className="social-icons">
-                            <Link to="/">
+                            <Link to="https://www.facebook.com/RiphahUniversity">
                                 <i className="fab fa-facebook-f"></i>
                             </Link>
-                            <Link to="/">
-                                <i className="fab fa-twitter"></i>
-                            </Link>
-                            <Link to="/">
-                                <i className="fab fa-instagram"></i>
-                            </Link>
-                            <Link to="/">
+                            <Link to="https://www.linkedin.com/school/riphah-international-university/">
                                 <i className="fab fa-linkedin-in"></i>
                             </Link>
                         </div>

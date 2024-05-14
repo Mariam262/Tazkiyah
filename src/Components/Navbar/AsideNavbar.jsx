@@ -211,7 +211,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 validateMentorEmail(email?.email) && <NavLink to="/attendence" >
                                     <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/attendence' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/attendence' ? '14px' : ''}` }}>
                                         <NotificationsIcon style={{ fontSize: '30px', marginRight: '10px' }} />
-                                        Sessions
+                                        Session Attendance
                                     </li>
                                 </NavLink>
                             }

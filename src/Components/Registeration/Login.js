@@ -13,7 +13,6 @@ export const LoginUser = ({ isLogin, setIsLogin, forgetPasswordPopup, setForgetP
   const dispatch = useDispatch();
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
     axios.get(`${process.env.REACT_APP_BACKEND_PORT}/register`, {
       params: {
         email: email.current.value.trim(),
@@ -30,7 +29,7 @@ export const LoginUser = ({ isLogin, setIsLogin, forgetPasswordPopup, setForgetP
       setIsLogin(true);
       ToastContainer("Successfully Logined")
       // navigate('/notifications')
-    }).catch(err => FailedToast(err.response.data.message));
+    }).catch(err => alert(err.response.data.error));
   }
   return (
     <>

@@ -3,10 +3,35 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
+import ToastContainer, { FailedToast } from '../toast';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
 export const EditProfile = ({ editProfilePopup, setEditProfilePopup }) => {
     const [changePassword, setChangePassword] = React.useState(true);
+    const [currentPassword, setCurrentPassword] = React.useState('');
+    const [newPassword, setNewPassword] = React.useState('');
+    const [finalNewPassword, setFinalNewPassword] = React.useState('');
+    const userEmail = useSelector(state => state.email);
+    const changePass = () => {
+        axios.put(`${process.env.REACT_APP_BACKEND_PORT}/register/forget-password?email=${userEmail}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json"
+            }
+        }).then((res) => {
+            ToastContainer("Password Changed SuccessFully")
+            setChangePassword(!changePassword);
+        }).catch(err => {
+            console.log(err);
+            setChangePassword(!changePassword);
+            FailedToast(err.response.data.error)
+            setCurrentPassword('');
+            setNewPassword('');
+            setFinalNewPassword('');
+        })
+    }
     return (
         <>
             <React.Fragment>
@@ -48,14 +73,14 @@ export const EditProfile = ({ editProfilePopup, setEditProfilePopup }) => {
                         </>) : (<div style={{ padding: "0 20px" }}>
                             <p style={{ fontSize: '14px', textAlign: 'justify', marginBottom: '20px' }}>You cam change your password. Your password should consist of Upper Case and Lower Case Letters(A-Z, a-z) and numbers(1-9)</p>
                             <h1 style={{ paddingBottom: '4px', fontSize: '14px' }} className='font-semibold'>Current Password: </h1>
-                            <input type="password" style={{ width: '240px' }} placeholder='***********' />
+                            <input onChange={(e) => { setCurrentPassword(e.target.value) }} type="password" style={{ width: '240px' }} placeholder='***********' value={currentPassword} />
                             <h1 style={{ paddingBottom: '4px', fontSize: '14px', marginTop: "10px" }} className='font-semibold'>New Password: </h1>
-                            <input type="password" style={{ width: '240px' }} placeholder='***********' />
+                            <input onChange={(e) => { setNewPassword(e.target.value) }} type="password" style={{ width: '240px' }} placeholder='***********' value={newPassword} />
                             <h1 style={{ paddingBottom: '4px', fontSize: '14px',marginTop: "10px"  }} className='font-semibold'>Confirm New Password: </h1>
-                            <input type="password" style={{ width: '240px' }} placeholder='***********' />
+                            <input onChange={(e) => { setFinalNewPassword(e.target.value) }} type="password" style={{ width: '240px' }} placeholder='***********' value={finalNewPassword} />
                             <DialogActions>
                                 <Button style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={() => { setChangePassword(!changePassword) }}>Close</Button>
-                                <Button style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={() => { setChangePassword(!changePassword) }} autoFocus>
+                                <Button style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={() => { changePass();  }} autoFocus>
                                     Save
                                 </Button>
                             </DialogActions>

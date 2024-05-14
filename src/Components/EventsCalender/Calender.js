@@ -42,7 +42,7 @@ function ServerDay(props) {
         const clickedMonth = clickedDate.getMonth() + 1; // Month is zero-based, so add 1
         const clickedDay = clickedDate.getDate();
         const clickedYear = clickedDate.getFullYear();
-        console.log('Clicked Date:', clickedMonth, clickedDay, clickedYear);
+        // console.log('Clicked Date:', clickedMonth, clickedDay, clickedYear);
         onSelect(`${clickedDay}-${clickedMonth}-${clickedYear}`);
     };
 
@@ -75,6 +75,7 @@ export default function Calendar() {
     const [initialValue, setInitialValue] = React.useState(null);
     const [selectedDate, setSelectedDate] = React.useState(null);
     const [selectedFinalDates, setSelectedFinalDates] = React.useState(Array.from({ length: 12 }, () => []))
+    const [data, setData] = React.useState([])
     React.useEffect(() => {
         const dates = selectedFinalDates;
         axios.get(`${process.env.REACT_APP_BACKEND_PORT}/events`, {
@@ -83,13 +84,13 @@ export default function Calendar() {
                 'Accept': "application/json"
             }
         }).then((res) => {
-            console.log(res)
+            console.log(res.data.data)
+            setData(res.data.data);
+            res.data.data.map((Item) => {
+                dates[Number(Item.eventDate.slice(5, 7))-1].push(Number(Item.eventDate.slice(8, 10)))
+            })
         }).catch((err) => {
         })
-        dates[11].push(2, 16, 25)
-        dates[10].push(1, 2, 4);
-        dates[0].push(1);
-        //eslint-disable-next-line
     }, [])
     const requestAbortController = React.useRef(null);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -97,7 +98,6 @@ export default function Calendar() {
 
     const handleDateClick = (clickedDate) => {
         setSelectedDate(clickedDate);
-        alert(clickedDate);
     };
 
     const fetchHighlightedDays = (date) => {
@@ -168,7 +168,7 @@ export default function Calendar() {
                     <div onClick={() => { setSelectedDate(null) }} style={{ position: 'absolute', top: -20, left: '4%', color: '#000', display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: '10px' }}>
                         <ArrowLeftIcon style={{ fontSize: '30px' }} />
                     </div>
-                    <EventCalender EventDate={selectedDate} setSelectedFinalDates={setSelectedFinalDates} />
+                    <EventCalender EventDate={selectedDate} setSelectedFinalDates={setSelectedFinalDates} datas={data}/>
                 </>
             }
 

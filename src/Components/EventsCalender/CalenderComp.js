@@ -7,7 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useSelector } from "react-redux"
 
-export const EventCalender = ({ EventDate, setSelectedFinalDates }) => {
+export const EventCalender = ({ EventDate, setSelectedFinalDates, datas }) => {
     const [open, setOpen] = useState(false);
     //eslint-disable-next-line
     const handleClickOpen = () => { setOpen(true); };
@@ -68,15 +68,15 @@ export const EventCalender = ({ EventDate, setSelectedFinalDates }) => {
                         <div style={{ margin: "90px 0 0 0" }} className={`${style.container}`}>
                             <ul>
                                 {
-                                    data.map((arr, index) => (
+                                    datas.map((arr, index) => (
                                         <>
                                             {
-                                                arr.data === EventDate && <li alt={arr.name} key={Math.floor(Math.random() * 100000 + index)} className='dark:bg-slate-500' >
-                                                    <h3 className={`${style.heading} font-bold mb-4  dark:text-cyan-900`}>{arr.name}</h3>
-                                                    <h3 className={`${style.heading1} mb-2 font-semibold`}>Time: {arr.time}</h3>
-                                                    <span className={`${style.date}`}>{arr.data}</span>
+                                                (Number(arr.eventDate?.slice(5, 7))) === Number(EventDate?.slice(3, 4)) && Number(arr.eventDate?.slice(8, 10)) === Number(EventDate?.slice(0, 2)) && <li alt={arr.name} key={Math.floor(Math.random() * 100000 + index)} className='dark:bg-slate-500' >
+                                                    <h3 className={`${style.heading} font-bold mb-4  dark:text-cyan-900`}>{arr.eventName}</h3>
+                                                    <h3 className={`${style.heading1} mb-2 font-semibold`}>Time: {arr.eventTime}</h3>
+                                                    <span className={`${style.date}`}>{arr.eventDate?.slice(0, 10)}</span>
                                                     <span className={`${style.circle}`}></span>
-                                                </li>
+                                                </li> 
                                             }
                                         </>
                                     ))
