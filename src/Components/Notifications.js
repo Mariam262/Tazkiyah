@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 export const Notifications = ({ notificationPopUp, setNotificationPopUp }) => {
     //eslint-disable-next-line
-    let [data, setData] = useState()
+    let [data, setData] = useState([])
     const mentorId = useSelector(state => state.userId)
     const userType = useSelector(state => state);
     const [loading, setLoading] = useState(true);
@@ -68,7 +68,7 @@ export const Notifications = ({ notificationPopUp, setNotificationPopUp }) => {
                                 ))
                             }
                             {
-                                !loading && <p> No Notification Yet!</p>
+                                !loading && !data.length && <p> No Notification Yet!</p>
                             }
                         </div>
                     </DialogContent>

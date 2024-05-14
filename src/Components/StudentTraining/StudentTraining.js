@@ -6,11 +6,12 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 
-const StudentTraining = (fetchMentorTraining) => {
+const StudentTraining = (fetchMentorTraining, setFetchMentorTraining) => {
     const [data, setData] = useState([]);
     const userId = useSelector(state => state.userId);
     const [showData, setShowData] = useState(true);
     const [uploaded, setUploaded] = useState(true);
+    const userData = useSelector(state => state);
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND_PORT}/register/${userId}`, {
             headers: {
@@ -18,7 +19,7 @@ const StudentTraining = (fetchMentorTraining) => {
                 'Accept': "application/json"
             }
         }).then((response) => {
-            if(!response.data.data.mentorId){
+            if (!response.data.data.mentorId) {
                 setShowData(false);
                 return;
             }
@@ -35,6 +36,20 @@ const StudentTraining = (fetchMentorTraining) => {
         }).catch(err => {
         })
     }, [fetchMentorTraining])
+
+    const markRead = (id) => {
+        axios.patch(`${process.env.REACT_APP_BACKEND_PORT}/upload/${id}/${userData.userId}/${userData.isMentor ? 'tarbiyah' : 'student'}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(() => {
+            setFetchMentorTraining(!fetchMentorTraining)
+            //setFetchData(!fetchData);
+        }).catch((err) => {
+            //FailedToast(err.response.data.message);
+        })
+    }
+
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -43,21 +58,24 @@ const StudentTraining = (fetchMentorTraining) => {
             <div style={{ padding: "10px 40px", display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
                 {
                     data.map((list) => (
-                        <div style={{ maxWidth: "350px", boxShadow: "2px 2px 3px #f4f4f4, -2px -3px 5px #f4f4f4", margin: "10px", height: "auto", width: "100%", border: "1px solid #ccc", borderRadius: "4px" }}>
-                            <div class="card-content">
-                                <h2 style={{ fontSize: "18px", color: "gray", padding: "20px 0 10px 20px", textAlign:"center" }}>Title: {list.title}</h2>
+                        <div style={{ maxWidth: "350px", boxShadow: "2px 2px 3px #f4f4f4, -2px -3px 5px #f4f4f4", margin: "10px", height: "auto", width: "100%", border: "1px solid #ccc", borderRadius: "4px" }} className="relative pb-16">
+                            <div class="card-content overflow-hidden w-full">
+                                <h2 style={{ fontSize: "18px", color: "gray", padding: "20px 0 10px 20px", textAlign: "center" }}>Title: {list.title}</h2>
                                 {
-                                    list.pdf ? <p style={{ fontSize: "15px", padding: "10px 0 10px 20px", textAlign: "center", color:"blue" }}><Link to={`${process.env.REACT_APP_BACKEND_PORT}/files/${list.pdf}`} target="_blank" >Download</Link></p> : <p style={{ fontSize: "15px", padding: "10px 0 10px 20px", textAlign: "center", color:"blue" }}>{list.link}</p>
+                                    list.pdf ? <p style={{ fontSize: "15px", padding: "10px 0 10px 20px", textAlign: "center", color: "blue" }}><Link to={`${process.env.REACT_APP_BACKEND_PORT}/files/${list.pdf}`} target="_blank" >Download</Link></p> : <a style={{ fontSize: "15px", padding: "10px 0 10px 20px", textAlign: "center", color: "blue" }} className="w-full block" href={`${list.link}`} target="_blank" >Open</a>
                                 }
                             </div>
+                            {
+                                !list.readBy.includes(userData.userId) && <button onClick={() => { markRead(list._id) }} className="bg-[#007bff] text-white px-3 py-1 absolute bottom-2 right-2"> Mark as Read</button>
+                            }
                         </div>
                     ))
                 }
                 {
-                    !showData && <div className="text-3xl text-center mx-4 mt-10 md:max-w-[60%]" style={{lineHeight: "3.2rem"}}>Feeling unassigned? Time to thrive! Reach out to a Tarbiyah Manager and snag a task that'll ignite your growth</div>
+                    !showData && <div className="text-3xl text-center mx-4 mt-10 md:max-w-[60%]" style={{ lineHeight: "3.2rem" }}>Feeling unassigned? Time to thrive! Reach out to a Tarbiyah Manager and snag a task that'll ignite your growth</div>
                 }
                 {
-                    !uploaded && !data.length && <div className="text-3xl text-center mx-4 mt-10 leading-10">No Material Uploaded by your Mentor yet.</div> 
+                    !uploaded && !data.length && <div className="text-3xl text-center mx-4 mt-10 leading-10">No Material Uploaded by your Mentor yet.</div>
                 }
             </div>
         </div>

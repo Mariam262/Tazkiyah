@@ -36,7 +36,7 @@ export const ReactRoutes = ({ finalGoal, setFinalGoal, isLogin, setIsLogin, proc
                 <Route path='/timeline' element={<TimeLine />} />
                 <Route path='/calendar' element={<Calendar />} />
                 <Route path="/attendence" element={<AttendenceTable currentDept={currentDept} setCurrentDept={setCurrentDept} />} />
-                <Route path="/training" element={useSelector(state => state.email).includes('student') ?  <StudentTraining fetchMentorTraining={fetchMentorTraining} /> : <MentorTraining fetchMentorTraining={fetchMentorTraining} setFetchMentorTraining={setFetchMentorTraining}/>} />
+                <Route path="/training" element={useSelector(state => state.email).includes('student') ?  <StudentTraining fetchMentorTraining={fetchMentorTraining}  setFetchMentorTraining={setFetchMentorTraining}/> : <MentorTraining fetchMentorTraining={fetchMentorTraining} setFetchMentorTraining={setFetchMentorTraining}/>} />
                 <Route path="/achieved-goals" element={<GoalAcheivement />} />
                 <Route path="/uploaded/material" element={<MentorMaterial setEditUploadContentPopup={setEditUploadContentPopup} fetchData={fetchData} setFetchData={setFetchData}/>} />
             </Routes>
