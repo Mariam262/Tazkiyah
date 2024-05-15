@@ -68,7 +68,7 @@ export const Notifications = ({ notificationPopUp, setNotificationPopUp }) => {
                                 ))
                             }
                             {
-                                !loading && !data.length && <p> No Notification Yet!</p>
+                                !loading && !data?.length && <p> No Notification Yet!</p>
                             }
                         </div>
                     </DialogContent>
