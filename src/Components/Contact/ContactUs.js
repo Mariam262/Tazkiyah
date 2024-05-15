@@ -95,9 +95,11 @@ export const ContactUs = () => {
                                 type="text"
                                 name="name"
                                 value={formData.name}
-                                onChange={handleChange}
+                                onChange={(event) => {
+                                    setFormData({ ...formData, name: event.target.value.replace(/[^a-zA-Z]/g, '') });
+                                }}
                                 className="border-none bg-transparent w-full h-[35px] outline-none"
-                                placeholder="Username"
+                                placeholder="sapid"
                                 required
                             />
                             <input
@@ -112,7 +114,7 @@ export const ContactUs = () => {
                             />
                             <input
                                 style={{ fontSize: "14px", color: "#fff", padding: "10px 20px" }}
-                                type="tel"
+                                type="number"
                                 name="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
