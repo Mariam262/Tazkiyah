@@ -219,7 +219,7 @@ export const SetGoal = ({ finalGoal, setFinalGoal, proceed, setProceed, corner, 
                                                                 }
                                                             </select>
                                                         </div>
-                                                        <ArrowForwardIcon onClick={() => { setAchievement(true); setSelectedMilestone(index); }} style={{ cursor: "pointer", fontSize: '20px', color: "#000", position: "absolute", right: '36px', top: "47%" }} />
+                                                        {/* <ArrowForwardIcon onClick={() => { setAchievement(true); setSelectedMilestone(index); }} style={{ cursor: "pointer", fontSize: '20px', color: "#000", position: "absolute", right: '36px', top: "47%" }} /> */}
                                                     </div>
                                                     <hr style={{ backgroundColor: "#ccc", width: "auto", paddingTop: "1px", marginTop: "10px", margin: "auto" }} />
                                                     {

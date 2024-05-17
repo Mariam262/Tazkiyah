@@ -1,6 +1,7 @@
 import './style.css'
 import SubNavigations from './SubNavigations';
 import { useEffect, useState } from 'react';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
 import FlagIcon from '@mui/icons-material/Flag';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
@@ -9,7 +10,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import EventIcon from '@mui/icons-material/Event';
 import RandomPerson from '../../assets/img/avatar.png'
-import { NavLink, useLocation,  useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -22,7 +23,7 @@ import PerformanceAnalyticsSideBar from './PerformanceAnalyticsSidebar';
 import EditIcon from '@mui/icons-material/Edit';
 import { validateMentorEmail } from './../../utils/validateEmail';
 
-export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSideBarShow, showclose, setIsLogin, currentDept, setCurrentDept, editProfilePopup, setEditProfilePopup, editUploadContentPopup, setEditUploadContentPopup, selectedSemester, setSelectedSemester, selectDpt, setSelectDpt, notificationPopUp, setNotificationPopUp, fetchMentorTraining, setFetchMentorTraining}) => {
+export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSideBarShow, showclose, setIsLogin, currentDept, setCurrentDept, editProfilePopup, setEditProfilePopup, editUploadContentPopup, setEditUploadContentPopup, selectedSemester, setSelectedSemester, selectDpt, setSelectDpt, notificationPopUp, setNotificationPopUp, fetchMentorTraining, setFetchMentorTraining }) => {
     const dispatch = useDispatch();
     //eslint-disable-next-line
     const [email, setemail] = useState(useSelector(state => state));
@@ -142,6 +143,16 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 </>
                             }
                             {
+                                email && email.email === "tarbiyah@gmail.com" && <>
+                                    <NavLink to="/ebook" >
+                                        <li className='hover:underline cursor-pointer' onClick={() => setCurrentDept(null)} style={{ backgroundColor: `${location.pathname === '/ebooks' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/ebooks' ? '14px' : ''}`, fontSize: "15px" }}>
+                                            <CloudUploadIcon style={{ fontSize: '30px', marginRight: '10px' }} />
+                                            Upload Ebook
+                                        </li>
+                                    </NavLink>
+                                </>
+                            }
+                            {
                                 email && email.email !== "tarbiyah@gmail.com" && !email.email.includes('manager') && <NavLink to="/ebook" >
                                     <li onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false) }} style={{ backgroundColor: `${location.pathname === '/ebook' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/ebook' ? '14px' : ''}` }}>
                                         <MenuBookIcon style={{ fontSize: '30px', marginRight: '10px' }} />
@@ -190,6 +201,15 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                                 email?.email.includes('manager') && location.pathname === '/assign-mentees' && <AssignMentees currentDept={currentDept} setCurrentDept={setCurrentDept} closeSideBar={closeSideBar} sidebarshow={sidebarshow} setSideBarShow={setSideBarShow} setProceed={setProceed} selectedSemester={selectedSemester} setSelectedSemester={setSelectedSemester} selectDpt={selectDpt} setSelectDpt={setSelectDpt} />
                             }
 
+                            {
+                                email && email.email.includes('manager') &&
+                                <NavLink to="/feedback">
+                                    <li className='hover:underline cursor-pointer' onClick={() => { setCurrentDept(null) }} style={{ backgroundColor: `${location.pathname === '/feedback' ? '#3f6184' : ''}`, borderRadius: `${location.pathname === '/feedback' ? '14px' : ''}`, fontSize: "15px" }}>
+                                        <FeedbackIcon style={{ fontSize: '30px', marginRight: '10px' }} />
+                                        Feedback
+                                    </li>
+                                </NavLink>
+                            }
                             <li className='hover:underline cursor-pointer' onClick={() => { closeSideBar && setSideBarShow(!sidebarshow); setProceed(false); setNotificationPopUp(!notificationPopUp) }} style={{ backgroundColor: `${notificationPopUp ? '#3f6184' : ''}`, borderRadius: `${notificationPopUp ? '14px' : ''}` }}>
                                 <NotificationsIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                                 Notifications

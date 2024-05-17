@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import FeedbackModel from './FeedbackModal';
 
 
 const StudentTraining = ({fetchMentorTraining, setFetchMentorTraining}) => {
     const [data, setData] = useState([]);
+    const [confirmAdd, setConfirmAdd] = useState(false);
     const [uploaded, setUploaded] = useState(true);
+    const [open, setOpen] = useState(false);
+    const [selectedData, setSelectedData] = useState({});
+    const [text, setText] = useState('');
     const userData = useSelector(state => state);
+
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND_PORT}/upload/tarbiyah`, {
             headers: {
@@ -34,6 +40,26 @@ const StudentTraining = ({fetchMentorTraining, setFetchMentorTraining}) => {
             //FailedToast(err.response.data.message);
         })
     }
+
+    useEffect(() => {
+        if(confirmAdd){
+            axios.post(`${process.env.REACT_APP_BACKEND_PORT}/feedback?userId=${userData.userId}`, {
+                FeedbackText: text,
+                SAPID: userData.sapid,
+                materialName: selectedData.title
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(() => {
+                markRead(selectedData._id);
+                setConfirmAdd(false);
+            }).catch((err) => {
+                setConfirmAdd(false);
+                //FailedToast(err.response.data.message);
+            })
+        }
+    }, [confirmAdd])
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -50,7 +76,7 @@ const StudentTraining = ({fetchMentorTraining, setFetchMentorTraining}) => {
                                 }
                             </div>
                             {
-                                !list.readBy.includes(userData.userId) && <button onClick={() => { markRead(list._id) }} className="bg-[#007bff] text-white px-3 py-1 absolute bottom-2 right-2"> Mark as Read</button>
+                                !list.readBy.includes(userData.userId) && <button onClick={() => { setSelectedData(list); setOpen(true) }} className="bg-[#007bff] text-white px-3 py-1 absolute bottom-2 right-2"> Mark as Read</button>
                             }
                         </div>
                     ))
@@ -59,6 +85,7 @@ const StudentTraining = ({fetchMentorTraining, setFetchMentorTraining}) => {
                     !uploaded && !data.length && <div className="text-3xl text-center mx-4 mt-10 leading-10">No Material Uploaded by Central Tarbiyah yet.</div>
                 }
             </div>
+            <FeedbackModel open={open} setOpen={setOpen} setConfirmAdd={setConfirmAdd} setText={setText}/>
         </div>
     )
 }
