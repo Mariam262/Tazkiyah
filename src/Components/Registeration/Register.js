@@ -80,7 +80,7 @@ export const RegisterUser = ({ setIsLogin }) => {
             <label className='font dark:text-white mt-3' htmlFor="pass ">Confirm Password</label>
             <input onChange={(e) => { c_pass.current.value = e.target.value }} className='bg-gray-200 dark:bg-slate-500 dark:placeholder:text-white' type="password" name="pass" id="pass" placeholder='Confirm Password' ref={c_pass} required={true} />
             {
-              (email?.includes('student') || email?.includes('mentor')) && (
+              (email?.includes('student') || email?.includes('mentor') || email?.includes('manager')) && (
                 <div className='mt-4'>
                   <label className='font dark:text-white mt-3 mr-3' htmlFor="pass">Department</label>
                   <select onChange={(e) => { setDepartment(e.target.value) }} className="font cursor-pointer bg-gray-100 rounded-2xl px-4 py-2">

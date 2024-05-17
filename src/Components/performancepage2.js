@@ -1,6 +1,9 @@
 import { useSelector } from "react-redux"
 import React, { useEffect, useState } from 'react';
+import avatar from "../assets/img/avatar.png"
+import FlagIcon from '@mui/icons-material/Flag';
 import '../Pages/styles.css';
+import './Goal/GoalAcheivement.css';
 import ApexCharts from 'apexcharts';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import StudentDataItems from "./StudentList";
@@ -17,13 +20,17 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
     const [studentList, setStudentList] = useState([]);
     const setterId = useState(useSelector(state => state)?.userId)
     const [data, setData] = useState(null);
+    const [data1, setData1] = useState([]);
+    const [show, setShow] = useState(-1);
+    const [showMilestone, setShowMilestone] = useState(-1);
+    const [selectedMilestone, setSelectedMilestone] = useState(null)
 
     useEffect(() => {
-        if (email !== "tarbiyah@gmail.com" && email !== "manager@gmail.com" && !validateMentorEmail(email)) {
+        if (email !== "tarbiyah@gmail.com" && !email.includes('manager') && !validateMentorEmail(email)) {
             setStudentLogined(true)
             setSelectedStudent(true)
         }
-        if (email === "manager@gmail.com") {
+        if (email.includes('manager')) {
             setSelectedSemester(1)
         }
         if (validateMentorEmail(email)) {
@@ -45,6 +52,19 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
         }
         );
     }, [selectedStudent])
+
+
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/goals/${selectedStudent?._id ?? setterId[0]}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then((res) => {
+            setData1(res.data.data);
+        }).catch(err => {
+        });
+    }, [selectedStudent]) //eslint-disable-line
 
     useEffect(() => {
         if (data && (selectedStudent || studentLogined)) {
@@ -197,7 +217,7 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                         <header className="headerssss1 mb-7">
                             <div style={{ position: "relative" }} className="centersss">
                                 {
-                                    (email === "tarbiyah@gmail.com" || email === "manager@gmail.com" || validateMentorEmail(email)) && <div onClick={() => { setSelectedStudent(null) }} style={{ position: "absolute", top: 0, left: 10, cursor: 'pointer' }}>
+                                    (email === "tarbiyah@gmail.com" || email.includes('manager') || validateMentorEmail(email)) && <div onClick={() => { setSelectedStudent(null) }} style={{ position: "absolute", top: 0, left: 10, cursor: 'pointer' }}>
                                         <ArrowLeftIcon style={{ color: "#000", fontWeight: "bold", fontSize: "25px" }} />
                                     </div>
                                 }
@@ -209,13 +229,13 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                         </header>
                         <main className="main-container">
                             {
-                                (email === "tarbiyah@gmail.com" || email === "manager@gmail.com") && <div style={{ color: '#000' }} className="flex justify-center flex-col items-center">
+                                (email === "tarbiyah@gmail.com" || email.includes('manager')) && <div style={{ color: '#000' }} className="flex justify-center flex-col items-center">
                                     <p style={{ fontSize: "18px" }}>SAP ID: <span>{sapId}</span></p>
                                     <p style={{ fontSize: "18px", margin: "10px 10px 0 10px" }}>Student Name: <span>{selectedStudent.name}</span></p>
                                     <p style={{ fontSize: "18px", margin: "0 10px 10px 10px" }}>Mentor Name: <span>{selectedMentor.name}</span></p>
                                 </div>
                             }
-                            <div className="main-cards">
+                            {/* <div className="main-cards">
                                 <div class="card">
                                     <div class="card-inner">
                                         <h3>EVENTS</h3>
@@ -244,8 +264,94 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                                     </div>
                                     <h1>56</h1>
                                 </div>
+                            </div> */}
+                            <div style={{ padding: "0 " }}>
+                                <h1 className="text-blue-800 text-5xl font-semibold text-center">Goals</h1>
+                                <hr style={{ marginTop: "20px" }} />
+                                {
+                                    data1?.map((Items, index) => {
+                                        return (
+                                            <div style={{ cursor: "pointer" }} key={index + 100 * 100}>
+                                                <div onClick={() => { setShow(show === index ? -1 : index); setSelectedMilestone(null); setShowMilestone(-1) }} className='flex my-3 item-goal-acheivement items-center justify-between'>
+                                                    {/* <FlagIcon className='flagicon' style={{ fontSize: "40px", marginRight: "10px", flex: 1 }} /> */}
+                                                    <img style={{ width: "50px", height: "50px" }} src={avatar} alt="" />
+                                                    <h1 className='font-semibold ml-5 goal-text' style={{ color: "gray", flex: 1 }}>{Items.goalTitle}</h1>
+                                                    <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Items.goalstatus}</p>
+                                                    <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Items.startDate}</p>
+                                                    <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Items.endDate}</p>
+                                                </div>
+                                                {
+                                                    show === index && (
+                                                        <div>
+                                                            {
+                                                                Items.milestones.map((Milestone, index1) => (
+                                                                    <div key={index + 1098}>
+                                                                        <div onClick={() => { setShowMilestone(showMilestone === index1 ? -1 : index1); setSelectedMilestone(Milestone); }} className='flex justify-center items-center flex-wrap'>
+                                                                            <img className='flagicon' style={{ fontSize: "40px", marginRight: "0px", flex: 1 }} alt="" />
+                                                                            <h1 className='font-semibold ml-5 goal-text' style={{ color: "gray", flex: 1, fontWeight: "bold" }}>Milestone {index1 + 1}</h1>
+                                                                            <h1 className='font-semibold ml-5 goal-text' style={{ color: "gray", flex: 1 }}>{Milestone.goal}</h1>
+                                                                            <div style={{ flex: 1 }} className="container-goal-acheivement">
+                                                                                <div className="skill-box flex">
+                                                                                    <div className="skill-bar">
+                                                                                        <span
+                                                                                            className="skill-per"
+                                                                                            style={{
+                                                                                                width: `${Milestone.percentage}%`,
+                                                                                                background: '#4070f4',
+                                                                                            }}
+                                                                                        >
+                                                                                            <span className="tooltip">{Milestone.percentage}</span>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                    <span className="ml-3">{Milestone.percentage}%</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Milestone.status}</p>
+                                                                            <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Milestone.endDate}</p>
+                                                                            <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Milestone.startDate}</p>
+                                                                        </div>
+                                                                        {
+                                                                            showMilestone === index1 && selectedMilestone && (
+                                                                                <div>
+                                                                                    {
+                                                                                        selectedMilestone.achievement.map((achievements, index2) => (
+                                                                                            <div className='flex items-center w-2/3 m-auto' key={index2}>
+                                                                                                <h1 className='font-semibold ml-5 goal-text' style={{ color: "gray", flex: 1, fontWeight: "bold" }}>Acheivement {index2 + 1}</h1>
+                                                                                                <h1 className='font-semibold ml-5 goal-text' style={{ color: "gray", flex: 1 }}>{achievements.name}</h1>
+                                                                                                <div style={{ flex: 1 }} className="container-goal-acheivement">
+                                                                                                    <div className="skill-box flex">
+                                                                                                        <div className="skill-bar">
+                                                                                                            <span
+                                                                                                                className="skill-per"
+                                                                                                                style={{
+                                                                                                                    width: `${achievements.percentage}%`,
+                                                                                                                    background: '#4070f4',
+                                                                                                                }}
+                                                                                                            >
+                                                                                                                <span className="tooltip">{achievements.percentage}</span>
+                                                                                                            </span>
+                                                                                                        </div>
+                                                                                                        <span className="ml-3">{achievements.percentage}%</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        ))
+                                                                                    }
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                    </div>
+                                                                ))
+                                                            }
+                                                        </div>
+                                                    )
+                                                }
+                                                <hr />
+                                            </div>
+                                        );
+                                    })
+                                }
                             </div>
-
                             <div className="charts" style={{ display: 'flex', flexDirection: 'column', maxWidth: '600px', margin: '60px auto' }}>
                                 <div className="charts-card">
                                     <h2 className="chart-title color">Performance</h2>

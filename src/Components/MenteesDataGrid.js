@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import ToastContainer, { FailedToast } from './toast';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
 const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMentor }) => {
@@ -19,9 +20,10 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMent
     const [selectedOption, setSelectedOption] = useState();
     const [suggestionArray, setSuggestionArray] = useState([]);
     const [fetchAgain, setFetchAgain] = useState(false)
+    const userId = useSelector(state => state.userId);
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign/students/unassigned`, {
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign/students/unassigned?userId=${userId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': "application/json"

@@ -2,14 +2,16 @@ import React from 'react'
 import './style.css'
 import slider2 from '../assets/Corousel_Images/c3.png'
 import slider3 from '../assets/Corousel_Images/c2.png'
+import { useSelector } from 'react-redux'
 
 export const MainPage = ({ sidebarshow, onmobile}) => {
+    const isLogin = useSelector(state => state.isLogin);
     return (
         <>
             <div>
                 <section className="slider" style={{ paddingLeft: '10px' }}>
                     <div className="hero-slider" style={{width: "100%", position: "relative"}}>
-                        <div className="single-slider" style={{ backgroundImage: `url(${slider2})`, backgroundPosition: "center", backgroundSize: "contain", marginRight: `${sidebarshow && onmobile && '200px'}`, marginLeft: `${sidebarshow && onmobile && '20px'}`}}>
+                        <div className="single-slider" style={{ backgroundImage: `url(${slider2})`, backgroundPosition: "center", backgroundSize: "contain", marginRight: `${sidebarshow && onmobile && isLogin && '200px'}`, marginLeft: `${sidebarshow && onmobile && isLogin && '20px'}`}}>
                             <div className="container ccocooc">
                                 <div className="row">
                                     <div className="col-lg-7">
@@ -25,7 +27,7 @@ export const MainPage = ({ sidebarshow, onmobile}) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="single-slider" style={{ backgroundImage: `url(${slider3})`, backgroundSize: "contain", backgroundPosition: "center", marginRight: `${sidebarshow && onmobile && '280px'}`, marginLeft: `${sidebarshow && onmobile && '20px'}`}}>
+                        <div className="single-slider" style={{ backgroundImage: `url(${slider3})`, backgroundSize: "contain", backgroundPosition: "center", marginRight: `${sidebarshow && onmobile && isLogin && '280px'}`, marginLeft: `${sidebarshow && onmobile && isLogin && '20px'}`}}>
                             <div className="container ccocooc">
                                 <div className="row">
                                     <div className="col-lg-7">

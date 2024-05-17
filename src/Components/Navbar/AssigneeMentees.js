@@ -1,19 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import Woman2Icon from '@mui/icons-material/Woman2';
 import PeopleIcon from '@mui/icons-material/People';
 import PublicIcon from '@mui/icons-material/Public';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow, setSideBarShow, setProceed, selectedSemester, setSelectedSemester, selectDpt, setSelectDpt }) => {
-    let [onClick, setOnClick] = useState(false)
-
+    let [onClick, setOnClick] = useState(false);
+    const userId = useSelector(state=>state.userId);
+    const [data, setData] = useState();
+    useEffect(()=>{
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/register/${userId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json"
+            }
+        }).then((res) => {
+            setData(res.data.data)
+        }).catch(err => {
+        })
+    }, [])
     return (
         <>
             <p style={{ color: '#fff', fontSize: '17px', marginTop: '15px' }}>Select your Department: </p>
             <div style={{ paddingLeft: '10px', marginBottom: '10px' }}>
-                <NavLink to="/assign-mentees">
+                <NavLink className={`${data?.dept === 'FC' ? 'block' : 'hidden'}`} to="/assign-mentees">
                     <li onClick={() => { setOnClick(!onClick); setCurrentDept('FC'); setSelectedSemester(null) }} style={{ backgroundColor: `${currentDept === 'FC' || currentDept === 'Software Engineering' || currentDept === 'Computer Science' || currentDept === 'Computer Arts' ? '#3f6184' : ''}`, borderRadius: `${currentDept === 'FC' || currentDept === 'Software Engineering' || currentDept === 'Computer Science' || currentDept === 'Computer Arts' ? '14px' : ''}`, marginTop: '10px', paddingLeft: '20px', width: '90%', paddingTop: '10px', paddingBottom: '10px' }}>
                         <PeopleIcon style={{ fontSize: '30px', marginRight: '10px' }} />
                         FC
@@ -23,9 +37,9 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                     </li>
                 </NavLink>
                 {
-                    onClick && <div style={{ paddingLeft: '20px', marginBottom: '10px' }}>
+                    onClick && <div className={`${data?.subDept === 'Software Engineering' ? 'block' : 'hidden'}`} style={{ paddingLeft: '20px', marginBottom: '10px' }}>
                         <NavLink to="/assign-mentees">
-                            <li onClick={() => {
+                            <li  onClick={() => {
                                 setCurrentDept('Software Engineering');
                                 closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
                                 setSelectDpt(!selectDpt);
@@ -34,7 +48,7 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                                 Software Engineering
                             </li>
                         </NavLink>
-                        <NavLink to="/assign-mentees">
+                        <NavLink className={`${data?.subDept === 'Computer Science' ? 'block' : 'hidden'}`} to="/assign-mentees">
                             <li onClick={() => {
                                 setCurrentDept('Computer Science');
                                 setSelectDpt(!selectDpt);
@@ -44,7 +58,7 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                                 Computer Science
                             </li>
                         </NavLink>
-                        <NavLink to="/assign-mentees">
+                        <NavLink className={`${data?.subDept === 'Computer Arts' ? 'block' : 'hidden'}`} to="/assign-mentees">
                             <li onClick={() => {
                                 setCurrentDept('Computer Arts');
                                 setSelectDpt(!selectDpt);
@@ -56,7 +70,7 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                         </NavLink>
                     </div>
                 }
-                <NavLink to="/assign-mentees">
+                <NavLink className={`${data?.dept === 'Pharmacy' ? 'block' : 'hidden'}`} to="/assign-mentees">
                     <li onClick={() => {
                         setCurrentDept('Pharmacy'); closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
                         setSelectDpt(!selectDpt);
@@ -67,7 +81,7 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                     </li>
                 </NavLink>
 
-                <NavLink to="/assign-mentees">
+                <NavLink className={`${data?.dept === 'DBD' ? 'block' : 'hidden'}`} to="/assign-mentees">
                     <li onClick={() => {
                         setCurrentDept('DBD'); closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
                         setSelectDpt(!selectDpt);
@@ -78,7 +92,7 @@ const AssignMentees = ({ currentDept, setCurrentDept, closeSideBar, sidebarshow,
                     </li>
                 </NavLink>
 
-                <NavLink to="/assign-mentees">
+                <NavLink className={`${data?.dept === 'Psychology' ? 'block' : 'hidden'}`}  to="/assign-mentees">
                     <li onClick={() => {
                         setCurrentDept('Psychology'); closeSideBar && setSideBarShow(!sidebarshow); setProceed(false);
                         setSelectDpt(!selectDpt);

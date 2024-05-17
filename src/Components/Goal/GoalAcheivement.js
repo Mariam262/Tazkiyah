@@ -13,7 +13,7 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
     const speed = 50;
     const [data, setData] = useState(null);
     const [fetchAgain, setFetchAgain] = useState(false);
-    
+
     const currentDate = new Date();
     const currentDatePlus24Hours = new Date();
     currentDatePlus24Hours.setDate(currentDatePlus24Hours.getDate() + 1);
