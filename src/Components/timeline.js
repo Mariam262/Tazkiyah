@@ -164,7 +164,7 @@ export const TimeLine = () => {
                             </div>
                             <DialogActions>
                                 <Button style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={handleClose}>Close</Button>
-                                <Button type='submit' style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={() => {
+                                <Button style={{ fontSize: '12px', border: '1px solid #ccc', backgroundColor: "#15375c", color: "#fff" }} onClick={() => {
                                     if(edit){
                                         editEvent();
                                     }else{

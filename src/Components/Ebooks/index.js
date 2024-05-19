@@ -8,6 +8,7 @@ import { EBookModal } from './EbookModal';
 const Ebook = () => {
     const [data, setData] = useState([]);
     const userId = useSelector(state => state.userId);
+    const userData = useSelector(state => state);
     const [uploaded, setUploaded] = useState(false);
     const [editUploadContentPopup, setEditUploadContentPopup] = useState(false);
     const [fetchData, setFetchData] = useState(false);
@@ -30,9 +31,11 @@ const Ebook = () => {
             <div style={{ display: "flex", justifyContent: "center" }}>
                 <h1 className="text-3xl pt-6 pb-5">Uploaded Ebooks</h1>
             </div>
-            <div className='flex justify-center mx-3 mb-4'>
-                <button style={{ padding: "5px 10px", backgroundColor: "rgba(0, 122, 255, 0.6)", color: "#fff", borderRadius: "5px" }} className='mx-auto' onClick={() => setEditUploadContentPopup(true)}>Upload New Book</button>
-            </div>
+            {
+                userData.isCentralTarbiyah && <div className='flex justify-center mx-3 mb-4'>
+                    <button style={{ padding: "5px 10px", backgroundColor: "rgba(0, 122, 255, 0.6)", color: "#fff", borderRadius: "5px" }} className='mx-auto' onClick={() => setEditUploadContentPopup(true)}>Upload New Book</button>
+                </div>
+            }
             <div style={{ padding: "10px 40px", display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
                 {
                     data?.map((list) => (
@@ -53,25 +56,15 @@ const Ebook = () => {
                                     color: "gray",
                                     padding: "20px 0 10px 20px",
                                     textAlign: "center"
-                                }}>Title: {list.title}</h2>
-                                {
-                                    list.pdf ?
-                                        <p style={{
-                                            fontSize: "15px",
-                                            padding: "10px 0 10px 20px",
-                                            textAlign: "center",
-                                            color: "blue"
-                                        }}>
-                                            <Link to={`${process.env.REACT_APP_BACKEND_PORT}/files/${list.pdf}`} target="_blank" >Download</Link>
-                                        </p>
-                                        :
-                                        <p style={{
-                                            fontSize: "15px",
-                                            padding: "10px 0 10px 20px",
-                                            textAlign: "center",
-                                            color: "blue"
-                                        }}>{list.link}</p>
-                                }
+                                }}>Title: {list.name}</h2>
+                                <p style={{
+                                    fontSize: "15px",
+                                    padding: "10px 0 10px 20px",
+                                    textAlign: "center",
+                                    color: "blue"
+                                }}>
+                                    <Link to={`${process.env.REACT_APP_BACKEND_PORT}/files/${list.link}`} target="_blank" >Open</Link>
+                                </p>
                             </div>
                         </div>
                     ))

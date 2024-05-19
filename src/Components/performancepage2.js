@@ -230,9 +230,6 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                         <main className="main-container">
                             {
                                 (email === "tarbiyah@gmail.com" || email.includes('manager')) && <div style={{ color: '#000' }} className="flex justify-center flex-col items-center">
-                                    <p style={{ fontSize: "18px" }}>SAP ID: <span>{sapId}</span></p>
-                                    <p style={{ fontSize: "18px", margin: "10px 10px 0 10px" }}>Student Name: <span>{selectedStudent.name}</span></p>
-                                    <p style={{ fontSize: "18px", margin: "0 10px 10px 10px" }}>Mentor Name: <span>{selectedMentor.name}</span></p>
                                 </div>
                             }
                             {/* <div className="main-cards">
@@ -273,10 +270,9 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                                         return (
                                             <div style={{ cursor: "pointer" }} key={index + 100 * 100}>
                                                 <div onClick={() => { setShow(show === index ? -1 : index); setSelectedMilestone(null); setShowMilestone(-1) }} className='flex my-3 item-goal-acheivement items-center justify-between'>
-                                                    {/* <FlagIcon className='flagicon' style={{ fontSize: "40px", marginRight: "10px", flex: 1 }} /> */}
                                                     <img style={{ width: "50px", height: "50px" }} src={avatar} alt="" />
                                                     <h1 className='font-semibold ml-5 goal-text' style={{ color: "gray", flex: 1 }}>{Items.goalTitle}</h1>
-                                                    <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Items.goalstatus}</p>
+                                                    <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Items.goalStatus}</p>
                                                     <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Items.startDate}</p>
                                                     <p className='font-semibold ml-5' style={{ color: "gray", flex: 1 }}>{Items.endDate}</p>
                                                 </div>

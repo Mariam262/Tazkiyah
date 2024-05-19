@@ -33,7 +33,7 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
     const [show, setShow] = useState(-1);
     const [showMilestone, setShowMilestone] = useState(-1);
     const [selectedMilestone, setSelectedMilestone] = useState(null)
-
+    const [userData, setUserData] = useState({})
     const handledelete = (id) => {
         axios.delete(`${process.env.REACT_APP_BACKEND_PORT}/goals/${id}`, {
             headers: {
@@ -48,6 +48,19 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
         });
     }
 
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/performanceAnalytics/${setterId[0]}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then((res) => {
+                setUserData(res.data);
+            // setData([res.data.completedGoals ?? 0, res.data.notCompletedGoals ?? 0, res.data.pendingGoals ?? 0])
+        }).catch(err => {
+        }
+        );
+    }, [fetchAgain])
     const handleChangeStatus = (event, id) => {
         event.stopPropagation();
         axios.patch(`${process.env.REACT_APP_BACKEND_PORT}/goals/status/${id}/${setterId[0]}`, {
@@ -89,13 +102,13 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
                 <div className='flex flex-col justify-center mr-10'>
                     <div className="container-goal">
                         <div className="circular-progress">
-                            <div className="value-container">{`${progressValue}%`}</div>
+                            <div className="value-container">{`${(userData.completedGoals/(userData.notCompletedGoals + userData.completedGoals + userData.pendingGoals))*100 || 0}%`}</div>
                         </div>
                         <style>{`
                     .circular-progress {
                         background: conic-gradient(
-                            #4d5bf9 ${progressDegrees}deg,
-                            #cadcff ${progressDegrees}deg
+                            #4d5bf9 ${(userData.completedGoals/(userData.notCompletedGoals + userData.completedGoals + userData.pendingGoals))*100 || 0}deg,
+                            #cadcff ${(userData.completedGoals/(userData.notCompletedGoals + userData.completedGoals + userData.pendingGoals))*100 || 0}deg
                             );
                         }
                         `}</style>
@@ -104,24 +117,16 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
                 </div>
                 <div className='flex justify-center items-center flex-wrap'>
                     <div style={{ boxShadow: "3px 3px 10px rgba(60, 60, 150, 0.25)", height: "170px", width: "150px", margin: "20px" }} className='flex justify-center flex-col items-center'>
-                        <p style={{ fontSize: "36px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>6</p>
-                        <p style={{ fontSize: "20px" }}>No Status</p>
-                    </div>
-                    <div style={{ boxShadow: "3px 3px 10px rgba(60, 60, 150, 0.25)", height: "170px", width: "150px", margin: "20px" }} className='flex justify-center flex-col items-center'>
-                        <p style={{ fontSize: "36px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>2</p>
-                        <p style={{ fontSize: "20px" }}>On Track</p>
-                    </div>
-                    <div style={{ boxShadow: "3px 3px 10px rgba(60, 60, 150, 0.25)", height: "170px", width: "150px", margin: "20px" }} className='flex justify-center flex-col items-center'>
-                        <p style={{ fontSize: "33px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>0</p>
-                        <p style={{ fontSize: "18px" }}>Not Completed</p>
-                    </div>
-                    <div style={{ boxShadow: "3px 3px 10px rgba(60, 60, 150, 0.25)", height: "170px", width: "150px", margin: "20px" }} className='flex justify-center flex-col items-center'>
-                        <p style={{ fontSize: "36px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>0</p>
-                        <p style={{ fontSize: "20px" }}>In Progress</p>
-                    </div>
-                    <div style={{ boxShadow: "3px 3px 10px rgba(60, 60, 150, 0.25)", height: "170px", width: "150px", margin: "20px" }} className='flex justify-center flex-col items-center'>
-                        <p style={{ fontSize: "36px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>0</p>
+                        <p style={{ fontSize: "36px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>{userData.notCompletedGoals}</p>
                         <p style={{ fontSize: "20px" }}>Completed</p>
+                    </div>
+                    <div style={{ boxShadow: "3px 3px 10px rgba(60, 60, 150, 0.25)", height: "170px", width: "180px", margin: "20px" }} className='flex justify-center flex-col items-center'>
+                        <p style={{ fontSize: "36px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>{userData.completedGoals}</p>
+                        <p style={{ fontSize: "20px" }}>Not Completed</p>
+                    </div>
+                    <div style={{ boxShadow: "3px 3px 10px rgba(60, 60, 150, 0.25)", height: "170px", width: "150px", margin: "20px" }} className='flex justify-center flex-col items-center'>
+                        <p style={{ fontSize: "33px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>{userData.pendingGoals}</p>
+                        <p style={{ fontSize: "18px" }}>Pending</p>
                     </div>
                 </div>
             </div>
