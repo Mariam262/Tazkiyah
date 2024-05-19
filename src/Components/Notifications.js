@@ -55,11 +55,12 @@ export const Notifications = ({ notificationPopUp, setNotificationPopUp }) => {
                         <div>
                             {
                                 data && data?.map((Items) => (
-                                    <div style={{ padding: "10px 0" }}>
+                                    <div className="relative" style={{ padding: "10px 0 20px 0" }}>
                                         <div className='flex justify-between items-center'>
                                             {/* <img style={{ width: "50px", borderRadius: "50%" }} src={Items.image} alt="" /> */}
-                                            <div style={{ padding: "10px" }}>
+                                            <div  style={{ padding: "10px" }}>
                                                 <p style={{ fontSize: "13px" }}>{Items.message}</p>
+                                                <p className="absolute bottom-[20px] right-0" style={{ fontSize: "13px" }}>{Items.date.slice(0, 10)}</p>
                                                 {/* <p style={{ fontWeight: "bold", color: "gray", marginTop: "4px" }}>{Items.uploaderName}</p> */}
                                             </div>
                                         </div>

@@ -5,7 +5,7 @@ import FlagIcon from '@mui/icons-material/Flag';
 import axios from 'axios';
 import ToastContainer, { FailedToast } from '../toast';
 import { useSelector } from 'react-redux';
-
+import DeleteConfirmationModel from './../DeleteConfirmationModel';
 const GoalAcheivement = ({ edit, handleRowClick }) => {
     const setterId = useState(useSelector(state => state)?.userId)
     const [progressValue, setProgressValue] = useState(0);
@@ -17,6 +17,9 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
     const currentDate = new Date();
     const currentDatePlus24Hours = new Date();
     currentDatePlus24Hours.setDate(currentDatePlus24Hours.getDate() + 1);
+    const [confirmDelete, setDelete] = useState(false);
+    const [deleteModel, setDeleteModel] = useState(false);
+    const [goalId, setGoalId] = useState(false);
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND_PORT}/goals/${setterId[0]}`, {
@@ -34,19 +37,26 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
     const [showMilestone, setShowMilestone] = useState(-1);
     const [selectedMilestone, setSelectedMilestone] = useState(null)
     const [userData, setUserData] = useState({})
-    const handledelete = (id) => {
-        axios.delete(`${process.env.REACT_APP_BACKEND_PORT}/goals/${id}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+
+    useEffect(() => {
+        if (confirmDelete) {
+            const handledelete = () => {
+                axios.delete(`${process.env.REACT_APP_BACKEND_PORT}/goals/${goalId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                }).then((res) => {
+                    ToastContainer("Goal Deleted")
+                    setDelete(false)
+                    setFetchAgain(!fetchAgain);
+                }).catch(err => {
+                    FailedToast(err.response.data.message)
+                });
             }
-        }).then((res) => {
-            ToastContainer("Goal Deleted")
-            setFetchAgain(!fetchAgain);
-        }).catch(err => {
-            FailedToast(err.response.data.message)
-        });
-    }
+            handledelete();
+        }
+    }, [confirmDelete])
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND_PORT}/performanceAnalytics/${setterId[0]}`, {
@@ -55,9 +65,9 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
                 'Accept': 'application/json'
             }
         }).then((res) => {
-                setUserData(res.data);
-                const completionRate1 = ((res.data.completedGoals / (res.data.notCompletedGoals + res.data.completedGoals + res.data.pendingGoals)) * 100) || 0;
-                setCompletitionRate(completionRate1.toFixed(2))
+            setUserData(res.data);
+            const completionRate1 = ((res.data.completedGoals / (res.data.notCompletedGoals + res.data.completedGoals + res.data.pendingGoals)) * 100) || 0;
+            setCompletitionRate(completionRate1.toFixed(2))
 
             // setData([res.data.completedGoals ?? 0, res.data.notCompletedGoals ?? 0, res.data.pendingGoals ?? 0])
         }).catch(err => {
@@ -110,7 +120,7 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
                         <style>{`
                     .circular-progress {
                         background: conic-gradient(
-                            #4d5bf9 ${completionRate*3.6}deg,
+                            #4d5bf9 ${completionRate * 3.6}deg,
                             #cadcff ${completionRate}deg
                             );
                         }
@@ -162,7 +172,7 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
                                     {edit && (
                                         <>
                                             <button onClick={() => handleRowClick(Items._id, Items)} style={{ cursor: 'pointer', backgroundColor: "#15375c", color: "#fff", padding: "7px 14px", margin: "0 20px 0 0", fontSize: "14px" }}>Edit</button>
-                                            <button onClick={() => handledelete(Items._id)} style={{ cursor: 'pointer', backgroundColor: "rgba(200, 0 , 0 , 0.8)", color: "#fff", padding: "7px 14px", margin: "0 20px 0 0", fontSize: "14px" }}>Delete</button>
+                                            <button onClick={() => { setGoalId(Items._id); setDeleteModel(true) }} style={{ cursor: 'pointer', backgroundColor: "rgba(200, 0 , 0 , 0.8)", color: "#fff", padding: "7px 14px", margin: "0 20px 0 0", fontSize: "14px" }}>Delete</button>
                                         </>
                                     )}
                                 </div>
@@ -238,6 +248,7 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
                     })
                 }
             </div>
+            <DeleteConfirmationModel open={deleteModel} setOpen={setDeleteModel} setDelete={setDelete} />
         </div>
     );
 };

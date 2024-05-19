@@ -267,7 +267,8 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                                 <hr style={{ marginTop: "20px" }} />
                                 {
                                     data1?.map((Items, index) => {
-                                        return (
+                                        if (Items.isPublic) {
+                                            return (
                                             <div style={{ cursor: "pointer" }} key={index + 100 * 100}>
                                                 <div onClick={() => { setShow(show === index ? -1 : index); setSelectedMilestone(null); setShowMilestone(-1) }} className='flex my-3 item-goal-acheivement items-center justify-between'>
                                                     <img style={{ width: "50px", height: "50px" }} src={avatar} alt="" />
@@ -345,6 +346,7 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
                                                 <hr />
                                             </div>
                                         );
+                                    }
                                     })
                                 }
                             </div>

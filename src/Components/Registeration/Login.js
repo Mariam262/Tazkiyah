@@ -11,9 +11,9 @@ export const LoginUser = ({ isLogin, setIsLogin, forgetPasswordPopup, setForgetP
   let email = useRef(), password = useRef();
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    axios.get(`${process.env.REACT_APP_BACKEND_PORT}/register`, {
+    await axios.get(`${process.env.REACT_APP_BACKEND_PORT}/register`, {
       params: {
         email: email.current.value.trim(),
         password: password.current.value,
@@ -29,7 +29,7 @@ export const LoginUser = ({ isLogin, setIsLogin, forgetPasswordPopup, setForgetP
       setIsLogin(true);
       ToastContainer("Successfully Logined")
       // navigate('/notifications')
-    }).catch(err => alert(err.response.data.error));
+    }).catch(err => FailedToast("Invalid Credentials"));
   }
   return (
     <>
