@@ -9,11 +9,11 @@ import { useSelector } from 'react-redux';
 const GoalAcheivement = ({ edit, handleRowClick }) => {
     const setterId = useState(useSelector(state => state)?.userId)
     const [progressValue, setProgressValue] = useState(0);
-    const progressEndValue = 26;
+    const progressEndValue = 100;
     const speed = 50;
     const [data, setData] = useState(null);
     const [fetchAgain, setFetchAgain] = useState(false);
-
+    const [completionRate, setCompletitionRate] = useState(0);
     const currentDate = new Date();
     const currentDatePlus24Hours = new Date();
     currentDatePlus24Hours.setDate(currentDatePlus24Hours.getDate() + 1);
@@ -56,6 +56,9 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
             }
         }).then((res) => {
                 setUserData(res.data);
+                const completionRate1 = ((res.data.completedGoals / (res.data.notCompletedGoals + res.data.completedGoals + res.data.pendingGoals)) * 100) || 0;
+                setCompletitionRate(completionRate1.toFixed(2))
+
             // setData([res.data.completedGoals ?? 0, res.data.notCompletedGoals ?? 0, res.data.pendingGoals ?? 0])
         }).catch(err => {
         }
@@ -92,7 +95,7 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
         return () => {
             clearInterval(progress);
         };
-    }, []); // Run the effect only once when the component mounts
+    }, [progressValue]); // Run the effect only once when the component mounts
 
     const progressDegrees = progressValue * 3.6;
 
@@ -102,13 +105,13 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
                 <div className='flex flex-col justify-center mr-10'>
                     <div className="container-goal">
                         <div className="circular-progress">
-                            <div className="value-container">{`${(userData.completedGoals/(userData.notCompletedGoals + userData.completedGoals + userData.pendingGoals))*100 || 0}%`}</div>
+                            <div className="value-container">{`${completionRate}%`}</div>
                         </div>
                         <style>{`
                     .circular-progress {
                         background: conic-gradient(
-                            #4d5bf9 ${(userData.completedGoals/(userData.notCompletedGoals + userData.completedGoals + userData.pendingGoals))*100 || 0}deg,
-                            #cadcff ${(userData.completedGoals/(userData.notCompletedGoals + userData.completedGoals + userData.pendingGoals))*100 || 0}deg
+                            #4d5bf9 ${completionRate*3.6}deg,
+                            #cadcff ${completionRate}deg
                             );
                         }
                         `}</style>
@@ -117,11 +120,11 @@ const GoalAcheivement = ({ edit, handleRowClick }) => {
                 </div>
                 <div className='flex justify-center items-center flex-wrap'>
                     <div style={{ boxShadow: "3px 3px 10px rgba(60, 60, 150, 0.25)", height: "170px", width: "150px", margin: "20px" }} className='flex justify-center flex-col items-center'>
-                        <p style={{ fontSize: "36px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>{userData.notCompletedGoals}</p>
+                        <p style={{ fontSize: "36px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>{userData.completedGoals}</p>
                         <p style={{ fontSize: "20px" }}>Completed</p>
                     </div>
                     <div style={{ boxShadow: "3px 3px 10px rgba(60, 60, 150, 0.25)", height: "170px", width: "180px", margin: "20px" }} className='flex justify-center flex-col items-center'>
-                        <p style={{ fontSize: "36px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>{userData.completedGoals}</p>
+                        <p style={{ fontSize: "36px", color: "gray", fontWeight: "bold", padding: "20px 0 40px 0" }}>{userData.notCompletedGoals}</p>
                         <p style={{ fontSize: "20px" }}>Not Completed</p>
                     </div>
                     <div style={{ boxShadow: "3px 3px 10px rgba(60, 60, 150, 0.25)", height: "170px", width: "150px", margin: "20px" }} className='flex justify-center flex-col items-center'>

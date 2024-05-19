@@ -41,7 +41,7 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
     }, [])
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/performanceAnalytics/${selectedStudent?._id ?? setterId[0]}`, {
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/performanceAnalytics/${selectedStudent?.studentsID ?? setterId[0]}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -55,7 +55,7 @@ export const Performancepage2 = ({ selectedSemester, setSelectedSemester, select
 
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/goals/${selectedStudent?._id ?? setterId[0]}`, {
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/goals/${selectedStudent?.studentsID ?? setterId[0]}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'

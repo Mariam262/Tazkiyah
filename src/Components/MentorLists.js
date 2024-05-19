@@ -11,9 +11,26 @@ const MentorList = ({ currentDept, selectedSemester, selectedMentor, setSelected
     const [found, setFound] = useState(true);
     const email = useSelector(state => state.email);
     const userId = useSelector(state => state.userId);
-
+    const userData = useSelector(state => state);
     useEffect(() => {
-        if (selectedSemester && !selectedMentor && !validateMentorEmail(email)) {
+        if(userData.isManager){
+            setLoading(true);
+            axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign/list/all/${userId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': "application/json"
+                }
+            }).then((res) => {
+                setLoading(false);
+                setFound(res.data.data.length === 0 ? false : true);
+                setMentorList(res.data.data);
+                console.log(res.data.data)
+            }).catch(err => {
+                setLoading(false)
+                FailedToast(err.response.data.message)
+            })
+        }
+        else if (selectedSemester && !selectedMentor && !validateMentorEmail(email)) {
             setLoading(true);
             axios.get(`${process.env.REACT_APP_BACKEND_PORT}/assign?dept=${(currentDept === 'CS' || currentDept === 'SE' || currentDept === 'CA') ? 'FC' : currentDept ?? ""}&subDept=${(currentDept === 'CS' ? 'Computer Science' :  currentDept === 'SE' ? 'Software Engineering' : currentDept === 'CA' ? 'Computer Arts' : '')}`, {
                 headers: {
@@ -54,6 +71,7 @@ const MentorList = ({ currentDept, selectedSemester, selectedMentor, setSelected
     const selectMentor = (MentorDetail) => {
         const data = MentorDetail.assignedStudents;
         setStudentList(data);
+        console.log(data)
     }
     const [mentorList, setMentorList] = useState([]);
     return (
