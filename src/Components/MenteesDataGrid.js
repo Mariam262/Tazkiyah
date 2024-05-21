@@ -9,11 +9,15 @@ import ToastContainer, { FailedToast } from './toast';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import DeleteConfirmationModel from './DeleteConfirmationModel';
 
 
 const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMentor }) => {
     const [gridWidth, setGridWidth] = useState(0);
     const [open, setOpen] = React.useState(false);
+    const [deleteModel, setDeleteModel] = useState(false);
+    const [confirmDelete, setDelete] = useState(false);
+    const [sapid, setSapId] = useState(false);
     const handleClickOpen = () => { setOpen(true); };
     const [inputValue, setInputValue] = useState('');
     const [suggestions, setSuggestions] = useState([]);
@@ -84,24 +88,26 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMent
         })
     }
 
-
-    const DeleteStudent = (sapId) => {
-        axios.delete(`${process.env.REACT_APP_BACKEND_PORT}/assign?mentorID=${selectedMentor.mentorID}&sapId=${sapId}`, {
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': "application/json"
-            }
-        }).then((res) => {
-            setSelectedMentor(false);
-            setFetchAgain(!fetchAgain)
-            updateData();
-            ToastContainer("Deleted Successfully")
-        }).catch(err => {
-            FailedToast(err.response.data.message)
-        })
-    }
-
+    useEffect(()=>{
+        if(confirmDelete){
+            axios.delete(`${process.env.REACT_APP_BACKEND_PORT}/assign?mentorID=${selectedMentor.mentorID}&sapId=${sapid}`, {
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': "application/json"
+                }
+            }).then((res) => {
+                setSelectedMentor(false);
+                setFetchAgain(!fetchAgain)
+                updateData();
+                ToastContainer("Deleted Successfully")
+                setDelete(false)
+            }).catch(err => {
+                FailedToast(err.response.data.message)
+                setDelete(false)
+            })
+        }
+    }, [confirmDelete])
 
     const handleSuggestionClick = (suggestion) => {
         setInputValue(suggestion.sapid);
@@ -161,10 +167,9 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMent
             headerName: 'Actions',
             width: 150,
             renderCell: (params) => (
-                <button style={{ padding: "5px 10px", backgroundColor: "rgb(0, 122, 255)", color: "#fff", borderRadius: "5px" }} onClick={() => DeleteStudent(params.id)}>Delete</button>
+                <button style={{ padding: "5px 10px", backgroundColor: "rgb(0, 122, 255)", color: "#fff", borderRadius: "5px" }} onClick={() => {setSapId(params.id); setDeleteModel(true)}}>Delete</button>
             ),
         },
-
     ];
 
     const rows = data || [];
@@ -225,6 +230,7 @@ const MenteesDataGrid = ({ data, setStudentList, selectedMentor, setSelectedMent
                     </Dialog>
                 </React.Fragment>
             }
+            <DeleteConfirmationModel open={deleteModel} setOpen={setDeleteModel} setDelete={setDelete} />
         </div>
     )
 }

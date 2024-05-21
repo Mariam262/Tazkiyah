@@ -22,13 +22,16 @@ import AssignMentees from './AssigneeMentees';
 import PerformanceAnalyticsSideBar from './PerformanceAnalyticsSidebar';
 import EditIcon from '@mui/icons-material/Edit';
 import { validateMentorEmail } from './../../utils/validateEmail';
+import axios from 'axios';
 
 export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSideBarShow, showclose, setIsLogin, currentDept, setCurrentDept, editProfilePopup, setEditProfilePopup, editUploadContentPopup, setEditUploadContentPopup, selectedSemester, setSelectedSemester, selectDpt, setSelectDpt, notificationPopUp, setNotificationPopUp, fetchMentorTraining, setFetchMentorTraining }) => {
     const dispatch = useDispatch();
     //eslint-disable-next-line
     const [email, setemail] = useState(useSelector(state => state));
+    const userId = useSelector(state => state.userId);
     const Navigate = useNavigate('');
     let location = useLocation();
+    const [profilePicture, setProfilePicture] = useState('');
     const [closeSideBar, setCloseSidebar] = useState(sidebarshow && showclose)
     const [showdropdown, setShowDropdown] = useState(false)
     useEffect(() => {
@@ -57,6 +60,18 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
         setCurrentGoal(initial)
         // eslint-disable-next-line
     }, [])
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_BACKEND_PORT}/register/${userId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json"
+            }
+        }).then((res) => {
+            setProfilePicture(res.data.data.profilePicture);
+        }).catch(err => {
+            console.log(err);
+        })
+    }, [editProfilePopup])
 
     return (
         <>
@@ -67,7 +82,7 @@ export const AsideNavbar = ({ setProceed, corner, setcorner, sidebarshow, setSid
                     </div>
                     <div onClick={() => { setShowDropdown(!showdropdown) }} style={{ display: 'flex', justifyContent: 'space-between', paddingRight: '30px', cursor: 'pointer' }} id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" className='nav-img'>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img src={RandomPerson} alt="" srcset="" />
+                            <img src={profilePicture || RandomPerson} alt="" srcset="" />
                             <div>
                                 <h1 style={{ color: '#fff' }}>SAPID: {email.sapid}</h1>
                                 <p style={{ color: '#fff', fontSize: '12px', marginTop: '3px' }}>{email.isStudent ? 'Student' : email.isManager ? 'Manager' : email.isMentor ? 'Mentor' : email.isCentralTarbiyah ? 'Central Tarbiyah' : ''}</p>
