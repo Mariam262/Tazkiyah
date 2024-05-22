@@ -13,11 +13,11 @@ const AssignMenteesDialog = ({ selectedSemesterTemp, setSelectedSemesterTemp, se
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>Select Semester</h1>
+                    <h1 style={{ fontSize: '20px', fontWeight: 'Bold' }}>Select Specific Semester</h1>
                     <hr style={{ margin: '10px 0 0 0' }} />
                 </DialogTitle>
                 <div style={{ margin: '0px 20px' }} >
-                    <p style={{ fontSize: '14px', textAlign: 'justify', marginBottom: '20px' }}>Select academic semester to see the montors list and assign mentees.</p>
+                    <p style={{ fontSize: '14px', textAlign: 'justify', marginBottom: '20px' }}>Select academic semester to see the mentors list and assign mentees.</p>
                     <label style={{ fontSize: '14px', marginTop: '14px' }} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Academic Semester</label>
 
                     <select onChange={(e) => { setSelectedSemesterTemp(e.target.value); setSelectedMentor(null); setSelectedSemester(null) }} style={{ fontSize: '15px', marginBottom: '20px', padding: '10px' }} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
